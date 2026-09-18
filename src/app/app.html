@@ -1,0 +1,340 @@
+<a class="skip-link" href="#main-content">Skip to dashboard</a>
+
+<ng-template #navigation>
+  <div class="sidebar-inner">
+    <a
+      class="brand"
+      href="#overview"
+      aria-label="Northstar dashboard home"
+      (click)="drawer.close()"
+    >
+      <span class="brand-mark" aria-hidden="true"><span></span></span>
+      <span>Northstar</span>
+    </a>
+
+    <div class="workspace-switcher" aria-label="Current workspace">
+      <span class="workspace-icon" aria-hidden="true">PD</span>
+      <span>
+        <small>Workspace</small>
+        <strong>Product delivery</strong>
+      </span>
+      <mat-icon aria-hidden="true">unfold_more</mat-icon>
+    </div>
+
+    <nav class="nav-links" aria-label="Dashboard sections">
+      <span class="nav-label">Command centre</span>
+      @for (item of navItems; track item.label) {
+        <a
+          mat-button
+          class="nav-item"
+          [class.active]="item.active"
+          [href]="item.href"
+          (click)="drawer.close()"
+        >
+          <mat-icon aria-hidden="true">{{ item.icon }}</mat-icon>
+          <span>{{ item.label }}</span>
+        </a>
+      }
+    </nav>
+
+    <div class="sidebar-spacer"></div>
+
+    <aside class="cycle-note" aria-label="Cycle 18 status">
+      <span class="cycle-kicker">Cycle 18</span>
+      <strong>The finish line is in view.</strong>
+      <p>7 of 9 outcomes are moving as planned.</p>
+      <div class="cycle-people">
+        <span class="avatar-stack" aria-hidden="true">
+          <span>AL</span><span>MK</span><span>NS</span>
+        </span>
+        <span>8 contributors</span>
+      </div>
+    </aside>
+
+    <div class="profile">
+      <span class="profile-avatar" aria-hidden="true">MC</span>
+      <span>
+        <strong>Maya Chen</strong>
+        <small>Delivery lead</small>
+      </span>
+      <span class="online-dot" aria-label="Available"></span>
+    </div>
+  </div>
+</ng-template>
+
+<mat-sidenav-container class="app-frame">
+  <mat-sidenav
+    #drawer
+    id="mobile-navigation"
+    class="mobile-drawer"
+    mode="over"
+    [fixedInViewport]="true"
+    aria-label="Mobile navigation"
+  >
+    <ng-container [ngTemplateOutlet]="navigation"></ng-container>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <div class="shell">
+      <aside class="desktop-sidebar" aria-label="Primary navigation">
+        <ng-container [ngTemplateOutlet]="navigation"></ng-container>
+      </aside>
+
+      <div class="workspace">
+        <header class="topbar">
+          <div class="topbar-start">
+            <button
+              mat-icon-button
+              class="menu-button"
+              type="button"
+              aria-label="Open navigation"
+              aria-controls="mobile-navigation"
+              [attr.aria-expanded]="drawer.opened"
+              (click)="drawer.toggle()"
+            >
+              <mat-icon>menu</mat-icon>
+            </button>
+            <div class="breadcrumb" aria-label="Current location">
+              <span>Workspaces</span>
+              <mat-icon aria-hidden="true">chevron_right</mat-icon>
+              <strong>Overview</strong>
+            </div>
+          </div>
+
+          <div class="topbar-actions">
+            <span class="sync-status"><i aria-hidden="true"></i> Updated 8 min ago</span>
+            <button
+              mat-icon-button
+              type="button"
+              data-testid="theme-toggle"
+              [attr.aria-label]="darkTheme() ? 'Use light theme' : 'Use dark theme'"
+              [matTooltip]="darkTheme() ? 'Switch to light theme' : 'Switch to dark theme'"
+              (click)="toggleTheme()"
+            >
+              <mat-icon>{{ darkTheme() ? 'light_mode' : 'dark_mode' }}</mat-icon>
+            </button>
+            <span class="topbar-avatar" aria-label="Signed in as Maya Chen">MC</span>
+          </div>
+        </header>
+
+        <main id="main-content" class="dashboard" tabindex="-1">
+          <section id="overview" class="hero" aria-labelledby="overview-title">
+            <div class="hero-copy">
+              <p class="eyebrow"><span aria-hidden="true"></span> Friday briefing · 18 September</p>
+              <h1 id="overview-title">Projects in motion,<br /><em>people in sync.</em></h1>
+              <p class="hero-summary">
+                Delivery is steady across the portfolio. One decision needs attention before the
+                next milestone.
+              </p>
+              <a mat-flat-button href="#initiatives">
+                Review initiatives
+                <mat-icon aria-hidden="true">arrow_downward</mat-icon>
+              </a>
+            </div>
+
+            <aside class="milestone-card" aria-labelledby="milestone-title">
+              <div class="milestone-topline">
+                <span>Next milestone</span>
+                <span class="status-badge"><i aria-hidden="true"></i> On track</span>
+              </div>
+              <p class="milestone-date">
+                <strong>24</strong><span>Sep<br />Wednesday</span>
+              </p>
+              <h2 id="milestone-title">Onboarding beta handoff</h2>
+              <p>Final accessibility review and support briefing remain.</p>
+              <div class="milestone-progress">
+                <span><strong>82%</strong> ready</span>
+                <span>4 workdays</span>
+              </div>
+              <mat-progress-bar
+                mode="determinate"
+                [value]="82"
+                aria-label="Onboarding beta handoff is 82 percent ready"
+              ></mat-progress-bar>
+            </aside>
+          </section>
+
+          <section class="metrics-section" aria-labelledby="metrics-title">
+            <h2 id="metrics-title" class="visually-hidden">Delivery summary</h2>
+            <div class="metrics-grid">
+              @for (metric of metrics; track metric.label) {
+                <article class="metric-card" [class]="metric.tone">
+                  <div class="metric-heading">
+                    <span>{{ metric.label }}</span>
+                    <mat-icon aria-hidden="true">{{ metric.icon }}</mat-icon>
+                  </div>
+                  <strong>{{ metric.value }}</strong>
+                  <p>{{ metric.detail }}</p>
+                </article>
+              }
+            </div>
+          </section>
+
+          <div class="dashboard-grid">
+            <section id="momentum" class="panel trend-panel" aria-labelledby="momentum-title">
+              <header class="panel-header">
+                <div>
+                  <p class="section-kicker">Portfolio signal</p>
+                  <h2 id="momentum-title">Delivery momentum</h2>
+                </div>
+                <span class="change-pill"
+                  ><mat-icon aria-hidden="true">north_east</mat-icon> 18 pts</span
+                >
+              </header>
+
+              <div class="trend-summary">
+                <strong>86%</strong>
+                <span>of planned outcomes<br />remain on course</span>
+              </div>
+
+              <figure class="trend-figure">
+                <svg
+                  viewBox="0 0 668 230"
+                  role="img"
+                  aria-labelledby="trend-title trend-description"
+                >
+                  <title id="trend-title">Weekly delivery confidence</title>
+                  <desc id="trend-description">
+                    Confidence rose from 68 percent on Monday to 86 percent on Sunday, with a small
+                    dip on Wednesday and Friday.
+                  </desc>
+                  <g class="chart-grid" aria-hidden="true">
+                    <line x1="28" y1="38" x2="640" y2="38"></line>
+                    <line x1="28" y1="78" x2="640" y2="78"></line>
+                    <line x1="28" y1="118" x2="640" y2="118"></line>
+                    <line x1="28" y1="158" x2="640" y2="158"></line>
+                    <line x1="28" y1="198" x2="640" y2="198"></line>
+                  </g>
+                  <polygon class="chart-area" [attr.points]="trendArea"></polygon>
+                  <polyline class="chart-line" [attr.points]="trendLine"></polyline>
+                  @for (point of trendPoints; track point.day; let last = $last) {
+                    <g class="chart-point" [class.latest]="last" aria-hidden="true">
+                      <circle [attr.cx]="point.x" [attr.cy]="point.y" r="5"></circle>
+                      <text [attr.x]="point.x" y="220" text-anchor="middle">{{ point.day }}</text>
+                    </g>
+                  }
+                </svg>
+                <figcaption>
+                  <span><i class="legend-line" aria-hidden="true"></i> Confidence score</span>
+                  <span>7 weekly checkpoints</span>
+                </figcaption>
+              </figure>
+            </section>
+
+            <section id="schedule" class="panel schedule-panel" aria-labelledby="schedule-title">
+              <header class="panel-header compact">
+                <div>
+                  <p class="section-kicker">Friday · 18 Sep</p>
+                  <h2 id="schedule-title">Today</h2>
+                </div>
+                <span class="event-count">4 moments</span>
+              </header>
+
+              <ol class="schedule-list">
+                @for (event of schedule; track event.time) {
+                  <li
+                    [class.next]="event.state === 'Next'"
+                    [class.complete]="event.state === 'Complete'"
+                  >
+                    <time [attr.datetime]="event.datetime">{{ event.time }}</time>
+                    <span class="timeline-marker" aria-hidden="true"></span>
+                    <div>
+                      <span class="event-title">
+                        <strong>{{ event.title }}</strong>
+                        @if (event.state) {
+                          <small>{{ event.state }}</small>
+                        }
+                      </span>
+                      <p>{{ event.meta }}</p>
+                    </div>
+                  </li>
+                }
+              </ol>
+            </section>
+
+            <section
+              id="initiatives"
+              class="panel initiatives-panel"
+              aria-labelledby="initiatives-title"
+            >
+              <header class="panel-header">
+                <div>
+                  <p class="section-kicker">Current cycle</p>
+                  <h2 id="initiatives-title">Initiatives in focus</h2>
+                </div>
+                <span class="healthy-label"><i aria-hidden="true"></i> 3 of 4 healthy</span>
+              </header>
+
+              <ul class="initiative-list">
+                @for (initiative of initiatives; track initiative.name) {
+                  <li>
+                    <div class="initiative-main">
+                      <span
+                        class="owner-avatar"
+                        role="img"
+                        tabindex="0"
+                        [attr.aria-label]="'Owned by ' + initiative.ownerName"
+                        [matTooltip]="initiative.ownerName"
+                        >{{ initiative.owner }}</span
+                      >
+                      <span>
+                        <strong>{{ initiative.name }}</strong>
+                        <small>{{ initiative.description }}</small>
+                      </span>
+                    </div>
+                    <div class="initiative-progress">
+                      <span
+                        ><strong>{{ initiative.progress }}%</strong
+                        ><small>Due {{ initiative.due }}</small></span
+                      >
+                      <mat-progress-bar
+                        mode="determinate"
+                        [value]="initiative.progress"
+                        [attr.aria-label]="
+                          initiative.name + ' is ' + initiative.progress + ' percent complete'
+                        "
+                      ></mat-progress-bar>
+                    </div>
+                    <span class="initiative-status" [class]="initiative.tone">
+                      <i aria-hidden="true"></i>{{ initiative.status }}
+                    </span>
+                  </li>
+                }
+              </ul>
+            </section>
+
+            <section id="activity" class="panel activity-panel" aria-labelledby="activity-title">
+              <header class="panel-header compact">
+                <div>
+                  <p class="section-kicker">Across the team</p>
+                  <h2 id="activity-title">Recent activity</h2>
+                </div>
+                <mat-icon class="activity-mark" aria-hidden="true">auto_awesome</mat-icon>
+              </header>
+
+              <ul class="activity-list">
+                @for (item of activity; track item.time) {
+                  <li>
+                    <span class="activity-avatar" [class]="item.tone" aria-hidden="true">{{
+                      item.initials
+                    }}</span>
+                    <p>
+                      <strong>{{ item.person }}</strong> {{ item.action }}
+                      <a href="#initiatives">{{ item.target }}</a>
+                      <time>{{ item.time }}</time>
+                    </p>
+                  </li>
+                }
+              </ul>
+            </section>
+          </div>
+
+          <footer class="page-footer">
+            <span>Northstar · Cycle 18</span>
+            <span>Static demonstration data</span>
+          </footer>
+        </main>
+      </div>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
