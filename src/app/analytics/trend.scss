@@ -1,0 +1,75 @@
+:host,
+.panel {
+  display: block;
+  min-width: 0;
+}
+.panel {
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+.panel-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  h2 {
+    margin: 5px 0 0;
+    color: var(--ink);
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+  }
+}
+.section-label {
+  margin: 0;
+  color: var(--accent-strong);
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+.panel-stat {
+  display: grid;
+  flex: none;
+  justify-items: end;
+  strong {
+    color: var(--ink);
+    font-size: 26px;
+    font-variant-numeric: tabular-nums;
+    font-weight: 720;
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+  span {
+    margin-top: 5px;
+    color: var(--muted);
+    font-size: 10px;
+  }
+}
+.trend-figure {
+  margin: 14px 0 0;
+  svg {
+    display: block;
+    width: 100%;
+    max-height: 260px;
+  }
+}
+.chart-grid {
+  line {
+    stroke: var(--line);
+    stroke-dasharray: 3 7;
+    stroke-width: 1;
+  }
+  text {
+    fill: var(--quiet);
+    font-family: var(--body-font);
+    font-size: 9px;
+    font-weight: 550;
+  }
+}
+.chart-area {
+  fill: var(--chart-fill);
+}

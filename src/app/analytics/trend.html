@@ -1,0 +1,38 @@
+<article class="panel" aria-labelledby="trend-heading">
+  <header class="panel-header">
+    <div>
+      <p class="section-label">Analytics</p>
+      <h2 id="trend-heading">Delivery trend</h2>
+    </div>
+    <div class="panel-stat"><strong>91%</strong><span>On-time delivery</span></div>
+  </header>
+  <figure class="trend-figure">
+    <svg viewBox="0 0 740 270" role="img" aria-labelledby="trend-title trend-description">
+      <title id="trend-title">On-time delivery trend from week 31 to week 38</title>
+      <desc id="trend-description">
+        W31: 62%. W32: 68%. W33: 66%. W34: 73%. W35: 78%. W36: 81%. W37: 86%. W38: 91%.
+      </desc>
+      <g class="chart-grid" aria-hidden="true">
+        <line x1="54" y1="50" x2="684" y2="50"></line>
+        <line x1="54" y1="135" x2="684" y2="135"></line>
+        <line x1="54" y1="220" x2="684" y2="220"></line>
+        <text x="8" y="54">100%</text>
+        <text x="16" y="139">75%</text>
+        <text x="16" y="224">50%</text>
+      </g>
+      <polygon class="chart-area" [attr.points]="area"></polygon>
+      <polyline class="chart-line" [attr.points]="line"></polyline>
+      @for (point of points; track point.week; let last = $last) {
+        <g class="chart-point" [class.latest]="last" aria-hidden="true">
+          <circle [attr.cx]="point.x" [attr.cy]="point.y" r="5"></circle>
+          <text [attr.x]="point.x" y="252" text-anchor="middle">{{ point.week }}</text>
+        </g>
+      }
+    </svg>
+    <ul class="visually-hidden" aria-label="Delivery trend values">
+      @for (point of points; track point.week) {
+        <li>{{ point.week }}: {{ point.value }}%</li>
+      }
+    </ul>
+  </figure>
+</article>

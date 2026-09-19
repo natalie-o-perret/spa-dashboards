@@ -1,0 +1,49 @@
+@use '@angular/material' as mat;
+
+html {
+  @include mat.theme(
+    (
+      color: (
+        primary: mat.$red-palette,
+        tertiary: mat.$red-palette,
+      ),
+      typography: (
+        plain-family: (
+          ui-sans-serif,
+          -apple-system,
+          BlinkMacSystemFont,
+          'Segoe UI',
+          sans-serif,
+        ),
+        brand-family: (
+          ui-sans-serif,
+          -apple-system,
+          BlinkMacSystemFont,
+          'Segoe UI',
+          sans-serif,
+        ),
+        bold-weight: 700,
+        medium-weight: 600,
+        regular-weight: 400,
+      ),
+      density: -1,
+    )
+  );
+  --mat-sys-primary: var(--accent);
+  --mat-sys-on-primary: var(--on-accent);
+  --mat-sys-primary-container: var(--accent-soft);
+  --mat-sys-on-primary-container: var(--accent-strong);
+  --mat-sys-background: var(--canvas);
+  --mat-sys-surface: var(--surface);
+  --mat-sys-surface-bright: var(--surface);
+  --mat-sys-surface-dim: var(--surface-subtle);
+  --mat-sys-surface-container: var(--surface-subtle);
+  --mat-sys-surface-container-high: var(--surface-subtle);
+  --mat-sys-surface-container-highest: var(--surface-subtle);
+  --mat-sys-surface-container-low: var(--surface);
+  --mat-sys-surface-container-lowest: var(--surface);
+  --mat-sys-on-surface: var(--ink);
+  --mat-sys-on-surface-variant: var(--muted);
+  --mat-sys-outline: var(--quiet);
+  --mat-sys-outline-variant: var(--line);
+}

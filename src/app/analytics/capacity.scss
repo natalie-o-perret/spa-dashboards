@@ -1,0 +1,74 @@
+:host,
+.panel {
+  display: block;
+  min-width: 0;
+}
+.panel {
+  height: 100%;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  scroll-margin-top: 88px;
+}
+.panel-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  h2 {
+    margin: 5px 0 0;
+    color: var(--ink);
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+  }
+}
+.section-label {
+  margin: 0;
+  color: var(--accent-strong);
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+.capacity-icon {
+  color: var(--accent-strong);
+}
+.capacity-list {
+  display: flex;
+  margin: 26px 0 0;
+  padding: 0;
+  flex-direction: column;
+  gap: 25px;
+  list-style: none;
+}
+.capacity-copy {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+  strong {
+    font-size: 12px;
+    font-weight: 650;
+  }
+  span {
+    color: var(--muted);
+    font-size: 10px;
+  }
+}
+mat-progress-bar {
+  --mat-progress-bar-active-indicator-color: var(--accent);
+  --mat-progress-bar-track-color: var(--accent-soft);
+  --mat-progress-bar-active-indicator-height: 5px;
+  --mat-progress-bar-track-height: 5px;
+  overflow: hidden;
+  border-radius: 999px;
+}
+@media (max-width: 37.4375rem) {
+  .panel {
+    padding: 18px;
+  }
+}

@@ -1,0 +1,71 @@
+.overview {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 17px;
+  padding: 8px 2px 12px;
+  scroll-margin-top: 88px;
+
+  h1 {
+    margin: 8px 0 8px;
+    color: var(--ink);
+    font-size: clamp(32px, 3.2vw, 46px);
+    font-weight: 720;
+    letter-spacing: -0.045em;
+    line-height: 1.05;
+  }
+}
+
+.eyebrow {
+  margin: 0;
+  color: var(--accent-strong);
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.overview-summary {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.health-chip-set {
+  flex: none;
+}
+
+.health-chip {
+  --mat-chip-label-text-color: var(--accent-strong);
+  --mat-chip-elevated-container-color: var(--accent-soft);
+  --mat-chip-outline-color: var(--accent-border);
+  min-height: 36px;
+  border: 1px solid var(--accent-border);
+  font-size: 11px;
+  font-weight: 700;
+
+  mat-icon {
+    width: 17px;
+    height: 17px;
+    margin-right: 6px;
+    font-size: 17px;
+  }
+}
+
+@media (max-width: 37.4375rem) {
+  .overview {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 18px;
+    padding-inline: 5px;
+  }
+
+  .overview h1 {
+    font-size: 32px;
+  }
+  .overview-summary {
+    font-size: 13px;
+  }
+}

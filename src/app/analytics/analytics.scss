@@ -1,0 +1,13 @@
+.analytics-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr);
+  gap: 16px;
+  margin-bottom: 16px;
+  scroll-margin-top: 88px;
+}
+
+@media (max-width: 74.9375rem) {
+  .analytics-grid {
+    grid-template-columns: 1fr;
+  }
+}

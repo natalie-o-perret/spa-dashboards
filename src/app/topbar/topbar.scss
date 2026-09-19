@@ -1,0 +1,84 @@
+:host {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  display: block;
+}
+
+.topbar {
+  height: 72px;
+  min-height: 72px;
+  padding: 0 32px;
+  border-bottom: 1px solid var(--line);
+  background: var(--topbar);
+  color: var(--ink);
+  backdrop-filter: blur(14px);
+}
+
+.topbar-start,
+.topbar-actions {
+  display: flex;
+  align-items: center;
+}
+
+.topbar-start {
+  min-width: 0;
+  gap: 8px;
+}
+
+.topbar-actions {
+  gap: 9px;
+  margin-left: auto;
+}
+
+.topbar-title {
+  display: flex;
+  flex-direction: column;
+
+  strong {
+    margin-top: 2px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  time {
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 500;
+  }
+}
+
+.menu-button {
+  display: none;
+}
+
+.sync-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-right: 4px;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 550;
+
+  i {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--success);
+    box-shadow: 0 0 0 3px var(--success-soft);
+  }
+}
+
+.avatar {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-size: 11px;
+  font-weight: 750;
+}

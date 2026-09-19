@@ -1,0 +1,28 @@
+<section id="overview" class="overview" aria-labelledby="overview-title">
+  <div>
+    <p class="eyebrow">Cycle 18 / Weekly review</p>
+    <h1 id="overview-title">Portfolio overview</h1>
+    <p class="overview-summary">Track delivery, capacity, and risk across every active project.</p>
+  </div>
+  <mat-chip-set class="health-chip-set" aria-label="Portfolio health">
+    <mat-chip class="health-chip">
+      <mat-icon aria-hidden="true">monitor_heart</mat-icon>
+      15 active / 3 need attention
+    </mat-chip>
+  </mat-chip-set>
+</section>
+
+<section class="metrics-grid" aria-label="Portfolio metrics">
+  @for (metric of metrics; track metric.label) {
+    <article class="metric-card">
+      <div class="metric-heading">
+        <span>{{ metric.label }}</span>
+        <span class="metric-icon" aria-hidden="true"
+          ><mat-icon>{{ metric.icon }}</mat-icon></span
+        >
+      </div>
+      <strong>{{ metric.value }}</strong>
+      <p>{{ metric.detail }}</p>
+    </article>
+  }
+</section>

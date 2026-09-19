@@ -1,0 +1,40 @@
+<div class="table-controls">
+  <mat-form-field appearance="outline" subscriptSizing="dynamic" class="search-field">
+    <mat-label>Search projects</mat-label>
+    <mat-icon matPrefix aria-hidden="true">search</mat-icon>
+    <input
+      matInput
+      type="search"
+      data-testid="project-search"
+      [value]="searchQuery()"
+      (input)="searchChange.emit($any($event.target).value)"
+    />
+  </mat-form-field>
+  <mat-form-field appearance="outline" subscriptSizing="dynamic" class="status-field">
+    <mat-label>Status</mat-label>
+    <mat-select [value]="statusFilter()" (selectionChange)="statusChange.emit($event.value)">
+      @for (status of statuses; track status) {
+        <mat-option [value]="status">{{ status }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+  <div class="density-control">
+    <mat-button-toggle-group
+      aria-label="Table density"
+      hideSingleSelectionIndicator
+      [value]="density()"
+      (change)="densityChange.emit($event.value)"
+    >
+      <mat-button-toggle value="comfortable">Comfortable</mat-button-toggle>
+      <mat-button-toggle value="compact">Compact</mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+  <button
+    mat-button
+    type="button"
+    [disabled]="!searchQuery() && statusFilter() === 'All statuses'"
+    (click)="clear.emit()"
+  >
+    Clear filters
+  </button>
+</div>

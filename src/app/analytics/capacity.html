@@ -1,0 +1,26 @@
+<article id="team" class="panel" aria-labelledby="capacity-heading">
+  <header class="panel-header">
+    <div>
+      <p class="section-label">Current allocation</p>
+      <h2 id="capacity-heading">Team capacity</h2>
+    </div>
+    <mat-icon class="capacity-icon" aria-hidden="true">groups</mat-icon>
+  </header>
+  <ul class="capacity-list">
+    @for (item of teams; track item.team) {
+      <li>
+        <div class="capacity-copy">
+          <strong>{{ item.team }}</strong
+          ><span>{{ item.value }}% / {{ item.people }} people</span>
+        </div>
+        <mat-progress-bar
+          mode="determinate"
+          [value]="item.value"
+          [attr.aria-label]="
+            item.team + ' capacity ' + item.value + ' percent, ' + item.people + ' people'
+          "
+        />
+      </li>
+    }
+  </ul>
+</article>

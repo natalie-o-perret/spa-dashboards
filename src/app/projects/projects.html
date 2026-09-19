@@ -1,0 +1,48 @@
+<section id="projects" class="panel" aria-labelledby="projects-heading">
+  <header class="projects-header">
+    <div>
+      <h2 id="projects-heading">Projects</h2>
+      <p>18 projects across the current portfolio</p>
+    </div>
+    <button
+      mat-flat-button
+      class="export-button"
+      type="button"
+      [disabled]="dataSource.filteredData.length === 0"
+      (click)="exportCsv()"
+    >
+      <mat-icon aria-hidden="true">download</mat-icon>Export CSV
+    </button>
+  </header>
+  <app-project-controls
+    [density]="density"
+    [searchQuery]="searchQuery"
+    [statusFilter]="statusFilter"
+    (clear)="clearFilters()"
+    (densityChange)="density = $event"
+    (searchChange)="setSearch($event)"
+    (statusChange)="setStatus($event)"
+  />
+  <div class="table-summary">
+    <span aria-live="polite"
+      >{{ dataSource.filteredData.length }}
+      {{ dataSource.filteredData.length === 1 ? 'project' : 'projects' }} shown</span
+    >
+    <span aria-live="polite">{{ selection.selected.length }} selected</span>
+  </div>
+  <app-project-table
+    [dataSource]="dataSource"
+    [density]="density"
+    [selection]="selection"
+    (clear)="clearFilters()"
+  />
+  <div class="table-footer">
+    <mat-paginator
+      [pageSize]="pageSize"
+      [pageSizeOptions]="[5, 10, 20]"
+      [showFirstLastButtons]="true"
+      aria-label="Project table pagination"
+      (page)="onPageChange($event)"
+    />
+  </div>
+</section>

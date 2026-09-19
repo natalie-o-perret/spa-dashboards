@@ -1,0 +1,22 @@
+.table-footer {
+  display: flex;
+  min-height: 58px;
+  align-items: center;
+  justify-content: flex-end;
+  border-top: 1px solid var(--line);
+  background: var(--surface);
+}
+mat-paginator {
+  --mat-paginator-container-background-color: var(--surface);
+  --mat-paginator-container-text-color: var(--muted);
+  background: var(--surface);
+  color: var(--muted);
+}
+@media (max-width: 43.6875rem) {
+  .table-footer {
+    overflow-x: auto;
+  }
+  mat-paginator {
+    width: 100%;
+  }
+}

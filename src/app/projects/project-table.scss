@@ -1,0 +1,72 @@
+.table-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+  border-top: 1px solid var(--line);
+  overscroll-behavior-inline: contain;
+  &:focus-visible {
+    outline-offset: -3px !important;
+  }
+}
+table {
+  --mat-table-background-color: transparent;
+  --mat-table-header-headline-color: var(--muted);
+  --mat-table-row-item-label-text-color: var(--ink);
+  width: 100%;
+  min-width: 1050px;
+  background: transparent;
+}
+th.mat-mdc-header-cell {
+  height: 44px;
+  border-bottom-color: var(--line);
+  background: var(--surface-subtle);
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+td.mat-mdc-cell {
+  height: 64px;
+  border-bottom-color: var(--line);
+  color: var(--ink);
+  font-size: 11px;
+  transition: height 120ms ease;
+}
+tr.mat-mdc-row {
+  background: var(--surface);
+  &:hover,
+  &.selected {
+    background: var(--row-hover);
+  }
+}
+table.compact td.mat-mdc-cell {
+  height: 48px;
+}
+.project-name {
+  font-weight: 700;
+}
+.progress-cell {
+  display: grid;
+  grid-template-columns: minmax(70px, 1fr) 34px;
+  align-items: center;
+  gap: 9px;
+  span {
+    color: var(--muted);
+    font-size: 10px;
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+  }
+}
+mat-progress-bar {
+  --mat-progress-bar-active-indicator-color: var(--accent);
+  --mat-progress-bar-track-color: var(--accent-soft);
+  --mat-progress-bar-active-indicator-height: 5px;
+  --mat-progress-bar-track-height: 5px;
+  overflow: hidden;
+  border-radius: 999px;
+}
+@media (prefers-reduced-motion: reduce) {
+  td.mat-mdc-cell {
+    transition: none;
+  }
+}

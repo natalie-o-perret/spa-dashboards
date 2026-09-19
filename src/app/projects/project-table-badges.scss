@@ -1,0 +1,55 @@
+.table-badge {
+  display: inline-flex;
+  min-height: 24px;
+  align-items: center;
+  gap: 6px;
+  padding: 0 8px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-size: 9px;
+  font-weight: 700;
+  white-space: nowrap;
+  i {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: currentcolor;
+  }
+}
+.status-badge {
+  background: var(--neutral-soft);
+  color: var(--neutral);
+  &.on-track {
+    background: var(--success-soft);
+    color: var(--success);
+  }
+  &.at-risk {
+    background: var(--warning-soft);
+    color: var(--warning);
+  }
+  &.blocked {
+    background: var(--error-soft);
+    color: var(--error);
+  }
+  &.complete {
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+}
+.priority-badge {
+  background: transparent;
+  color: var(--neutral);
+  border-color: currentcolor;
+  &.critical {
+    color: var(--error);
+  }
+  &.high {
+    color: var(--warning);
+  }
+  &.medium {
+    color: var(--info);
+  }
+  &.low {
+    color: var(--neutral);
+  }
+}
