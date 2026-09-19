@@ -3,9 +3,9 @@ import { createRoot } from 'react-dom/client';
 import { CssBaseline, ThemeProvider, type PaletteMode } from '@mui/material';
 import App from './App';
 import './index.css';
-import { createMosaicTheme } from './theme';
+import { createMeridianTheme } from './theme';
 
-const storageKey = 'mosaic-colour-mode';
+const storageKey = 'meridian-colour-mode';
 
 function initialMode(): PaletteMode {
   try {
@@ -22,7 +22,7 @@ function initialMode(): PaletteMode {
 
 export function Root() {
   const [mode, setMode] = useState<PaletteMode>(initialMode);
-  const theme = createMosaicTheme(mode);
+  const theme = createMeridianTheme(mode);
 
   useEffect(() => {
     document.documentElement.style.colorScheme = mode;

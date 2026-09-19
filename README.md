@@ -1,6 +1,15 @@
-# Mosaic
+# Meridian
 
-Mosaic is a responsive editorial and audience dashboard for an independent publishing studio. It is a static React demo built with local sample data.
+Meridian is a responsive portfolio operations dashboard and the React + MUI version of a side-by-side framework comparison. It uses static local project data.
+
+## Features
+
+- Responsive permanent and temporary navigation
+- Persisted light and dark themes
+- Accessible native SVG delivery chart and team capacity indicators
+- Searchable, filterable, sortable, selectable, and paginated project table
+- Comfortable and compact table density modes
+- CSV export of all filtered and sorted projects
 
 ## Local development
 
@@ -29,10 +38,10 @@ npm run preview
 - Vitest and Testing Library
 - ESLint and Prettier
 
-No API, router, chart library, or state library is used. The audience chart is native SVG and all dashboard data is local.
+No API, router, chart library, data-grid package, or state library is used. The delivery chart is native SVG and the data table uses MUI core components.
 
 ## Deployment
 
-The production build uses the `/dashboard-react-mui/` base path and deploys from `main` with GitHub Pages Actions.
+The production build keeps the `/dashboard-react-mui/` base path and deploys from `main` with GitHub Pages Actions.
 
 <https://natalie-o-perret.github.io/dashboard-react-mui/>

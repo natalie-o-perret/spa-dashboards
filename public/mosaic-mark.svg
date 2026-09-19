@@ -1,5 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Mosaic mark">
-  <rect width="64" height="64" rx="14" fill="#14213d"/>
-  <path d="M12 15h17v17H12z" fill="#d9ef4a"/>
-  <path d="M35 15h17v9H35zM35 30h17v19H35zM12 38h17v11H12z" fill="#2453ff"/>
-</svg>

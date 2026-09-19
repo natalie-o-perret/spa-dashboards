@@ -18,11 +18,10 @@ body {
 }
 
 #overview,
-#pipeline,
-#audience,
-#stories,
-#calendar {
-  scroll-margin-top: 80px;
+#analytics,
+#projects,
+#team {
+  scroll-margin-top: 88px;
 }
 
 .skip-link {
@@ -32,8 +31,6 @@ body {
   left: 12px;
   padding: 10px 14px;
   border-radius: 8px;
-  background: #d9ef4a;
-  color: #101b33;
   font-weight: 800;
   transform: translateY(-180%);
 }
@@ -54,15 +51,5 @@ body {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-  }
-}
-
-@media (min-width: 900px) {
-  #overview,
-  #pipeline,
-  #audience,
-  #stories,
-  #calendar {
-    scroll-margin-top: 24px;
   }
 }
