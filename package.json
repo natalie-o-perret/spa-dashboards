@@ -6,6 +6,7 @@
     "start": "ng serve",
     "build": "ng build --configuration production",
     "build:pages": "ng build --configuration production --base-href /dashboard-angular-material/",
+    "check": "npm run format:check && npm run lint && npm test",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "ng lint",
