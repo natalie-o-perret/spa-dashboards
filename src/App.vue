@@ -1,134 +1,86 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { computed, nextTick, ref, watch } from 'vue'
 import { useDisplay, useTheme } from 'vuetify'
-import TaskList from './components/TaskList.vue'
+import ProjectTable from './components/ProjectTable.vue'
 import TrendChart from './components/TrendChart.vue'
 
 const navigation = [
   { label: 'Overview', icon: 'mdi-view-dashboard-outline', href: '#overview' },
-  { label: 'Garden zones', icon: 'mdi-map-marker-radius-outline', href: '#zones' },
-  { label: 'Tasks', icon: 'mdi-format-list-checks', href: '#tasks' },
-  { label: 'Community', icon: 'mdi-account-multiple-outline', href: '#community' },
+  { label: 'Analytics', icon: 'mdi-chart-line', href: '#analytics' },
+  { label: 'Projects', icon: 'mdi-briefcase-outline', href: '#projects' },
+  { label: 'Team', icon: 'mdi-account-group-outline', href: '#team' },
 ]
 
 const metrics = [
   {
-    label: 'Growing beds',
-    value: '28',
-    detail: 'of 32 active',
-    note: '4 planted this week',
-    icon: 'mdi-sprout-outline',
-    color: 'secondary',
-    progress: 88,
+    label: 'Active projects',
+    value: '15',
+    detail: '3 due this month',
+    icon: 'mdi-briefcase-outline',
   },
   {
-    label: 'Harvest this week',
-    value: '146 kg',
-    detail: '12% over plan',
-    note: '51 kg picked today',
-    icon: 'mdi-basket-outline',
-    color: 'accent',
-    progress: 73,
+    label: 'On-time delivery',
+    value: '91%',
+    detail: 'Up 4 points',
+    icon: 'mdi-check-decagram-outline',
   },
   {
-    label: 'Volunteer time',
-    value: '84 h',
-    detail: '18 people',
-    note: 'Next shift Saturday',
-    icon: 'mdi-account-group-outline',
-    color: 'info',
-    progress: 75,
+    label: 'Budget used',
+    value: '68%',
+    detail: '€482k of €710k',
+    icon: 'mdi-wallet-outline',
   },
   {
-    label: 'Water reserve',
-    value: '74%',
-    detail: '5.2 days left',
-    note: 'Up after overnight rain',
-    icon: 'mdi-water-outline',
-    color: 'primary',
-    progress: 74,
+    label: 'Team capacity',
+    value: '76%',
+    detail: '27 contributors',
+    icon: 'mdi-account-multiple-outline',
   },
 ]
 
-const zones = [
-  {
-    name: 'Orchard edge',
-    crop: 'Apples / herbs',
-    status: 'Thriving',
-    color: 'success',
-    moisture: 68,
-  },
-  {
-    name: 'Rooftop beds',
-    crop: 'Tomatoes / beans',
-    status: 'Needs water',
-    color: 'warning',
-    moisture: 31,
-  },
-  {
-    name: 'Pollinator walk',
-    crop: 'Native flowers',
-    status: 'Steady',
-    color: 'info',
-    moisture: 57,
-  },
-  {
-    name: 'Greenhouse',
-    crop: 'Winter leaves',
-    status: 'Ready to sow',
-    color: 'primary',
-    moisture: 62,
-  },
+const teamCapacity = [
+  { name: 'Design', value: 82, people: 6 },
+  { name: 'Engineering', value: 76, people: 12 },
+  { name: 'Research', value: 64, people: 4 },
+  { name: 'Content', value: 58, people: 5 },
 ]
 
-const volunteers = [
-  { initials: 'AK', name: 'Amara K.', role: 'Harvest lead', color: 'secondary' },
-  { initials: 'JM', name: 'Jules M.', role: 'Water team', color: 'info' },
-  { initials: 'PS', name: 'Priya S.', role: 'Tool steward', color: 'accent' },
-]
-
-const activity = [
-  {
-    initials: 'SJ',
-    text: 'Sam logged 18 kg of tomatoes',
-    time: '22 min ago',
-    datetime: '2026-09-18T08:38:00',
-  },
-  {
-    initials: 'MO',
-    text: 'Mina flagged the rooftop beds',
-    time: '1 h ago',
-    datetime: '2026-09-18T08:00:00',
-  },
-  {
-    initials: 'LR',
-    text: 'Lee added 3 new volunteers',
-    time: 'Yesterday',
-    datetime: '2026-09-17',
-  },
-]
-
-const { lgAndUp } = useDisplay()
+const { mdAndUp } = useDisplay()
 const theme = useTheme()
 const drawer = ref(false)
 
-watch(lgAndUp, (wide) => (drawer.value = wide), { immediate: true })
+watch(mdAndUp, (wide) => (drawer.value = wide), { immediate: true })
+watch(drawer, async (open, wasOpen) => {
+  if (mdAndUp.value) return
 
-const isDark = computed(() => theme.global.name.value === 'canopyDark')
+  await nextTick()
+  if (open) {
+    focusElement('#mobile-navigation .drawer-close')
+  } else if (wasOpen) {
+    focusElement('button[aria-controls="mobile-navigation"]')
+  }
+})
+
+const isDark = computed(() => theme.global.name.value === 'meridianDark')
 const themeActionLabel = computed(() => (isDark.value ? 'Use light theme' : 'Use dark theme'))
 
 function toggleTheme() {
-  const nextTheme = isDark.value ? 'canopyLight' : 'canopyDark'
+  const nextTheme = isDark.value ? 'meridianLight' : 'meridianDark'
   theme.global.name.value = nextTheme
   try {
-    globalThis.localStorage.setItem('canopy-theme', nextTheme)
+    globalThis.localStorage.setItem('meridian-theme', isDark.value ? 'dark' : 'light')
   } catch {
     // Keep the selected theme for this session when storage is unavailable.
   }
 }
 
 function closeMobileNavigation() {
-  if (!lgAndUp.value) drawer.value = false
+  if (!mdAndUp.value) drawer.value = false
+}
+
+function focusElement(selector: string) {
+  const element = globalThis.document.querySelector(selector)
+  if (element && 'focus' in element && typeof element.focus === 'function') element.focus()
 }
 </script>
 
@@ -137,20 +89,20 @@ function closeMobileNavigation() {
     <a class="skip-link" href="#main-content">Skip to dashboard content</a>
 
     <v-navigation-drawer
-      v-model="drawer"
-      class="canopy-drawer"
-      :permanent="lgAndUp"
-      :temporary="!lgAndUp"
-      :capture-focus="!lgAndUp"
-      :retain-focus="!lgAndUp"
       id="mobile-navigation"
+      v-model="drawer"
+      class="meridian-drawer"
+      :permanent="mdAndUp"
+      :temporary="!mdAndUp"
+      :capture-focus="!mdAndUp"
+      :retain-focus="!mdAndUp"
+      width="252"
       tag="aside"
-      aria-label="Garden navigation"
-      width="272"
-      @keydown.esc="drawer = false"
+      aria-label="Portfolio navigation"
+      @keydown.esc.stop="drawer = false"
     >
       <v-btn
-        v-if="!lgAndUp"
+        v-if="!mdAndUp"
         class="drawer-close"
         icon="mdi-close"
         aria-label="Close navigation"
@@ -158,13 +110,15 @@ function closeMobileNavigation() {
         @click="drawer = false"
       />
 
-      <div class="brand-lockup">
-        <span class="brand-mark" aria-hidden="true"><v-icon icon="mdi-leaf" /></span>
-        <div>
-          <strong>Canopy</strong>
-          <span>Garden operations</span>
-        </div>
-      </div>
+      <a class="brand-lockup" href="#overview" @click="closeMobileNavigation">
+        <span class="brand-mark" aria-hidden="true">
+          <v-icon icon="mdi-chart-timeline-variant-shimmer" />
+        </span>
+        <span class="brand-copy">
+          <strong>Meridian</strong>
+          <small>Portfolio operations</small>
+        </span>
+      </a>
 
       <nav aria-label="Primary navigation">
         <p class="drawer-label">Workspace</p>
@@ -172,7 +126,7 @@ function closeMobileNavigation() {
           <v-list-item
             v-for="(item, index) in navigation"
             :key="item.label"
-            :active="index === 0"
+            :class="{ 'navigation-item--active': index === 0 }"
             :href="item.href"
             :prepend-icon="item.icon"
             :title="item.label"
@@ -183,180 +137,135 @@ function closeMobileNavigation() {
       </nav>
 
       <template #append>
-        <div class="drawer-note">
-          <div class="drawer-note__icon" aria-hidden="true">
-            <v-icon icon="mdi-weather-pouring" />
-          </div>
-          <div>
-            <span>Overnight rainfall</span>
-            <strong>6 mm collected</strong>
-            <small>Last updated 08:45</small>
-          </div>
+        <div class="drawer-footer">
+          <v-chip color="primary" size="small" variant="tonal">Cycle 18</v-chip>
+          <p>Weekly portfolio review</p>
+          <span>Friday, 18 September</span>
         </div>
-        <p class="garden-location">
-          <v-icon icon="mdi-map-marker-outline" size="16" aria-hidden="true" />
-          Eastbank Community Garden
-        </p>
       </template>
     </v-navigation-drawer>
 
-    <v-app-bar class="top-bar" :inert="drawer && !lgAndUp" flat height="76">
+    <v-app-bar class="top-bar" :inert="drawer && !mdAndUp" flat height="72">
       <v-app-bar-nav-icon
-        v-if="!lgAndUp"
+        v-if="!mdAndUp"
         :aria-label="drawer ? 'Close navigation' : 'Open navigation'"
         aria-controls="mobile-navigation"
         :aria-expanded="drawer"
         @click="drawer = !drawer"
       />
-      <div class="top-bar__title">
+
+      <div class="top-bar__heading">
         <span>Friday, 18 September</span>
-        <strong>Garden overview</strong>
+        <strong>Portfolio overview</strong>
       </div>
 
       <template #append>
-        <div
-          class="weather-brief"
-          role="img"
-          aria-label="Current weather: 18 degrees Celsius and partly cloudy"
-        >
-          <v-icon icon="mdi-weather-partly-cloudy" color="warning" aria-hidden="true" />
-          <div>
-            <strong>18 C</strong>
-            <span>Partly cloudy</span>
-          </div>
-        </div>
-
+        <span class="sync-status"><i aria-hidden="true"></i>Last synced 8 min ago</span>
         <v-btn
           class="theme-toggle"
           :icon="isDark ? 'mdi-white-balance-sunny' : 'mdi-weather-night'"
           :aria-label="themeActionLabel"
           :aria-pressed="isDark"
           :title="themeActionLabel"
-          variant="tonal"
+          variant="text"
           @click="toggleTheme"
         />
+        <v-avatar
+          class="account-avatar"
+          color="primary"
+          size="36"
+          role="img"
+          aria-label="Signed in as Maya Chen"
+        >
+          MC
+        </v-avatar>
       </template>
     </v-app-bar>
 
-    <v-main id="main-content" :inert="drawer && !lgAndUp">
+    <v-main id="main-content" :inert="drawer && !mdAndUp" tabindex="-1">
       <v-container class="dashboard-container" fluid>
-        <section id="overview" class="hero-panel" aria-labelledby="overview-heading">
-          <div class="hero-copy">
-            <p class="eyebrow">Week 38 / Early autumn</p>
-            <h1 id="overview-heading">The garden is holding steady.</h1>
-            <p>
-              Overnight rain helped most beds. Focus today's crew on the rooftop planters and the
-              afternoon market harvest.
+        <header id="overview" class="page-header">
+          <div>
+            <p class="eyebrow">Cycle 18 / Weekly review</p>
+            <h1>Portfolio overview</h1>
+            <p class="page-summary">
+              Track delivery, capacity, and risk across every active project.
             </p>
-            <div class="hero-tags" aria-label="Today's key conditions">
-              <v-chip color="success" prepend-icon="mdi-check-circle-outline" variant="tonal">
-                3 zones on track
-              </v-chip>
-              <v-chip color="warning" prepend-icon="mdi-water-alert-outline" variant="tonal">
-                1 watering alert
-              </v-chip>
-            </div>
           </div>
+          <v-chip
+            class="health-chip"
+            color="primary"
+            prepend-icon="mdi-heart-pulse"
+            size="large"
+            variant="tonal"
+          >
+            15 active / 3 need attention
+          </v-chip>
+        </header>
 
-          <aside class="season-note" aria-label="Season note">
-            <div class="season-note__top">
-              <span>Season note</span>
-              <v-icon icon="mdi-sprout" aria-hidden="true" />
-            </div>
-            <strong>14 days</strong>
-            <p>until the winter planting window</p>
-            <div class="season-rule"><span style="width: 64%"></span></div>
-          </aside>
-        </section>
-
-        <section class="metrics-section" aria-labelledby="summary-heading">
-          <h2 id="summary-heading" class="sr-only">Garden summary</h2>
+        <section class="metrics-section" aria-labelledby="metrics-heading">
+          <h2 id="metrics-heading" class="sr-only">Portfolio summary</h2>
           <v-row>
             <v-col v-for="metric in metrics" :key="metric.label" cols="12" sm="6" lg="3">
-              <v-card class="metric-card" height="100%">
+              <v-card class="metric-card" height="100%" tag="article">
                 <v-card-text>
-                  <div class="metric-card__top">
-                    <span class="metric-icon" :class="`metric-icon--${metric.color}`">
-                      <v-icon :icon="metric.icon" aria-hidden="true" />
-                    </span>
-                    <span class="metric-note">{{ metric.note }}</span>
+                  <div class="metric-card__heading">
+                    <span>{{ metric.label }}</span>
+                    <v-icon :icon="metric.icon" color="primary" aria-hidden="true" />
                   </div>
-                  <p>{{ metric.label }}</p>
-                  <div class="metric-value">
-                    <strong>{{ metric.value }}</strong>
-                    <span>{{ metric.detail }}</span>
-                  </div>
-                  <v-progress-linear
-                    :aria-label="`${metric.label}: ${metric.progress}%`"
-                    :color="metric.color"
-                    :model-value="metric.progress"
-                    bg-opacity="0.12"
-                    height="6"
-                    rounded
-                  />
+                  <strong>{{ metric.value }}</strong>
+                  <p>{{ metric.detail }}</p>
                 </v-card-text>
               </v-card>
             </v-col>
           </v-row>
         </section>
 
-        <v-row class="dashboard-row">
+        <v-row id="analytics" class="analytics-row">
           <v-col cols="12" lg="8">
             <v-card class="panel-card" height="100%">
               <v-card-item>
                 <div class="panel-heading">
                   <div>
-                    <p class="eyebrow">Yield rhythm</p>
-                    <h2>Growing and harvest trend</h2>
+                    <p class="section-label">Analytics</p>
+                    <h2>Delivery trend</h2>
                   </div>
                   <div class="panel-stat">
-                    <strong>286 kg</strong>
-                    <span
-                      ><v-icon icon="mdi-arrow-up" size="14" aria-hidden="true" />12% this
-                      month</span
-                    >
+                    <strong>91%</strong>
+                    <span>On-time delivery</span>
                   </div>
                 </div>
               </v-card-item>
-              <v-card-text>
+              <v-card-text class="trend-card-content">
                 <TrendChart />
               </v-card-text>
             </v-card>
           </v-col>
 
-          <v-col id="zones" cols="12" lg="4">
-            <v-card class="panel-card zone-card" height="100%">
+          <v-col cols="12" lg="4">
+            <v-card id="team" class="panel-card capacity-card" height="100%">
               <v-card-item>
                 <div class="panel-heading">
                   <div>
-                    <p class="eyebrow">Live conditions</p>
-                    <h2 id="zones-heading">Garden zones</h2>
+                    <p class="section-label">Current allocation</p>
+                    <h2 id="team-heading">Team capacity</h2>
                   </div>
-                  <v-chip color="warning" size="small" variant="tonal">1 alert</v-chip>
+                  <v-icon icon="mdi-account-group-outline" color="primary" aria-hidden="true" />
                 </div>
               </v-card-item>
               <v-card-text>
-                <ul class="zone-list" aria-labelledby="zones-heading">
-                  <li v-for="zone in zones" :key="zone.name">
-                    <div class="zone-title">
-                      <div>
-                        <strong>{{ zone.name }}</strong>
-                        <span>{{ zone.crop }}</span>
-                      </div>
-                      <v-chip :color="zone.color" size="x-small" variant="tonal">
-                        {{ zone.status }}
-                      </v-chip>
-                    </div>
-                    <div class="moisture-label">
-                      <span>Soil moisture</span>
-                      <strong>{{ zone.moisture }}%</strong>
+                <ul class="capacity-list" aria-labelledby="team-heading">
+                  <li v-for="team in teamCapacity" :key="team.name">
+                    <div class="capacity-label">
+                      <strong>{{ team.name }}</strong>
+                      <span>{{ team.value }}% / {{ team.people }} people</span>
                     </div>
                     <v-progress-linear
-                      :aria-label="`${zone.name} soil moisture: ${zone.moisture}%`"
-                      :color="zone.color"
-                      :model-value="zone.moisture"
+                      :aria-label="`${team.name} capacity: ${team.value}%, ${team.people} people`"
+                      :model-value="team.value"
+                      color="primary"
                       bg-opacity="0.12"
-                      height="6"
+                      height="8"
                       rounded
                     />
                   </li>
@@ -366,73 +275,12 @@ function closeMobileNavigation() {
           </v-col>
         </v-row>
 
-        <v-row class="dashboard-row">
-          <v-col id="tasks" cols="12" lg="8">
-            <TaskList />
-          </v-col>
-
-          <v-col id="community" cols="12" lg="4">
-            <v-card class="panel-card community-card" height="100%">
-              <v-card-item>
-                <div class="panel-heading">
-                  <div>
-                    <p class="eyebrow">People power</p>
-                    <h2 id="community-heading">Community crew</h2>
-                  </div>
-                  <v-icon icon="mdi-hand-heart-outline" color="accent" aria-hidden="true" />
-                </div>
-              </v-card-item>
-              <v-card-text>
-                <section class="next-shift" aria-labelledby="next-shift-heading">
-                  <p>Next open session</p>
-                  <h3 id="next-shift-heading">Saturday, 09:00-12:00</h3>
-                  <div class="shift-capacity">
-                    <span>18 of 24 places filled</span>
-                    <strong>75%</strong>
-                  </div>
-                  <v-progress-linear
-                    aria-label="Saturday session is 75% full"
-                    color="secondary"
-                    :model-value="75"
-                    bg-opacity="0.16"
-                    height="7"
-                    rounded
-                  />
-                </section>
-
-                <ul class="volunteer-list" aria-label="Saturday session leads">
-                  <li v-for="volunteer in volunteers" :key="volunteer.name">
-                    <v-avatar :color="volunteer.color" size="34">
-                      <span>{{ volunteer.initials }}</span>
-                    </v-avatar>
-                    <div class="volunteer-copy">
-                      <strong>{{ volunteer.name }}</strong>
-                      <span>{{ volunteer.role }}</span>
-                    </div>
-                  </li>
-                </ul>
-
-                <v-divider />
-
-                <section class="activity-section" aria-labelledby="activity-heading">
-                  <h3 id="activity-heading">Recent activity</h3>
-                  <ul class="activity-list">
-                    <li v-for="item in activity" :key="item.text">
-                      <span class="activity-avatar" aria-hidden="true">{{ item.initials }}</span>
-                      <div>
-                        <p>{{ item.text }}</p>
-                        <time :datetime="item.datetime">{{ item.time }}</time>
-                      </div>
-                    </li>
-                  </ul>
-                </section>
-              </v-card-text>
-            </v-card>
-          </v-col>
-        </v-row>
+        <section class="projects-section" aria-label="Portfolio projects">
+          <ProjectTable />
+        </section>
 
         <footer class="dashboard-footer">
-          <span>Canopy / Eastbank Community Garden</span>
+          <span>Meridian / Portfolio operations</span>
           <span>Static demo data / Updated 18 September 2026</span>
         </footer>
       </v-container>

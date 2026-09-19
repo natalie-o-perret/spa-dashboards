@@ -1,116 +1,67 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-
-const weeks = [
-  { label: 'W31', beds: 19, harvest: 24 },
-  { label: 'W32', beds: 20, harvest: 29 },
-  { label: 'W33', beds: 22, harvest: 27 },
-  { label: 'W34', beds: 23, harvest: 36 },
-  { label: 'W35', beds: 25, harvest: 41 },
-  { label: 'W36', beds: 26, harvest: 38 },
-  { label: 'W37', beds: 27, harvest: 54 },
-  { label: 'W38', beds: 28, harvest: 51 },
+const delivery = [
+  { week: 'W31', value: 62 },
+  { week: 'W32', value: 68 },
+  { week: 'W33', value: 66 },
+  { week: 'W34', value: 73 },
+  { week: 'W35', value: 78 },
+  { week: 'W36', value: 81 },
+  { week: 'W37', value: 86 },
+  { week: 'W38', value: 91 },
 ] as const
 
-const plot = { left: 52, right: 686, top: 22, bottom: 204 }
-const harvestTicks = [0, 15, 30, 45, 60]
-const step = (plot.right - plot.left) / (weeks.length - 1)
-
-const x = (index: number) => plot.left + index * step
-const harvestY = (value: number) => plot.bottom - (value / 60) * (plot.bottom - plot.top)
-const bedY = (value: number) => plot.bottom - (value / 32) * (plot.bottom - plot.top)
-
-const linePoints = computed(() =>
-  weeks.map((week, index) => `${x(index)},${harvestY(week.harvest)}`).join(' '),
-)
-
-const areaPath = computed(
-  () =>
-    `M ${x(0)} ${plot.bottom} L ${weeks
-      .map((week, index) => `${x(index)} ${harvestY(week.harvest)}`)
-      .join(' L ')} L ${x(weeks.length - 1)} ${plot.bottom} Z`,
-)
-
-const chartDescription = computed(
-  () =>
-    `Weekly values: ${weeks
-      .map(
-        (week) => `${week.label}, ${week.beds} active beds and ${week.harvest} kilograms harvested`,
-      )
-      .join('; ')}.`,
-)
+const plot = { left: 48, right: 712, top: 18, bottom: 208 }
+const ticks = [50, 75, 100]
+const x = (index: number) => plot.left + (index * (plot.right - plot.left)) / (delivery.length - 1)
+const y = (value: number) => plot.bottom - ((value - 50) / 50) * (plot.bottom - plot.top)
+const linePoints = delivery.map((point, index) => `${x(index)},${y(point.value)}`).join(' ')
+const areaPath = `M ${x(0)} ${plot.bottom} L ${delivery
+  .map((point, index) => `${x(index)} ${y(point.value)}`)
+  .join(' L ')} L ${x(delivery.length - 1)} ${plot.bottom} Z`
+const accessibleValues = delivery.map((point) => `${point.week}: ${point.value}%`).join('; ')
 </script>
 
 <template>
   <figure class="trend-figure">
-    <div class="chart-legend" aria-hidden="true">
-      <span><i class="legend-block"></i>Active beds</span>
-      <span><i class="legend-line"></i>Harvest kg</span>
-    </div>
-
-    <div
-      class="chart-scroll"
-      role="region"
-      aria-label="Scrollable growing and harvest chart"
-      tabindex="0"
-    >
+    <div class="chart-frame">
       <svg
-        class="trend-svg"
-        viewBox="0 0 720 244"
+        class="trend-chart"
+        viewBox="0 0 760 250"
         role="img"
-        aria-labelledby="trend-title trend-description"
+        aria-labelledby="delivery-chart-title delivery-chart-description"
       >
-        <title id="trend-title">Active growing beds and weekly harvest</title>
-        <desc id="trend-description">{{ chartDescription }}</desc>
+        <title id="delivery-chart-title">On-time delivery from week 31 to week 38</title>
+        <desc id="delivery-chart-description">{{ accessibleValues }}</desc>
+        <defs>
+          <linearGradient id="delivery-area" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="rgb(var(--v-theme-primary))" stop-opacity="0.3" />
+            <stop offset="100%" stop-color="rgb(var(--v-theme-primary))" stop-opacity="0.02" />
+          </linearGradient>
+        </defs>
 
-        <g v-for="tick in harvestTicks" :key="tick">
-          <line
-            class="chart-grid"
-            :x1="plot.left"
-            :x2="plot.right"
-            :y1="harvestY(tick)"
-            :y2="harvestY(tick)"
-          />
-          <text class="axis-label" x="42" :y="harvestY(tick) + 4" text-anchor="end">
-            {{ tick }}
-          </text>
+        <g v-for="tick in ticks" :key="tick" aria-hidden="true">
+          <line class="chart-grid" :x1="plot.left" :x2="plot.right" :y1="y(tick)" :y2="y(tick)" />
+          <text class="axis-label" x="38" :y="y(tick) + 4" text-anchor="end">{{ tick }}%</text>
         </g>
 
-        <text class="axis-title" x="12" y="17">kg</text>
-        <text class="axis-title" x="690" y="17">beds</text>
-        <text class="axis-label" x="696" :y="plot.bottom + 4">0</text>
-        <text class="axis-label" x="696" :y="plot.top + 4">32</text>
+        <path class="delivery-area" :d="areaPath" aria-hidden="true" />
+        <polyline class="delivery-line" :points="linePoints" aria-hidden="true" />
 
-        <g v-for="(week, index) in weeks" :key="week.label">
-          <rect
-            class="growing-bar"
-            :x="x(index) - 14"
-            :y="bedY(week.beds)"
-            width="28"
-            :height="plot.bottom - bedY(week.beds)"
-            rx="8"
+        <g v-for="(point, index) in delivery" :key="point.week" aria-hidden="true">
+          <circle
+            class="delivery-point"
+            :class="{ 'delivery-point--latest': index === delivery.length - 1 }"
+            :cx="x(index)"
+            :cy="y(point.value)"
+            :r="index === delivery.length - 1 ? 6 : 4"
           />
-          <text class="week-label" :x="x(index)" y="228" text-anchor="middle">
-            {{ week.label }}
+          <text class="week-label" :x="x(index)" y="235" text-anchor="middle">
+            {{ point.week }}
           </text>
         </g>
-
-        <path class="harvest-area" :d="areaPath" />
-        <polyline class="harvest-line" :points="linePoints" />
-        <circle
-          v-for="(week, index) in weeks"
-          :key="`${week.label}-harvest`"
-          class="harvest-point"
-          :cx="x(index)"
-          :cy="harvestY(week.harvest)"
-          r="5"
-        />
       </svg>
     </div>
-
-    <figcaption>
-      Eight-week view. The latest harvest eased by 3 kg while growing capacity reached 88%.
-    </figcaption>
+    <figcaption class="sr-only">{{ accessibleValues }}</figcaption>
   </figure>
 </template>
 
@@ -119,94 +70,55 @@ const chartDescription = computed(
   margin: 0;
 }
 
-.chart-legend {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 18px;
-  justify-content: flex-end;
-  min-height: 24px;
-  color: rgb(var(--v-theme-on-surface-variant));
-  font-size: 0.78rem;
-  font-weight: 700;
+.chart-frame {
+  max-width: 100%;
+  overflow: hidden;
+  border-radius: 10px;
 }
 
-.chart-legend span {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-}
-
-.legend-block {
-  width: 13px;
-  height: 13px;
-  border-radius: 4px 4px 4px 1px;
-  background: rgb(var(--v-theme-primary));
-}
-
-.legend-line {
-  width: 18px;
-  border-top: 3px solid rgb(var(--v-theme-accent));
-}
-
-.chart-scroll {
-  overflow-x: auto;
-  padding: 4px 2px 8px;
-}
-
-.trend-svg {
+.trend-chart {
   display: block;
   width: 100%;
-  min-width: 560px;
   height: auto;
 }
 
 .chart-grid {
-  stroke: rgba(var(--v-theme-on-surface), 0.11);
+  stroke: rgb(var(--v-theme-divider));
+  stroke-dasharray: 3 7;
   stroke-width: 1;
-  stroke-dasharray: 4 6;
 }
 
 .axis-label,
-.axis-title,
 .week-label {
   fill: rgb(var(--v-theme-on-surface-variant));
   font-family: inherit;
   font-size: 11px;
-  font-weight: 650;
+  font-weight: 600;
 }
 
-.axis-title {
-  font-size: 10px;
-  text-transform: uppercase;
+.delivery-area {
+  fill: url('#delivery-area');
 }
 
-.growing-bar {
-  fill: rgb(var(--v-theme-primary));
-}
-
-.harvest-area {
-  fill: rgba(var(--v-theme-accent), 0.09);
-}
-
-.harvest-line {
+.delivery-line {
   fill: none;
-  stroke: rgb(var(--v-theme-accent));
+  stroke: rgb(var(--v-theme-primary));
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-width: 3;
   vector-effect: non-scaling-stroke;
 }
 
-.harvest-point {
+.delivery-point {
   fill: rgb(var(--v-theme-surface));
-  stroke: rgb(var(--v-theme-accent));
+  stroke: rgb(var(--v-theme-primary));
   stroke-width: 3;
   vector-effect: non-scaling-stroke;
 }
 
-figcaption {
-  margin-top: 4px;
-  color: rgb(var(--v-theme-on-surface-variant));
-  font-size: 0.78rem;
+.delivery-point--latest {
+  fill: rgb(var(--v-theme-primary));
+  stroke: rgb(var(--v-theme-surface));
+  stroke-width: 4;
 }
 </style>

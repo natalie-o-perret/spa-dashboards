@@ -4,18 +4,20 @@ import { createVuetify } from 'vuetify'
 
 let savedTheme: string | null = null
 try {
-  savedTheme = localStorage.getItem('canopy-theme')
+  savedTheme = localStorage.getItem('meridian-theme')
 } catch {
   // Storage can be disabled while the rest of the app remains usable.
 }
 
 const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches ?? false
 const defaultTheme =
-  savedTheme === 'canopyDark' || savedTheme === 'canopyLight'
-    ? savedTheme
-    : prefersDark
-      ? 'canopyDark'
-      : 'canopyLight'
+  savedTheme === 'dark'
+    ? 'meridianDark'
+    : savedTheme === 'light'
+      ? 'meridianLight'
+      : prefersDark
+        ? 'meridianDark'
+        : 'meridianLight'
 
 export default createVuetify({
   defaults: {
@@ -29,44 +31,50 @@ export default createVuetify({
   theme: {
     defaultTheme,
     themes: {
-      canopyLight: {
+      meridianLight: {
         dark: false,
         colors: {
-          background: '#f3eee3',
-          surface: '#fffaf1',
-          primary: '#1d4b3c',
-          secondary: '#9daf6f',
-          'on-secondary': '#173f34',
-          accent: '#ad5b43',
-          'on-accent': '#fffaf1',
-          success: '#397257',
-          warning: '#7c4818',
-          error: '#a3473f',
-          info: '#476f73',
-          'on-background': '#21342d',
-          'on-surface': '#21342d',
-          'surface-variant': '#e6ddca',
-          'on-surface-variant': '#56665f',
+          background: '#f5f7fa',
+          surface: '#ffffff',
+          primary: '#2e7d32',
+          'on-primary': '#ffffff',
+          secondary: '#637083',
+          'on-secondary': '#ffffff',
+          success: '#17834f',
+          warning: '#a85a0a',
+          error: '#c33b3b',
+          info: '#32658a',
+          'on-background': '#172033',
+          'on-surface': '#172033',
+          'surface-variant': '#f8f9fb',
+          'on-surface-variant': '#637083',
+          'outline-variant': '#e5e8ed',
+          subtle: '#f8f9fb',
+          divider: '#e5e8ed',
+          shadow: '#172033',
         },
       },
-      canopyDark: {
+      meridianDark: {
         dark: true,
         colors: {
-          background: '#101d19',
-          surface: '#182923',
-          primary: '#a9c89b',
-          secondary: '#b8c985',
-          'on-secondary': '#173f34',
-          accent: '#e28a6c',
-          'on-accent': '#3b1f18',
-          success: '#85b99b',
-          warning: '#e0a25f',
-          error: '#e18a80',
-          info: '#8fb9bc',
-          'on-background': '#f2eddf',
-          'on-surface': '#f2eddf',
-          'surface-variant': '#2a3b34',
-          'on-surface-variant': '#c2cdc4',
+          background: '#0f141d',
+          surface: '#171e2a',
+          primary: '#81c784',
+          'on-primary': '#102512',
+          secondary: '#aeb8c8',
+          'on-secondary': '#171e2a',
+          success: '#71d49a',
+          warning: '#f4bd62',
+          error: '#ff8c8c',
+          info: '#9ecaff',
+          'on-background': '#f2f5fa',
+          'on-surface': '#f2f5fa',
+          'surface-variant': '#1b2432',
+          'on-surface-variant': '#aeb8c8',
+          'outline-variant': '#303845',
+          subtle: '#1b2432',
+          divider: '#303845',
+          shadow: '#000000',
         },
       },
     },

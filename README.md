@@ -1,8 +1,7 @@
-# Canopy
+# Meridian
 
-Canopy is a static community garden and urban ecology operations dashboard.
-It presents growing conditions, harvest trends, garden-zone health, upcoming
-work, and volunteer activity in a responsive Vue interface.
+Meridian is a static portfolio operations dashboard and the Vue + Vuetify entry
+in a side-by-side Angular Material, React MUI, and Vue Vuetify comparison.
 
 Live site: <https://natalie-o-perret.github.io/dashboard-vue-vuetify/>
 
@@ -14,8 +13,11 @@ Live site: <https://natalie-o-perret.github.io/dashboard-vue-vuetify/>
 - Vitest and Vue Test Utils
 - ESLint and Prettier
 
-All dashboard data is local and illustrative. The app has no API, router, or
-client-side state library.
+The responsive dashboard includes portfolio metrics, an accessible native SVG
+delivery chart, team capacity, and a searchable project table with status
+filtering, sorting, page selection, pagination, density controls, and CSV export.
+All data is local and illustrative. The app has no API, router, chart dependency,
+or client-side state library.
 
 ## Local development
 
