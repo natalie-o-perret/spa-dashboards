@@ -1,0 +1,50 @@
+.metrics-section {
+  margin-top: 17px;
+}
+
+.metric-card,
+.panel-card,
+.table-card {
+  border: 1px solid rgb(var(--v-theme-divider)) !important;
+  border-radius: 16px !important;
+  background: rgb(var(--v-theme-surface)) !important;
+  box-shadow: 0 8px 26px rgba(var(--v-theme-shadow), 0.045) !important;
+}
+
+.metric-card .v-card-text {
+  padding: 20px;
+}
+
+.metric-card__heading {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  color: rgb(var(--v-theme-on-surface-variant));
+  font-size: 0.75rem;
+  font-weight: 650;
+}
+
+.metric-card__heading .v-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  background: rgba(var(--v-theme-primary), 0.1);
+  font-size: 18px;
+}
+
+.metric-card .v-card-text > strong {
+  display: block;
+  margin-top: 14px;
+  font-size: 1.9rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 760;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.metric-card p {
+  margin: 8px 0 0;
+  color: rgb(var(--v-theme-on-surface-variant));
+  font-size: 0.72rem;
+}

@@ -1,0 +1,55 @@
+.v-main {
+  min-width: 0;
+}
+
+.dashboard-container {
+  width: 100%;
+  max-width: 1440px;
+  padding: 34px 32px 22px !important;
+}
+
+#overview,
+#analytics,
+#projects,
+#team {
+  scroll-margin-top: 88px;
+}
+
+.page-header {
+  display: flex;
+  gap: 28px;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 8px 2px 12px;
+}
+
+.eyebrow,
+.section-label {
+  margin-bottom: 8px;
+  color: rgb(var(--v-theme-primary));
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.page-header h1 {
+  margin-bottom: 8px;
+  color: rgb(var(--v-theme-on-surface));
+  font-size: clamp(2rem, 3.5vw, 2.8rem);
+  font-weight: 780;
+  letter-spacing: -0.045em;
+  line-height: 1.05;
+}
+
+.page-summary {
+  margin-bottom: 0;
+  color: rgb(var(--v-theme-on-surface-variant));
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.health-chip {
+  flex: 0 0 auto;
+  font-weight: 700;
+}

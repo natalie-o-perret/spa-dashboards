@@ -1,0 +1,98 @@
+.table-region {
+  max-width: 100%;
+  overflow-x: auto;
+  border-top: 1px solid rgb(var(--v-theme-divider));
+}
+
+.table-region:focus-visible {
+  outline-offset: -3px !important;
+}
+
+.project-table {
+  background: transparent;
+}
+
+.project-table :deep(.v-table__wrapper) {
+  overflow: visible;
+}
+
+.project-table :deep(table) {
+  min-width: 1080px;
+}
+
+.project-table :deep(th) {
+  height: 50px;
+  background: rgb(var(--v-theme-subtle));
+  color: rgb(var(--v-theme-on-surface-variant));
+  font-size: 0.72rem;
+  font-weight: 750;
+  letter-spacing: 0.025em;
+}
+
+.project-table :deep(td) {
+  border-color: rgb(var(--v-theme-divider)) !important;
+  font-size: 0.8rem;
+}
+
+.project-table :deep(tbody tr:hover) {
+  background: rgba(var(--v-theme-primary), 0.035);
+}
+
+.project-table :deep(.v-data-table-footer) {
+  min-height: 66px;
+  border-top: 1px solid rgb(var(--v-theme-divider));
+}
+
+.project-table :deep(.v-data-table-footer__items-per-page) {
+  font-size: 0.75rem;
+}
+
+.project-name {
+  font-weight: 700;
+}
+
+.progress-cell {
+  display: grid;
+  grid-template-columns: 1fr 36px;
+  gap: 9px;
+  align-items: center;
+  min-width: 125px;
+}
+
+.progress-cell span,
+.budget-cell {
+  font-variant-numeric: tabular-nums;
+  font-weight: 650;
+}
+
+.budget-cell {
+  white-space: nowrap;
+}
+
+.no-results {
+  display: grid;
+  justify-items: center;
+  padding: 40px 16px;
+  color: rgb(var(--v-theme-on-surface-variant));
+  text-align: center;
+}
+
+.no-results strong {
+  margin-top: 10px;
+  color: rgb(var(--v-theme-on-surface));
+  font-size: 0.95rem;
+}
+
+.no-results span {
+  margin: 4px 0 8px;
+  font-size: 0.78rem;
+}
+
+@media (max-width: 699px) {
+  .project-table :deep(.v-data-table-footer) {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px 14px;
+    padding-block: 10px;
+  }
+}

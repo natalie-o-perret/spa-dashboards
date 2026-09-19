@@ -1,0 +1,74 @@
+:root {
+  font-family:
+    ui-sans-serif,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+html {
+  min-width: 320px;
+  scroll-padding-top: 88px;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  overflow-x: hidden;
+  background: rgb(var(--v-theme-background));
+}
+
+#app {
+  min-height: 100vh;
+}
+
+h1,
+h2,
+p {
+  margin-top: 0;
+}
+
+a,
+button,
+[tabindex] {
+  -webkit-tap-highlight-color: transparent;
+}
+
+:focus-visible {
+  outline: 3px solid rgb(var(--v-theme-primary)) !important;
+  outline-offset: 3px !important;
+}
+
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+}
+
+.skip-link {
+  position: fixed;
+  z-index: 3000;
+  top: 10px;
+  left: 12px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: rgb(var(--v-theme-primary));
+  color: rgb(var(--v-theme-on-primary));
+  font-weight: 800;
+  text-decoration: none;
+  transform: translateY(-160%);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
