@@ -4,18 +4,23 @@ html {
   @include mat.theme(
     (
       color: (
-        primary: mat.$violet-palette,
-        tertiary: mat.$orange-palette,
+        primary: mat.$red-palette,
+        tertiary: mat.$red-palette,
       ),
       typography: (
         plain-family: (
-          'DM Sans',
+          ui-sans-serif,
+          -apple-system,
+          BlinkMacSystemFont,
+          'Segoe UI',
           sans-serif,
         ),
         brand-family: (
-          'Newsreader',
-          Georgia,
-          serif,
+          ui-sans-serif,
+          -apple-system,
+          BlinkMacSystemFont,
+          'Segoe UI',
+          sans-serif,
         ),
         bold-weight: 700,
         medium-weight: 600,
@@ -25,34 +30,55 @@ html {
     )
   );
 
-  --body-font: 'DM Sans', sans-serif;
-  --display-font: 'Newsreader', Georgia, serif;
-  --canvas: #f5f3ee;
-  --sidebar: #eeece6;
-  --surface-raised: #fffdf9;
-  --surface-tint: #ebe9f3;
-  --ink: #242236;
-  --muted: #666476;
-  --quiet: #6c6978;
-  --line: rgb(47 43 73 / 12%);
-  --indigo: #57529a;
-  --indigo-strong: #373278;
-  --indigo-solid: #373278;
-  --indigo-soft: #e5e3f3;
-  --coral: #df6f63;
-  --coral-strong: #a44037;
-  --coral-soft: #f8dfda;
-  --focus: #933c35;
-  --success: #3f8a6c;
-  --success-strong: #2d7057;
-  --success-soft: #e1f0e8;
-  --sand: #eee1c8;
-  --sand-strong: #d7bb80;
-  --sand-ink: #694e1f;
-  --lavender: #e8dff0;
-  --lavender-ink: #684780;
-  --shadow-subtle: 0 0.5rem 1.8rem rgb(40 36 69 / 4%);
-  --shadow-soft: 0 1rem 3rem rgb(40 36 69 / 8%);
+  --body-font: ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --canvas: #f5f7fa;
+  --sidebar: #ffffff;
+  --surface: #ffffff;
+  --surface-subtle: #f8f9fb;
+  --topbar: rgb(255 255 255 / 92%);
+  --ink: #172033;
+  --muted: #637083;
+  --quiet: #637083;
+  --line: #e5e8ed;
+  --accent: #c62828;
+  --accent-strong: #c62828;
+  --accent-soft: rgb(198 40 40 / 10%);
+  --accent-faint: rgb(198 40 40 / 4%);
+  --accent-border: rgb(198 40 40 / 28%);
+  --accent-shadow: rgb(198 40 40 / 20%);
+  --on-accent: #ffffff;
+  --chart-fill: rgb(198 40 40 / 9%);
+  --success: #17834f;
+  --success-soft: rgb(23 131 79 / 10%);
+  --warning: #a85a0a;
+  --warning-soft: rgb(168 90 10 / 10%);
+  --error: #c33b3b;
+  --error-soft: rgb(195 59 59 / 10%);
+  --info: #32658a;
+  --info-soft: rgb(50 101 138 / 10%);
+  --neutral: #637083;
+  --neutral-soft: rgb(99 112 131 / 10%);
+  --row-hover: rgb(198 40 40 / 3.5%);
+  --disabled: #d8dce3;
+  --shadow: 0 10px 28px rgb(19 32 55 / 4.5%);
+
+  --mat-sys-primary: var(--accent);
+  --mat-sys-on-primary: var(--on-accent);
+  --mat-sys-primary-container: var(--accent-soft);
+  --mat-sys-on-primary-container: var(--accent-strong);
+  --mat-sys-background: var(--canvas);
+  --mat-sys-surface: var(--surface);
+  --mat-sys-surface-bright: var(--surface);
+  --mat-sys-surface-dim: var(--surface-subtle);
+  --mat-sys-surface-container: var(--surface-subtle);
+  --mat-sys-surface-container-high: var(--surface-subtle);
+  --mat-sys-surface-container-highest: var(--surface-subtle);
+  --mat-sys-surface-container-low: var(--surface);
+  --mat-sys-surface-container-lowest: var(--surface);
+  --mat-sys-on-surface: var(--ink);
+  --mat-sys-on-surface-variant: var(--muted);
+  --mat-sys-outline: var(--quiet);
+  --mat-sys-outline-variant: var(--line);
 
   min-width: 20rem;
   min-height: 100%;
@@ -61,32 +87,36 @@ html {
 }
 
 html.dark-theme {
-  --canvas: #171720;
-  --sidebar: #1c1c27;
-  --surface-raised: #22222e;
-  --surface-tint: #2b2a3b;
-  --ink: #f3f0e9;
-  --muted: #b9b5c3;
-  --quiet: #8d899a;
-  --line: rgb(235 231 245 / 12%);
-  --indigo: #aaa5f2;
-  --indigo-strong: #c9c5ff;
-  --indigo-solid: #5e57ad;
-  --indigo-soft: #353452;
-  --coral: #f28b7f;
-  --coral-strong: #ffaea5;
-  --coral-soft: #4c2e33;
-  --focus: #f28b7f;
-  --success: #6dc29e;
-  --success-strong: #8bd7b6;
-  --success-soft: #263e36;
-  --sand: #443b2c;
-  --sand-strong: #b89758;
-  --sand-ink: #f0d69f;
-  --lavender: #3b3046;
-  --lavender-ink: #dabcec;
-  --shadow-subtle: 0 0.5rem 1.8rem rgb(0 0 0 / 10%);
-  --shadow-soft: 0 1rem 3rem rgb(0 0 0 / 18%);
+  --canvas: #0f141d;
+  --sidebar: #171e2a;
+  --surface: #171e2a;
+  --surface-subtle: #1b2432;
+  --topbar: rgb(23 30 42 / 92%);
+  --ink: #f2f5fa;
+  --muted: #aeb8c8;
+  --quiet: #aeb8c8;
+  --line: #303845;
+  --accent: #ff8a80;
+  --accent-strong: #ff8a80;
+  --accent-soft: rgb(255 138 128 / 14%);
+  --accent-faint: rgb(255 138 128 / 5%);
+  --accent-border: rgb(255 138 128 / 34%);
+  --accent-shadow: rgb(255 138 128 / 12%);
+  --on-accent: #3b0808;
+  --chart-fill: rgb(255 138 128 / 10%);
+  --success: #71d49a;
+  --success-soft: rgb(113 212 154 / 14%);
+  --warning: #f4bd62;
+  --warning-soft: rgb(244 189 98 / 14%);
+  --error: #ff8c8c;
+  --error-soft: rgb(255 140 140 / 14%);
+  --info: #9ecaff;
+  --info-soft: rgb(158 202 255 / 14%);
+  --neutral: #aeb8c8;
+  --neutral-soft: rgb(174 184 200 / 12%);
+  --row-hover: rgb(255 138 128 / 7%);
+  --disabled: #3c4655;
+  --shadow: 0 12px 32px rgb(0 0 0 / 14%);
 
   color-scheme: dark;
 }
@@ -98,6 +128,7 @@ html.dark-theme {
 body {
   min-height: 100%;
   margin: 0;
+  overflow-x: hidden;
   background: var(--canvas);
   color: var(--ink);
   font-family: var(--body-font);
@@ -107,17 +138,18 @@ body {
 }
 
 button,
-a {
+a,
+input {
   font: inherit;
 }
 
 :focus-visible {
-  outline: 3px solid var(--focus) !important;
+  outline: 3px solid var(--accent) !important;
   outline-offset: 3px;
 }
 
 ::selection {
-  background: var(--indigo-soft);
+  background: var(--accent-soft);
   color: var(--ink);
 }
 

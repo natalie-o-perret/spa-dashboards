@@ -1,8 +1,16 @@
-# Northstar
+# Meridian
 
-A responsive project-delivery dashboard built with Angular and Angular Material. Northstar uses static local data, a native SVG trend chart, and a persisted light or dark theme.
+The Angular Material version of Meridian, a shared portfolio-operations dashboard used to compare frontend frameworks side by side.
 
 Live site: <https://natalie-o-perret.github.io/dashboard-angular-material/>
+
+## Features
+
+- Responsive permanent navigation and accessible mobile drawer
+- Persisted light and dark themes
+- Native accessible SVG delivery chart and team-capacity progress
+- Material data table with search, status filtering, sorting, selection, pagination, density controls, and CSV export
+- Static local data with no router, backend, state library, or chart dependency
 
 ## Stack
 
@@ -28,13 +36,7 @@ Open <http://localhost:4200/>.
 npm run format:check
 npm run lint
 npm test
-npm run build
-```
-
-Run `npm run format` to apply formatting. To reproduce the GitHub Pages build locally, run:
-
-```bash
 npm run build:pages
 ```
 
-The Pages-ready browser output is written to `dist/northstar/browser/`.
+Run `npm run format` to apply formatting. The Pages-ready browser output is written to `dist/meridian/browser/`.

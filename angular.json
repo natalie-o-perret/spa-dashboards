@@ -7,7 +7,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "northstar": {
+    "meridian": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -37,7 +37,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
+                  "maximumWarning": "800kB",
                   "maximumError": "1MB"
                 },
                 {
@@ -60,10 +60,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "northstar:build:production"
+              "buildTarget": "meridian:build:production"
             },
             "development": {
-              "buildTarget": "northstar:build:development"
+              "buildTarget": "meridian:build:development"
             }
           },
           "defaultConfiguration": "development"
