@@ -18,8 +18,9 @@ export default function DensityControl({
       onChange={(_, next: Density | null) => next && onChange(next)}
       aria-label="Table density"
       sx={{
-        width: { xs: '100%', sm: 'fit-content' },
-        '& .MuiToggleButton-root': { flex: { xs: 1, sm: 'initial' } },
+        width: { xs: '100%', sm: 190 },
+        height: 40,
+        '& .MuiToggleButton-root': { flex: 1 },
       }}
     >
       <ToggleButton value="comfortable" aria-label="Comfortable density">
