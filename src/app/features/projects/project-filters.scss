@@ -24,11 +24,13 @@
   align-items: center;
   gap: 9px;
   mat-button-toggle-group {
-    height: 34px;
+    width: 190px;
+    height: 42px;
     border-color: var(--line);
     background: var(--surface);
   }
   mat-button-toggle {
+    flex: 1;
     --mat-button-toggle-label-text-size: 10px;
     --mat-button-toggle-selected-state-background-color: var(--accent-soft);
     --mat-button-toggle-selected-state-text-color: var(--accent-strong);
@@ -54,9 +56,6 @@
     width: 100%;
     mat-button-toggle-group {
       width: 100%;
-    }
-    mat-button-toggle {
-      flex: 1;
     }
   }
 }
