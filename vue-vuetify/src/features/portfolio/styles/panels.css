@@ -1,0 +1,79 @@
+.analytics-row {
+  margin-top: 8px !important;
+}
+
+.panel-card .v-card-item {
+  padding: 23px 24px 9px;
+}
+
+.panel-card .v-card-text {
+  padding: 12px 24px 23px;
+}
+
+.panel-heading {
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.panel-heading h2 {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 720;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+}
+
+.panel-stat {
+  display: grid;
+  justify-items: end;
+}
+
+.panel-stat strong {
+  font-size: 1.65rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.panel-stat span {
+  margin-top: 5px;
+  color: rgb(var(--v-theme-on-surface-variant));
+  font-size: 0.7rem;
+}
+
+.trend-card-content {
+  padding-top: 2px !important;
+}
+
+.capacity-card .v-card-text {
+  padding-top: 5px;
+}
+
+.capacity-list {
+  display: grid;
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.capacity-label {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.capacity-label strong {
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.capacity-label span {
+  color: rgb(var(--v-theme-on-surface-variant));
+  font-size: 0.7rem;
+  font-variant-numeric: tabular-nums;
+}

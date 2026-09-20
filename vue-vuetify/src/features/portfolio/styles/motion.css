@@ -1,0 +1,27 @@
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  .metric-card {
+    transition:
+      border-color 160ms ease,
+      transform 160ms ease;
+  }
+
+  .metric-card:hover {
+    border-color: rgba(var(--v-theme-primary), 0.25) !important;
+    transform: translateY(-2px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

@@ -1,0 +1,55 @@
+.trend-figure {
+  margin: 0;
+}
+
+.chart-frame {
+  max-width: 100%;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.trend-chart {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.chart-grid {
+  stroke: rgb(var(--v-theme-divider));
+  stroke-dasharray: 3 7;
+  stroke-width: 1;
+}
+
+.axis-label,
+.week-label {
+  fill: rgb(var(--v-theme-on-surface-variant));
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.delivery-area {
+  fill: url('#delivery-area');
+}
+
+.delivery-line {
+  fill: none;
+  stroke: rgb(var(--v-theme-primary));
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 3;
+  vector-effect: non-scaling-stroke;
+}
+
+.delivery-point {
+  fill: rgb(var(--v-theme-surface));
+  stroke: rgb(var(--v-theme-primary));
+  stroke-width: 3;
+  vector-effect: non-scaling-stroke;
+}
+
+.delivery-point--latest {
+  fill: rgb(var(--v-theme-primary));
+  stroke: rgb(var(--v-theme-surface));
+  stroke-width: 4;
+}
