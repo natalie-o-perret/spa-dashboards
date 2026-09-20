@@ -36,8 +36,8 @@ defineEmits<{ clear: [] }>()
       mandatory
       variant="outlined"
     >
-      <v-btn value="comfortable" prepend-icon="mdi-view-sequential-outline">Comfortable</v-btn>
-      <v-btn value="compact" prepend-icon="mdi-view-headline">Compact</v-btn>
+      <v-btn value="comfortable">Comfortable</v-btn>
+      <v-btn value="compact">Compact</v-btn>
     </v-btn-toggle>
     <v-btn
       class="clear-filters"
