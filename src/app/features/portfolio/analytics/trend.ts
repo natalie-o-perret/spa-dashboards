@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TREND_AREA, TREND_LINE, TREND_POINTS } from '../app.data';
+import { TREND_AREA, TREND_LINE, TREND_POINTS } from '../portfolio.data';
 
 @Component({
   selector: 'app-trend',

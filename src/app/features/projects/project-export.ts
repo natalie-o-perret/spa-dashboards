@@ -1,4 +1,4 @@
-import { Project } from '../app.data';
+import { Project } from './project.schema';
 
 function csvCell(value: string | number): string {
   return `"${String(value).replaceAll('"', '""')}"`;

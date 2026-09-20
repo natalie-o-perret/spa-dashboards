@@ -10,14 +10,20 @@ Live site: <https://natalie-o-perret.github.io/dashboard-angular-material/>
 - Persisted light and dark themes
 - Native accessible SVG delivery chart and team-capacity progress
 - Material data table with search, status filtering, sorting, selection, pagination, density controls, and CSV export
+- Effect Schema validation for branded project data at the fixture boundary
 - Static local data with no router, backend, state library, or chart dependency
 
 ## Stack
 
 - Angular 22 with standalone components and strict TypeScript
 - Angular Material 22 and SCSS
+- Effect 3 for runtime schemas and domain types
 - Vitest through Angular's unit-test builder
 - ESLint with angular-eslint and Prettier
+
+## Architecture
+
+The app uses feature-first vertical slices. `shell` owns navigation and the top bar, while `portfolio` and `projects` own their data, domain rules, UI, and tests.
 
 ## Local Development
 
@@ -33,9 +39,7 @@ Open <http://localhost:4200/>.
 ## Checks
 
 ```bash
-npm run format:check
-npm run lint
-npm test
+npm run check
 npm run build:pages
 ```
 

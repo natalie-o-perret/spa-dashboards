@@ -2,7 +2,13 @@ import { Component, input, output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
-import { NAV_ITEMS } from '../app.data';
+
+const NAV_ITEMS = [
+  { label: 'Overview', icon: 'dashboard', href: '#overview', active: true },
+  { label: 'Analytics', icon: 'monitoring', href: '#analytics', active: false },
+  { label: 'Projects', icon: 'view_list', href: '#projects', active: false },
+  { label: 'Team', icon: 'groups', href: '#team', active: false },
+] as const;
 
 @Component({
   imports: [MatButtonModule, MatChipsModule, MatIconModule],

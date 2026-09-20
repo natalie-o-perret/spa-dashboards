@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
-import { METRICS } from '../app.data';
+import { METRICS } from '../portfolio.data';
 
 @Component({
   imports: [MatChipsModule, MatIconModule],

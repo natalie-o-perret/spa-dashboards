@@ -11,11 +11,11 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
-import { AnalyticsComponent } from './analytics/analytics';
-import { NavigationComponent } from './navigation/navigation';
-import { OverviewComponent } from './overview/overview';
-import { ProjectsComponent } from './projects/projects';
-import { TopbarComponent } from './topbar/topbar';
+import { AnalyticsComponent } from './features/portfolio/analytics/analytics';
+import { OverviewComponent } from './features/portfolio/overview/overview';
+import { ProjectsComponent } from './features/projects/projects';
+import { NavigationComponent } from './shell/navigation/navigation';
+import { TopbarComponent } from './shell/topbar/topbar';
 
 const THEME_STORAGE_KEY = 'meridian-theme';
 

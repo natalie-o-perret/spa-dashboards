@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { TEAM_CAPACITY } from '../app.data';
+import { TEAM_CAPACITY } from '../portfolio.data';
 
 @Component({
   imports: [MatIconModule, MatProgressBarModule],

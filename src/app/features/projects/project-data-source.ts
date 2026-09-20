@@ -1,7 +1,8 @@
 import { MatTableDataSource } from '@angular/material/table';
-import { PROJECTS, Project } from '../app.data';
 import { formatBudget, formatDate } from './project-format';
+import { Project } from './project.schema';
 import { TableFilter } from './project-table.types';
+import { PROJECTS } from './projects.data';
 
 export function createProjectDataSource(): MatTableDataSource<Project> {
   const dataSource = new MatTableDataSource<Project>([...PROJECTS]);

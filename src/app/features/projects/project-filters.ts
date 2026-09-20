@@ -16,11 +16,11 @@ import { Density, StatusFilter } from './project-table.types';
     MatInputModule,
     MatSelectModule,
   ],
-  selector: 'app-project-controls',
-  styleUrl: './project-controls.scss',
-  templateUrl: './project-controls.html',
+  selector: 'app-project-filters',
+  styleUrl: './project-filters.scss',
+  templateUrl: './project-filters.html',
 })
-export class ProjectControlsComponent {
+export class ProjectFiltersComponent {
   readonly density = input.required<Density>();
   readonly searchQuery = input.required<string>();
   readonly statusFilter = input.required<StatusFilter>();

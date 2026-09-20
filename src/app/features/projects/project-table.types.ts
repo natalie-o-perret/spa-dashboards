@@ -1,4 +1,4 @@
-import { ProjectStatus } from '../app.data';
+import { ProjectStatus } from './project.schema';
 
 export type StatusFilter = 'All statuses' | ProjectStatus;
 export type Density = 'comfortable' | 'compact';
