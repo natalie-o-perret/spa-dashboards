@@ -1,7 +1,15 @@
-import { projects, type Project, type ProjectStatus } from './projects';
+import { projects } from './projects';
+import type { Project, ProjectStatus } from './projectSchema';
 
 export type SortKey = keyof Omit<Project, 'id'>;
 export type SortDirection = 'asc' | 'desc';
+export type Sort =
+  | { readonly type: 'none' }
+  | {
+      readonly type: 'sorted';
+      readonly key: SortKey;
+      readonly direction: SortDirection;
+    };
 export type StatusFilter = 'All statuses' | ProjectStatus;
 export type Density = 'comfortable' | 'compact';
 
@@ -27,20 +35,7 @@ export const statuses: readonly StatusFilter[] = [
   'Complete',
 ];
 
-const months = [
-  'Jan',
-  'Feb',
-  'Mar',
-  'Apr',
-  'May',
-  'Jun',
-  'Jul',
-  'Aug',
-  'Sep',
-  'Oct',
-  'Nov',
-  'Dec',
-];
+const months = 'Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec'.split(' ');
 const budgetFormatter = new Intl.NumberFormat('en-IE', {
   style: 'currency',
   currency: 'EUR',
@@ -51,20 +46,19 @@ const collator = new Intl.Collator('en', {
   sensitivity: 'base',
 });
 
-export function formatDate(value: string) {
+export function formatDate(value: Project['due']) {
   const [year, month, day] = value.split('-');
   return `${Number(day)} ${months[Number(month) - 1]} ${year}`;
 }
 
-export function formatBudget(value: number) {
+export function formatBudget(value: Project['budget']) {
   return budgetFormatter.format(value);
 }
 
 export function getProjectRows(
   search: string,
   status: StatusFilter,
-  sortKey: SortKey | null,
-  direction: SortDirection,
+  sort: Sort,
 ) {
   const query = search.trim().toLocaleLowerCase('en');
   const rows = projects.filter((project) => {
@@ -85,10 +79,11 @@ export function getProjectRows(
       String(value).toLocaleLowerCase('en').includes(query),
     );
   });
-  if (!sortKey) return rows;
+  if (sort.type === 'none') return rows;
+  const { key, direction } = sort;
   return rows.sort((leftProject, rightProject) => {
-    const left = leftProject[sortKey];
-    const right = rightProject[sortKey];
+    const left = leftProject[key];
+    const right = rightProject[key];
     const comparison =
       typeof left === 'number' && typeof right === 'number'
         ? left - right

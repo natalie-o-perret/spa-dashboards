@@ -1,5 +1,5 @@
 import { Checkbox, TableCell, TableRow, Typography } from '@mui/material';
-import type { Project } from './projects';
+import type { Project } from './projectSchema';
 import { formatBudget, formatDate } from './projectTableData';
 import ProjectStatusCells from './ProjectStatusCells';
 

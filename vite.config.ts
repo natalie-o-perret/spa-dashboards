@@ -3,7 +3,7 @@ import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   base: '/dashboard-react-mui/',
-  build: { chunkSizeWarningLimit: 600 },
+  build: { chunkSizeWarningLimit: 800 },
   plugins: [react()],
   test: {
     environment: 'jsdom',

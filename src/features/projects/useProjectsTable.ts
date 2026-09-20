@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { exportProjects } from './exportProjects';
+import type { Project } from './projectSchema';
 import {
   getProjectRows,
   type Density,
-  type SortDirection,
+  type Sort,
   type SortKey,
   type StatusFilter,
 } from './projectTableData';
@@ -11,29 +12,27 @@ import {
 export function useProjectsTable() {
   const [search, setSearch] = useState('');
   const [status, setStatus] = useState<StatusFilter>('All statuses');
-  const [sortKey, setSortKey] = useState<SortKey | null>(null);
-  const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
-  const [selected, setSelected] = useState<Set<number>>(new Set());
+  const [sort, setSort] = useState<Sort>({ type: 'none' });
+  const [selected, setSelected] = useState<Set<Project['id']>>(new Set());
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [density, setDensity] = useState<Density>('comfortable');
-  const rows = getProjectRows(search, status, sortKey, sortDirection);
+  const rows = getProjectRows(search, status, sort);
   const pageRows = rows.slice(page * rowsPerPage, (page + 1) * rowsPerPage);
   const selectedOnPage = pageRows.filter(({ id }) => selected.has(id)).length;
   const allOnPageSelected =
     pageRows.length > 0 && selectedOnPage === pageRows.length;
 
-  const handleSort = (key: SortKey) => {
-    if (sortKey !== key) {
-      setSortKey(key);
-      setSortDirection('asc');
-    } else if (sortDirection === 'asc') {
-      setSortDirection('desc');
-    } else {
-      setSortKey(null);
-      setSortDirection('asc');
-    }
-  };
+  const handleSort = (key: SortKey) =>
+    setSort((current) => {
+      if (current.type === 'none' || current.key !== key) {
+        return { type: 'sorted', key, direction: 'asc' };
+      }
+      if (current.direction === 'asc') {
+        return { type: 'sorted', key, direction: 'desc' };
+      }
+      return { type: 'none' };
+    });
   const togglePage = () =>
     setSelected((current) => {
       const next = new Set(current);
@@ -42,7 +41,7 @@ export function useProjectsTable() {
       );
       return next;
     });
-  const toggleProject = (id: number) =>
+  const toggleProject = (id: Project['id']) =>
     setSelected((current) => {
       const next = new Set(current);
       if (next.has(id)) next.delete(id);
@@ -58,8 +57,7 @@ export function useProjectsTable() {
   return {
     search,
     status,
-    sortKey,
-    sortDirection,
+    sort,
     selected,
     page,
     rowsPerPage,

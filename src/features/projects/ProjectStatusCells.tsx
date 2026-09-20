@@ -6,7 +6,7 @@ import {
   TableCell,
   Typography,
 } from '@mui/material';
-import type { Project, ProjectPriority, ProjectStatus } from './projects';
+import type { Project, ProjectPriority, ProjectStatus } from './projectSchema';
 
 const statusColours: Record<
   ProjectStatus,

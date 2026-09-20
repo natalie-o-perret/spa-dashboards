@@ -2,8 +2,8 @@ import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ThemeProvider } from '@mui/material';
 import { describe, expect, it, vi } from 'vitest';
-import App from './App';
-import { createMeridianTheme } from './theme';
+import App from '../../App';
+import { createMeridianTheme } from '../../shell/theme';
 
 describe('projects table', () => {
   it('filters, cycles sorting, and paginates projects', async () => {

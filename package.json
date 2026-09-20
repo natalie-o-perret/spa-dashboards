@@ -24,6 +24,7 @@
     "@emotion/styled": "^11.14.1",
     "@mui/icons-material": "^9.4.0",
     "@mui/material": "^9.4.0",
+    "effect": "3.22.2",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"
   },

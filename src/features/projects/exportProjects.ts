@@ -1,4 +1,4 @@
-import type { Project } from './projects';
+import type { Project } from './projectSchema';
 
 function quoteCsv(value: string | number) {
   return `"${String(value).replaceAll('"', '""')}"`;
