@@ -46,6 +46,6 @@ The app uses feature-first vertical slices. `shell` owns navigation and theming,
 
 ## Deployment
 
-The production build uses the `/dashboard/react-mui/` base path and deploys from `main` with GitHub Pages Actions.
+The production build uses the `/spa-dashboards/react-mui/` base path and deploys from `main` with GitHub Pages Actions.
 
-<https://natalie-o-perret.github.io/dashboard/react-mui/>
+<https://natalie-o-perret.github.io/spa-dashboards/react-mui/>

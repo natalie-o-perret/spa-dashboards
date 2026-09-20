@@ -2,7 +2,7 @@ import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
-  base: '/dashboard/react-mui/',
+  base: '/spa-dashboards/react-mui/',
   build: { chunkSizeWarningLimit: 800 },
   plugins: [react()],
   test: {

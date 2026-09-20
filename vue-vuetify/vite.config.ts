@@ -3,7 +3,7 @@ import { defineConfig } from 'vitest/config'
 import vuetify from 'vite-plugin-vuetify'
 
 export default defineConfig({
-  base: '/dashboard/vue-vuetify/',
+  base: '/spa-dashboards/vue-vuetify/',
   build: { chunkSizeWarningLimit: 650 },
   plugins: [vue(), vuetify({ autoImport: true })],
   test: {

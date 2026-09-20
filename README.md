@@ -1,9 +1,9 @@
-# Meridian dashboards
+# SPA Dashboards
 
 Meridian is a portfolio operations dashboard implemented three ways for a
 side-by-side frontend framework comparison.
 
-Live comparison: <https://natalie-o-perret.github.io/dashboard/>
+Live comparison: <https://natalie-o-perret.github.io/spa-dashboards/>
 
 - [Angular Material](./angular-material/)
 - [React and MUI](./react-mui/)

@@ -2,7 +2,7 @@
 
 The Angular Material version of Meridian, a shared portfolio-operations dashboard used to compare frontend frameworks side by side.
 
-Live site: <https://natalie-o-perret.github.io/dashboard/angular-material/>
+Live site: <https://natalie-o-perret.github.io/spa-dashboards/angular-material/>
 
 ## Features
 
