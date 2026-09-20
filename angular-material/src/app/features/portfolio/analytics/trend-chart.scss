@@ -1,0 +1,41 @@
+.chart-line {
+  fill: none;
+  stroke: var(--accent);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 3;
+}
+.chart-point {
+  circle {
+    fill: var(--surface);
+    stroke: var(--accent);
+    stroke-width: 3;
+  }
+  text {
+    fill: var(--muted);
+    font-family: var(--body-font);
+    font-size: 10px;
+    font-weight: 600;
+  }
+  &.latest circle {
+    fill: var(--accent);
+    stroke: var(--surface);
+    stroke-width: 4;
+  }
+}
+.visually-hidden {
+  position: absolute;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  border: 0;
+  margin: -1px;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+@media (max-width: 37.4375rem) {
+  .panel {
+    padding: 18px;
+  }
+}

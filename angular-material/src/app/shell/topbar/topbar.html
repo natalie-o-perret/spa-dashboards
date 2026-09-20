@@ -1,0 +1,35 @@
+<mat-toolbar class="topbar" role="banner">
+  <div class="topbar-start">
+    <button
+      mat-icon-button
+      class="menu-button"
+      type="button"
+      aria-label="Open navigation"
+      aria-controls="mobile-navigation"
+      [attr.aria-expanded]="drawerOpen()"
+      (click)="openNavigation.emit()"
+    >
+      <mat-icon>menu</mat-icon>
+    </button>
+    <div class="topbar-title">
+      <time datetime="2026-09-18">Friday, 18 September</time>
+      <strong>Portfolio overview</strong>
+    </div>
+  </div>
+
+  <div class="topbar-actions">
+    <span class="sync-status"><i aria-hidden="true"></i> Last synced 8 min ago</span>
+    <button
+      mat-icon-button
+      type="button"
+      data-testid="theme-toggle"
+      [attr.aria-label]="darkTheme() ? 'Use light theme' : 'Use dark theme'"
+      [attr.aria-pressed]="darkTheme()"
+      [matTooltip]="darkTheme() ? 'Use light theme' : 'Use dark theme'"
+      (click)="toggleTheme.emit()"
+    >
+      <mat-icon>{{ darkTheme() ? 'light_mode' : 'dark_mode' }}</mat-icon>
+    </button>
+    <span class="avatar" aria-label="Signed in as Maya Chen">MC</span>
+  </div>
+</mat-toolbar>

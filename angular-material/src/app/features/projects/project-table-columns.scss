@@ -1,0 +1,74 @@
+.select-column {
+  width: 54px;
+  padding-right: 4px;
+}
+.mat-column-name {
+  width: 21%;
+  min-width: 205px;
+}
+.mat-column-owner {
+  min-width: 125px;
+}
+.mat-column-status {
+  min-width: 112px;
+}
+.mat-column-priority {
+  min-width: 92px;
+}
+.mat-column-progress {
+  width: 17%;
+  min-width: 150px;
+}
+.mat-column-due {
+  min-width: 118px;
+}
+.mat-column-budget {
+  min-width: 100px;
+}
+.budget-cell,
+time {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.budget-cell {
+  font-weight: 650;
+}
+.no-results-row td {
+  height: 250px;
+  text-align: center;
+  mat-icon,
+  strong,
+  span {
+    display: block;
+    margin-inline: auto;
+  }
+  mat-icon {
+    width: 28px;
+    height: 28px;
+    color: var(--quiet);
+    font-size: 28px;
+  }
+  strong {
+    margin-top: 10px;
+    font-size: 13px;
+  }
+  span {
+    margin-top: 5px;
+    color: var(--muted);
+    font-size: 11px;
+  }
+  button {
+    margin-top: 10px;
+  }
+}
+.visually-hidden {
+  position: absolute;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  border: 0;
+  margin: -1px;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}

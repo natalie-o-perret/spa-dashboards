@@ -1,0 +1,41 @@
+<a class="skip-link" href="#main-content">Skip to dashboard content</a>
+
+<mat-sidenav-container class="app-frame">
+  <mat-sidenav
+    #drawer
+    id="mobile-navigation"
+    class="mobile-drawer"
+    mode="over"
+    [fixedInViewport]="true"
+    aria-label="Mobile navigation"
+  >
+    <app-navigation [mobile]="true" (navigate)="drawer.close()" />
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <div class="shell">
+      <aside class="desktop-sidebar" aria-label="Primary navigation">
+        <app-navigation (navigate)="drawer.close()" />
+      </aside>
+
+      <div class="workspace">
+        <app-topbar
+          [darkTheme]="darkTheme()"
+          [drawerOpen]="drawer.opened"
+          (openNavigation)="drawer.open()"
+          (toggleTheme)="toggleTheme()"
+        />
+
+        <main id="main-content" class="dashboard" tabindex="-1">
+          <app-overview />
+          <app-analytics />
+          <app-projects />
+          <footer class="page-footer">
+            <span>Meridian / Portfolio operations</span>
+            <span>Static demo data / Updated 18 September 2026</span>
+          </footer>
+        </main>
+      </div>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

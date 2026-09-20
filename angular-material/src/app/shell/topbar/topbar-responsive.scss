@@ -1,0 +1,24 @@
+@media (max-width: 59.9375rem) {
+  .menu-button {
+    display: inline-flex;
+  }
+
+  .topbar {
+    padding-inline: 14px 18px;
+  }
+}
+
+@media (max-width: 37.4375rem) {
+  .topbar-title time,
+  .sync-status {
+    display: none;
+  }
+
+  .topbar-title strong {
+    margin-top: 0;
+  }
+
+  .topbar-actions {
+    gap: 3px;
+  }
+}
