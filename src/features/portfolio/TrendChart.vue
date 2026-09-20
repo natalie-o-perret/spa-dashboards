@@ -1,14 +1,5 @@
 <script setup lang="ts">
-const delivery = [
-  { week: 'W31', value: 62 },
-  { week: 'W32', value: 68 },
-  { week: 'W33', value: 66 },
-  { week: 'W34', value: 73 },
-  { week: 'W35', value: 78 },
-  { week: 'W36', value: 81 },
-  { week: 'W37', value: 86 },
-  { week: 'W38', value: 91 },
-] as const
+import { delivery } from './data'
 
 const plot = { left: 48, right: 712, top: 18, bottom: 208 }
 const ticks = [50, 75, 100]
@@ -65,4 +56,4 @@ const accessibleValues = delivery.map((point) => `${point.week}: ${point.value}%
   </figure>
 </template>
 
-<style scoped src="../styles/trend-chart.css"></style>
+<style scoped src="./styles/trend-chart.css"></style>

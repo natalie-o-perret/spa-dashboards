@@ -1,12 +1,6 @@
 <script setup lang="ts">
+import { teamCapacity } from './data'
 import TrendChart from './TrendChart.vue'
-
-const teamCapacity = [
-  { name: 'Design', value: 82, people: 6 },
-  { name: 'Engineering', value: 76, people: 12 },
-  { name: 'Research', value: 64, people: 4 },
-  { name: 'Content', value: 58, people: 5 },
-]
 </script>
 
 <template>

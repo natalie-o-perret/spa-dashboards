@@ -1,25 +1,5 @@
 <script setup lang="ts">
-const metrics = [
-  {
-    label: 'Active projects',
-    value: '15',
-    detail: '3 due this month',
-    icon: 'mdi-briefcase-outline',
-  },
-  {
-    label: 'On-time delivery',
-    value: '91%',
-    detail: 'Up 4 points',
-    icon: 'mdi-check-decagram-outline',
-  },
-  { label: 'Budget used', value: '68%', detail: '€482k of €710k', icon: 'mdi-wallet-outline' },
-  {
-    label: 'Team capacity',
-    value: '76%',
-    detail: '27 contributors',
-    icon: 'mdi-account-multiple-outline',
-  },
-]
+import { metrics } from './data'
 </script>
 
 <template>

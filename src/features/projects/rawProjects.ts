@@ -1,18 +1,4 @@
-export type ProjectStatus = 'On track' | 'At risk' | 'Blocked' | 'Complete'
-export type ProjectPriority = 'Critical' | 'High' | 'Medium' | 'Low'
-
-export interface Project {
-  id: number
-  name: string
-  owner: string
-  status: ProjectStatus
-  priority: ProjectPriority
-  progress: number
-  due: string
-  budget: number
-}
-
-export const projects: readonly Project[] = [
+export const rawProjects = [
   {
     id: 1,
     name: 'Aurora mobile refresh',
@@ -193,4 +179,4 @@ export const projects: readonly Project[] = [
     due: '2026-10-11',
     budget: 39000,
   },
-]
+] as const

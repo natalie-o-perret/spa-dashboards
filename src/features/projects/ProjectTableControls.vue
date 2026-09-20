@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { StatusFilter, TableDensity } from '../table/config'
-import { statusOptions } from '../table/config'
+import type { StatusFilter, TableDensity } from './tableConfig'
+import { statusOptions } from './tableConfig'
 
 const search = defineModel<string>('search', { required: true })
 const status = defineModel<StatusFilter>('status', { required: true })
@@ -50,4 +50,4 @@ defineEmits<{ clear: [] }>()
   </div>
 </template>
 
-<style scoped src="../styles/project-controls.css"></style>
+<style scoped src="./styles/project-controls.css"></style>

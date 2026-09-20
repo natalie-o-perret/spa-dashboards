@@ -1,4 +1,4 @@
-import type { Project } from '../data/projects'
+import type { Project } from './projectSchema'
 
 export function exportProjects(projects: readonly Project[]) {
   if (!projects.length) return

@@ -3,8 +3,7 @@
 }
 
 .metric-card,
-.panel-card,
-.table-card {
+.panel-card {
   border: 1px solid rgb(var(--v-theme-divider)) !important;
   border-radius: 16px !important;
   background: rgb(var(--v-theme-surface)) !important;

@@ -1,5 +1,5 @@
 import type { DataTableHeader } from 'vuetify'
-import type { Project, ProjectPriority, ProjectStatus } from '../data/projects'
+import type { Project, ProjectPriority, ProjectStatus } from './projectSchema'
 
 export type StatusFilter = 'All statuses' | ProjectStatus
 export type TableDensity = 'comfortable' | 'compact'

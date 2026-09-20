@@ -10,6 +10,7 @@ Live site: <https://natalie-o-perret.github.io/dashboard-vue-vuetify/>
 - Vue 3 with the Composition API and TypeScript
 - Vuetify 4
 - Vite 8
+- Effect 3 for runtime schemas and domain types
 - Vitest and Vue Test Utils
 - ESLint and Prettier
 
@@ -18,6 +19,12 @@ delivery chart, team capacity, and a searchable project table with status
 filtering, sorting, page selection, pagination, density controls, and CSV export.
 All data is local and illustrative. The app has no API, router, chart dependency,
 or client-side state library.
+
+## Architecture
+
+The app uses feature-first vertical slices. `shell` owns navigation and theming,
+while `portfolio` and `projects` own their data, domain rules, UI, and tests.
+Project fixtures are decoded into branded domain values with Effect Schema.
 
 ## Local development
 
@@ -34,11 +41,8 @@ Vite prints the local development URL. The production site uses the
 ## Checks
 
 ```sh
-npm run format:check
-npm run lint
-npm run test
-npm run typecheck
-npm run build
+npm run check
+npm run build:pages
 ```
 
 Use `npm run format` to apply Prettier formatting. Production output is written

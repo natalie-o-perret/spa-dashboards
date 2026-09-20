@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { DataTableSortItem } from 'vuetify'
-import type { Project } from '../data/projects'
-import type { TableDensity } from '../table/config'
-import { headers, itemsPerPageOptions, priorityColors, statusColors } from '../table/config'
-import { formatBudget, formatDate } from '../table/format'
+import { formatBudget, formatDate } from './format'
+import type { Project } from './projectSchema'
+import type { TableDensity } from './tableConfig'
+import { headers, itemsPerPageOptions, priorityColors, statusColors } from './tableConfig'
 defineProps<{
   selected: number[]
   itemsPerPage: number
@@ -97,4 +97,4 @@ defineEmits<{
   </div>
 </template>
 
-<style scoped src="../styles/project-data.css"></style>
+<style scoped src="./styles/project-data.css"></style>

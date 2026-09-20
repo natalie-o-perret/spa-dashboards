@@ -77,15 +77,3 @@
   font-size: 0.7rem;
   font-variant-numeric: tabular-nums;
 }
-
-.projects-section {
-  margin-top: 16px;
-}
-
-.dashboard-footer {
-  display: flex;
-  justify-content: space-between;
-  padding: 22px 3px 3px;
-  color: rgb(var(--v-theme-on-surface-variant));
-  font-size: 0.68rem;
-}
