@@ -7,7 +7,7 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import { DarkModeRounded, LightModeRounded } from '@mui/icons-material';
+import { DarkModeRounded, GitHub, LightModeRounded } from '@mui/icons-material';
 
 interface TopBarActionsProps {
   mode: PaletteMode;
@@ -43,6 +43,17 @@ export default function TopBarActions({
           Last synced 8 min ago
         </Typography>
       </Stack>
+      <Tooltip title="View source on GitHub">
+        <IconButton
+          component="a"
+          href="https://github.com/natalie-o-perret/spa-dashboards/tree/main/react-mui"
+          target="_blank"
+          rel="noreferrer"
+          aria-label="View React MUI source on GitHub"
+        >
+          <GitHub />
+        </IconButton>
+      </Tooltip>
       <Tooltip title={`Use ${nextMode} theme`}>
         <IconButton onClick={onToggleMode} aria-label={`Use ${nextMode} theme`}>
           {mode === 'light' ? <DarkModeRounded /> : <LightModeRounded />}

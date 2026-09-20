@@ -35,6 +35,15 @@ function toggleTheme() {
     <template #append>
       <span class="sync-status"><i aria-hidden="true"></i>Last synced 8 min ago</span>
       <v-btn
+        href="https://github.com/natalie-o-perret/spa-dashboards/tree/main/vue-vuetify"
+        target="_blank"
+        rel="noreferrer"
+        icon="mdi-github"
+        aria-label="View Vue Vuetify source on GitHub"
+        title="View source on GitHub"
+        variant="text"
+      />
+      <v-btn
         class="theme-toggle"
         :icon="isDark ? 'mdi-white-balance-sunny' : 'mdi-weather-night'"
         :aria-label="themeActionLabel"
