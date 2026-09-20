@@ -3,7 +3,7 @@
 Meridian is a static portfolio operations dashboard and the Vue + Vuetify entry
 in a side-by-side Angular Material, React MUI, and Vue Vuetify comparison.
 
-Live site: <https://natalie-o-perret.github.io/dashboard-vue-vuetify/>
+Live site: <https://natalie-o-perret.github.io/dashboard/vue-vuetify/>
 
 ## Stack
 
@@ -36,7 +36,7 @@ npm run dev
 ```
 
 Vite prints the local development URL. The production site uses the
-`/dashboard-vue-vuetify/` base path.
+`/dashboard/vue-vuetify/` base path.
 
 ## Checks
 
