@@ -1,4 +1,12 @@
-import { Box, Button, Card, Divider, Stack, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Card,
+  Divider,
+  Stack,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 import { DownloadRounded } from '@mui/icons-material';
 import ProjectsDataTable from './ProjectsDataTable';
 import ProjectsPagination from './ProjectsPagination';
@@ -31,15 +39,19 @@ export default function ProjectsTable() {
             18 projects across the current portfolio
           </Typography>
         </Box>
-        <Button
-          variant="contained"
-          startIcon={<DownloadRounded />}
-          onClick={table.exportCsv}
-          disabled={table.rows.length === 0}
-          sx={{ alignSelf: { sm: 'center' } }}
-        >
-          Export CSV
-        </Button>
+        <Tooltip title="Export all matching projects as CSV">
+          <Box component="span" sx={{ alignSelf: { sm: 'center' } }}>
+            <Button
+              variant="contained"
+              startIcon={<DownloadRounded />}
+              onClick={table.exportCsv}
+              disabled={table.rows.length === 0}
+              sx={{ width: { xs: '100%', sm: 'auto' } }}
+            >
+              Export CSV
+            </Button>
+          </Box>
+        </Tooltip>
       </Stack>
       <Divider />
       <ProjectsToolbar table={table} />

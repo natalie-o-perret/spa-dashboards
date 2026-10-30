@@ -13,30 +13,26 @@ function isValidCalendarDate(value: string) {
   return year > 0 && day >= 1 && day <= (daysInMonth[month - 1] ?? 0)
 }
 
-export const ProjectId = Schema.Number.pipe(
-  Schema.int(),
-  Schema.greaterThan(0),
+export const ProjectId = Schema.Number.check(Schema.isInt(), Schema.isGreaterThan(0)).pipe(
   Schema.brand('ProjectId'),
 )
-export const ProjectStatus = Schema.Literal('On track', 'At risk', 'Blocked', 'Complete')
-export const ProjectPriority = Schema.Literal('Critical', 'High', 'Medium', 'Low')
-export const ProjectName = Schema.Trim.pipe(Schema.nonEmptyString(), Schema.brand('ProjectName'))
-export const ProjectOwner = Schema.Trim.pipe(Schema.nonEmptyString(), Schema.brand('ProjectOwner'))
-export const Progress = Schema.Number.pipe(
-  Schema.int(),
-  Schema.between(0, 100),
-  Schema.brand('Progress'),
+export const ProjectStatus = Schema.Literals(['On track', 'At risk', 'Blocked', 'Complete'])
+export const ProjectPriority = Schema.Literals(['Critical', 'High', 'Medium', 'Low'])
+export const ProjectName = Schema.Trim.check(Schema.isNonEmpty()).pipe(Schema.brand('ProjectName'))
+export const ProjectOwner = Schema.Trim.check(Schema.isNonEmpty()).pipe(
+  Schema.brand('ProjectOwner'),
 )
-export const Budget = Schema.Number.pipe(
-  Schema.int(),
-  Schema.greaterThanOrEqualTo(0),
+export const Progress = Schema.Number.check(
+  Schema.isInt(),
+  Schema.isBetween({ minimum: 0, maximum: 100 }),
+).pipe(Schema.brand('Progress'))
+export const Budget = Schema.Number.check(Schema.isInt(), Schema.isGreaterThanOrEqualTo(0)).pipe(
   Schema.brand('Budget'),
 )
-export const DueDate = Schema.String.pipe(
-  Schema.pattern(dateOnlyPattern),
-  Schema.filter(isValidCalendarDate, { identifier: 'DueDate' }),
-  Schema.brand('DueDate'),
-)
+export const DueDate = Schema.String.check(
+  Schema.isPattern(dateOnlyPattern),
+  Schema.makeFilter(isValidCalendarDate, { identifier: 'DueDate' }),
+).pipe(Schema.brand('DueDate'))
 
 export const ProjectSchema = Schema.Struct({
   id: ProjectId,
@@ -48,8 +44,8 @@ export const ProjectSchema = Schema.Struct({
   due: DueDate,
   budget: Budget,
 })
-export const ProjectListSchema = Schema.Array(ProjectSchema).pipe(
-  Schema.filter((projects) => new Set(projects.map(({ id }) => id)).size === projects.length, {
+export const ProjectListSchema = Schema.Array(ProjectSchema).check(
+  Schema.makeFilter((projects) => new Set(projects.map(({ id }) => id)).size === projects.length, {
     identifier: 'UniqueProjectIds',
   }),
 )

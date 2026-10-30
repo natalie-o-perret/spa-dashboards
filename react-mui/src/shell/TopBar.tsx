@@ -1,28 +1,32 @@
 import type { RefObject } from 'react';
-import type { PaletteMode } from '@mui/material';
+import type { ThemeMode } from './ThemeShell';
 import {
   alpha,
   AppBar,
   Box,
+  Button,
+  Chip,
   IconButton,
-  Stack,
   Toolbar,
   Tooltip,
-  Typography,
 } from '@mui/material';
-import { MenuRounded } from '@mui/icons-material';
+import {
+  ArrowBackRounded,
+  AutoAwesomeRounded,
+  MenuRounded,
+} from '@mui/icons-material';
 import TopBarActions from './TopBarActions';
 
 interface TopBarProps {
-  mode: PaletteMode;
+  mode: ThemeMode;
   mobileOpen: boolean;
   menuButtonRef: RefObject<HTMLButtonElement | null>;
   onMenu: () => void;
-  onToggleMode: () => void;
+  onModeChange: (mode: ThemeMode) => void;
 }
 
 export default function TopBar(props: TopBarProps) {
-  const { mode, mobileOpen, menuButtonRef, onMenu, onToggleMode } = props;
+  const { mode, mobileOpen, menuButtonRef, onMenu, onModeChange } = props;
   return (
     <AppBar
       position="sticky"
@@ -55,31 +59,43 @@ export default function TopBar(props: TopBarProps) {
             <MenuRounded />
           </IconButton>
         </Tooltip>
-        <Stack spacing={0} sx={{ minWidth: 0, alignItems: 'flex-start' }}>
-          <Typography
-            noWrap
+        <Tooltip title="Compare all four dashboards">
+          <Button
+            component="a"
+            href="../"
+            size="small"
+            color="inherit"
+            startIcon={<ArrowBackRounded />}
             sx={{
-              display: { xs: 'none', sm: 'block' },
               color: 'text.secondary',
-              fontSize: '0.625rem',
-              lineHeight: 1.25,
+              fontSize: '0.75rem',
+              whiteSpace: 'nowrap',
+              flexShrink: 0,
             }}
           >
-            Friday, 18 September
-          </Typography>
-          <Typography
-            noWrap
+            All dashboards
+          </Button>
+        </Tooltip>
+        <Tooltip title="Built with React and MUI">
+          <Chip
+            size="small"
+            icon={<AutoAwesomeRounded />}
+            label="React + MUI"
             sx={{
-              mt: { xs: 0, sm: 0.25 },
-              fontSize: { xs: '0.8125rem', sm: '0.875rem' },
-              fontWeight: 750,
+              display: { xs: 'none', sm: 'inline-flex' },
+              flexShrink: 0,
+              borderRadius: 1.5,
+              color: (theme) =>
+                theme.palette.mode === 'light'
+                  ? theme.palette.primary.dark
+                  : theme.palette.primary.main,
+              bgcolor: (theme) => alpha(theme.palette.primary.main, 0.1),
+              '& .MuiChip-icon': { color: 'inherit', fontSize: 14 },
             }}
-          >
-            Portfolio overview
-          </Typography>
-        </Stack>
+          />
+        </Tooltip>
         <Box sx={{ flexGrow: 1 }} />
-        <TopBarActions mode={mode} onToggleMode={onToggleMode} />
+        <TopBarActions mode={mode} onModeChange={onModeChange} />
       </Toolbar>
     </AppBar>
   );

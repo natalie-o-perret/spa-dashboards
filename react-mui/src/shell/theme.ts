@@ -3,11 +3,11 @@ import { themeComponents } from './themeComponents';
 
 export function createMeridianTheme(mode: PaletteMode) {
   const dark = mode === 'dark';
-  const primary = dark ? '#8bb4ff' : '#2563eb';
-  const surface = dark ? '#171e2a' : '#ffffff';
-  const subtle = dark ? '#1b2432' : '#f8f9fb';
-  const secondaryText = dark ? '#aeb8c8' : '#637083';
-  const divider = dark ? '#303845' : '#e5e8ed';
+  const primary = dark ? '#22d3ee' : '#006b85';
+  const surface = dark ? '#18191c' : '#fbfeff';
+  const subtle = dark ? '#202125' : '#eaf7fa';
+  const secondaryText = dark ? '#b5b8c0' : '#526871';
+  const divider = dark ? '#34363c' : '#cfe5eb';
 
   return createTheme({
     breakpoints: {
@@ -15,16 +15,16 @@ export function createMeridianTheme(mode: PaletteMode) {
     },
     palette: {
       mode,
-      primary: { main: primary, contrastText: dark ? '#0b1220' : '#ffffff' },
-      background: { default: dark ? '#0f141d' : '#f5f7fa', paper: surface },
+      primary: { main: primary, contrastText: dark ? '#101113' : '#ffffff' },
+      background: { default: dark ? '#0d0e10' : '#f0fbfd', paper: surface },
       text: {
-        primary: dark ? '#f2f5fa' : '#172033',
+        primary: dark ? '#f3f4f6' : '#102f3a',
         secondary: secondaryText,
       },
       divider,
-      success: { main: dark ? '#71d49a' : '#17834f' },
-      warning: { main: dark ? '#f4bd62' : '#a85a0a' },
-      error: { main: dark ? '#ff8c8c' : '#c33b3b' },
+      success: { main: dark ? '#71d49a' : '#137344' },
+      warning: { main: dark ? '#f4bd62' : '#8f4906' },
+      error: { main: dark ? '#ffadb5' : '#ad2737' },
       info: { main: dark ? '#9ecaff' : '#32658a' },
       action: {
         hover: subtle,

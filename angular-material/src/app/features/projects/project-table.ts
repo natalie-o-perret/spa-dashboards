@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { formatBudget, formatDate } from './project-format';
 import { Project } from './project.schema';
 import { Density } from './project-table.types';
@@ -18,6 +19,7 @@ import { Density } from './project-table.types';
     MatProgressBarModule,
     MatSortModule,
     MatTableModule,
+    MatTooltipModule,
   ],
   selector: 'app-project-table',
   styleUrls: [

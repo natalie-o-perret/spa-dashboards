@@ -6,10 +6,19 @@ import { App } from './app';
 describe('App', () => {
   let storage: Storage;
   let breakpoint: ReplaySubject<BreakpointState>;
+  let systemTheme: MediaQueryList;
 
-  afterEach(() => vi.restoreAllMocks());
+  afterEach(() => {
+    vi.restoreAllMocks();
+    vi.unstubAllGlobals();
+  });
 
   beforeEach(async () => {
+    systemTheme = Object.assign(new EventTarget(), { matches: false }) as MediaQueryList;
+    vi.stubGlobal(
+      'matchMedia',
+      vi.fn(() => systemTheme),
+    );
     breakpoint = new ReplaySubject<BreakpointState>(1);
     breakpoint.next({ matches: false, breakpoints: { '(min-width: 960px)': false } });
     const values = new Map<string, string>();
@@ -161,8 +170,69 @@ describe('App', () => {
     toggle.click();
     fixture.detectChanges();
     await fixture.whenStable();
+    expect(storage.getItem('meridian-theme')).toBe('system');
+    expect(toggle.getAttribute('aria-label')).toBe('Theme: System. Switch to light theme');
+    toggle.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
 
     expect(storage.getItem('meridian-theme')).toBe('light');
-    expect(toggle.getAttribute('aria-label')).toBe('Use dark theme');
+    expect(document.documentElement.classList.contains('dark-theme')).toBe(false);
+    expect(toggle.getAttribute('aria-label')).toBe('Theme: Light. Switch to dark theme');
+    toggle.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(storage.getItem('meridian-theme')).toBe('dark');
+    expect(toggle.getAttribute('aria-label')).toBe('Theme: Dark. Switch to system theme');
+  });
+
+  it.each([null, 'invalid', 'system'])(
+    'follows OS changes for the default preference %s',
+    async (saved) => {
+      if (saved) storage.setItem('meridian-theme', saved);
+      const removeListener = vi.spyOn(systemTheme, 'removeEventListener');
+      const fixture = TestBed.createComponent(App);
+      fixture.detectChanges();
+      await fixture.whenStable();
+      expect(storage.getItem('meridian-theme')).toBe('system');
+      expect(document.documentElement.classList.contains('dark-theme')).toBe(false);
+
+      systemTheme.dispatchEvent(Object.assign(new Event('change'), { matches: true }));
+      fixture.detectChanges();
+      await fixture.whenStable();
+      expect(document.documentElement.classList.contains('dark-theme')).toBe(true);
+      expect(storage.getItem('meridian-theme')).toBe('system');
+
+      fixture.destroy();
+      expect(removeListener).toHaveBeenCalledWith('change', expect.any(Function));
+    },
+  );
+
+  it('keeps explicit themes independent from the OS', async () => {
+    storage.setItem('meridian-theme', 'light');
+    const fixture = TestBed.createComponent(App);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    systemTheme.dispatchEvent(Object.assign(new Event('change'), { matches: true }));
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(document.documentElement.classList.contains('dark-theme')).toBe(false);
+    expect(storage.getItem('meridian-theme')).toBe('light');
+  });
+
+  it('follows the OS when storage is blocked', async () => {
+    Object.defineProperty(document.defaultView, 'localStorage', {
+      configurable: true,
+      get() {
+        throw new Error('Storage blocked');
+      },
+    });
+    const fixture = TestBed.createComponent(App);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    systemTheme.dispatchEvent(Object.assign(new Event('change'), { matches: true }));
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(document.documentElement.classList.contains('dark-theme')).toBe(true);
   });
 });

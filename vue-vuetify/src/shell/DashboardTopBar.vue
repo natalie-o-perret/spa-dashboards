@@ -6,13 +6,25 @@ defineProps<{ drawerOpen: boolean; mobile: boolean }>()
 defineEmits<{ toggleDrawer: [] }>()
 
 const theme = useTheme()
-const isDark = computed(() => theme.global.name.value === 'meridianDark')
-const themeActionLabel = computed(() => (isDark.value ? 'Use light theme' : 'Use dark theme'))
+const choices = [
+  { value: 'light', label: 'Light', icon: 'mdi-white-balance-sunny' },
+  { value: 'dark', label: 'Dark', icon: 'mdi-weather-night' },
+  { value: 'system', label: 'System', icon: 'mdi-monitor' },
+] as const
+const preference = computed(() =>
+  theme.isSystem.value ? 'system' : theme.current.value.dark ? 'dark' : 'light',
+)
+const current = computed(() => choices.find((choice) => choice.value === preference.value)!)
+const next = computed(() => choices[(choices.indexOf(current.value) + 1) % choices.length]!)
+const themeActionLabel = computed(
+  () => `Theme: ${current.value.label}. Switch to ${next.value.label.toLowerCase()} theme`,
+)
 
-function toggleTheme() {
-  theme.global.name.value = isDark.value ? 'meridianLight' : 'meridianDark'
+function cycleTheme() {
+  const mode = next.value.value
+  void theme.change(mode)
   try {
-    globalThis.localStorage.setItem('meridian-theme', isDark.value ? 'dark' : 'light')
+    globalThis.localStorage.setItem('meridian-theme', mode)
   } catch {
     // Keep the selected theme for this session when storage is unavailable.
   }
@@ -23,15 +35,30 @@ function toggleTheme() {
   <v-app-bar class="top-bar" :inert="drawerOpen && mobile" flat height="72">
     <v-app-bar-nav-icon
       v-if="mobile"
+      v-tooltip:bottom="{ text: 'Open navigation', id: 'open-navigation-tooltip' }"
       :aria-label="drawerOpen ? 'Close navigation' : 'Open navigation'"
       aria-controls="mobile-navigation"
       :aria-expanded="drawerOpen"
       @click="$emit('toggleDrawer')"
     />
-    <div class="top-bar__heading">
-      <span>Friday, 18 September</span>
-      <strong>Portfolio overview</strong>
-    </div>
+    <v-btn
+      class="comparison-link"
+      v-tooltip:bottom="{ text: 'Compare all four dashboards', id: 'all-dashboards-tooltip' }"
+      href="../"
+      prepend-icon="mdi-arrow-left"
+      size="small"
+      variant="text"
+      >All dashboards</v-btn
+    >
+    <v-chip
+      class="framework-badge"
+      v-tooltip:bottom="{ text: 'Built with Vue and Vuetify', id: 'framework-tooltip' }"
+      prepend-icon="mdi-vuejs"
+      color="primary"
+      size="small"
+      variant="tonal"
+      >Vue + Vuetify</v-chip
+    >
     <template #append>
       <span class="sync-status"><i aria-hidden="true"></i>Last synced 8 min ago</span>
       <v-btn
@@ -40,17 +67,16 @@ function toggleTheme() {
         rel="noreferrer"
         icon="mdi-github"
         aria-label="View Vue Vuetify source on GitHub"
-        title="View source on GitHub"
+        v-tooltip:bottom="{ text: 'View source on GitHub', id: 'source-tooltip' }"
         variant="text"
       />
       <v-btn
         class="theme-toggle"
-        :icon="isDark ? 'mdi-white-balance-sunny' : 'mdi-weather-night'"
+        :icon="current.icon"
         :aria-label="themeActionLabel"
-        :aria-pressed="isDark"
-        :title="themeActionLabel"
+        v-tooltip:bottom="{ text: themeActionLabel, id: 'theme-tooltip' }"
         variant="text"
-        @click="toggleTheme"
+        @click="cycleTheme"
       />
       <v-avatar
         class="account-avatar"
@@ -58,6 +84,7 @@ function toggleTheme() {
         size="36"
         role="img"
         aria-label="Signed in as Maya Chen"
+        v-tooltip:bottom="{ text: 'Demo workspace: Maya Chen', id: 'workspace-tooltip' }"
       >
         MC
       </v-avatar>

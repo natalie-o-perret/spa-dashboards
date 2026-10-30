@@ -10,12 +10,18 @@
 }
 
 html {
-  min-width: 320px;
+  --scrollbar-thumb: color-mix(
+    in srgb,
+    rgb(var(--v-theme-primary)) 55%,
+    rgb(var(--v-theme-on-surface-variant))
+  );
+  --scrollbar-hover: rgb(var(--v-theme-primary));
+  min-width: min(320px, 100%);
   scroll-padding-top: 88px;
 }
 
 body {
-  min-width: 320px;
+  min-width: min(320px, 100%);
   min-height: 100vh;
   margin: 0;
   overflow-x: hidden;
@@ -24,6 +30,40 @@ body {
 
 #app {
   min-height: 100vh;
+}
+
+@media (forced-colors: none) {
+  @supports not selector(::-webkit-scrollbar) {
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: var(--scrollbar-thumb) transparent;
+    }
+  }
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-thumb {
+    border: 2px solid transparent;
+    border-radius: 999px;
+    background: var(--scrollbar-thumb);
+    background-clip: padding-box;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    border-width: 1px;
+    background-color: var(--scrollbar-hover);
+  }
+  ::-webkit-scrollbar-thumb:active {
+    background-color: CanvasText;
+    background-clip: border-box;
+  }
+  ::-webkit-scrollbar-track,
+  ::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-button {
+    display: none;
+  }
 }
 
 h1,
@@ -38,7 +78,7 @@ button,
   -webkit-tap-highlight-color: transparent;
 }
 
-:focus-visible {
+:focus-visible:not(.v-field input) {
   outline: 3px solid rgb(var(--v-theme-primary)) !important;
   outline-offset: 3px !important;
 }

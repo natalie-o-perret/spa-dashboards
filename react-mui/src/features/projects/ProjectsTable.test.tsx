@@ -11,7 +11,7 @@ describe('projects table', () => {
 
     render(
       <ThemeProvider theme={createMeridianTheme('light')}>
-        <App mode="light" onToggleMode={vi.fn()} />
+        <App mode="light" onModeChange={vi.fn()} />
       </ThemeProvider>,
     );
 

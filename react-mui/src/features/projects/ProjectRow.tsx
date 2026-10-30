@@ -1,4 +1,10 @@
-import { Checkbox, TableCell, TableRow, Typography } from '@mui/material';
+import {
+  Checkbox,
+  TableCell,
+  TableRow,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 import type { Project } from './projectSchema';
 import { formatBudget, formatDate } from './projectTableData';
 import ProjectStatusCells from './ProjectStatusCells';
@@ -17,11 +23,13 @@ export default function ProjectRow({
   return (
     <TableRow hover selected={selected}>
       <TableCell padding="checkbox">
-        <Checkbox
-          checked={selected}
-          onChange={onToggle}
-          slotProps={{ input: { 'aria-label': `Select ${project.name}` } }}
-        />
+        <Tooltip title={`${selected ? 'Deselect' : 'Select'} ${project.name}`}>
+          <Checkbox
+            checked={selected}
+            onChange={onToggle}
+            slotProps={{ input: { 'aria-label': `Select ${project.name}` } }}
+          />
+        </Tooltip>
       </TableCell>
       <TableCell component="th" scope="row">
         <Typography sx={{ fontWeight: 700, whiteSpace: 'nowrap' }}>

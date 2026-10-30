@@ -27,20 +27,18 @@
   padding-inline: 28px;
 }
 
-.top-bar__heading {
-  display: grid;
-}
-
-.top-bar__heading span {
+.comparison-link {
   color: rgb(var(--v-theme-on-surface-variant));
-  font-size: 0.66rem;
-  font-weight: 700;
+  font-size: 0.75rem;
+  text-transform: none;
 }
-
-.top-bar__heading strong {
-  margin-top: 2px;
-  font-size: 0.91rem;
-  font-weight: 750;
+.comparison-link .v-icon {
+  font-size: 16px;
+}
+.framework-badge {
+  margin-left: 12px;
+  border-radius: 7px;
+  font-weight: 700;
 }
 
 .sync-status {

@@ -13,6 +13,10 @@ describe('project schema', () => {
   })
 
   it.each([
+    ['zero id', { id: 0 }],
+    ['blank name', { name: '  ' }],
+    ['blank owner', { owner: '  ' }],
+    ['unknown status', { status: 'Unknown' }],
     ['progress', { progress: 101 }],
     ['date', { due: '2026-02-29' }],
     ['year zero', { due: '0000-01-01' }],
@@ -24,5 +28,14 @@ describe('project schema', () => {
   it('rejects duplicate project ids', () => {
     const decodeProjects = Schema.decodeUnknownSync(ProjectListSchema)
     expect(() => decodeProjects([rawProjects[0], rawProjects[0]])).toThrow()
+  })
+
+  it('trims names and owners before validating them', () => {
+    expect(
+      decodeProject({ ...rawProjects[0], name: '  Aurora  ', owner: '  Maya  ' }),
+    ).toMatchObject({
+      name: 'Aurora',
+      owner: 'Maya',
+    })
   })
 })

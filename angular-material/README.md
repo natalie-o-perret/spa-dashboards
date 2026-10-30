@@ -17,7 +17,7 @@ Live site: <https://natalie-o-perret.github.io/spa-dashboards/angular-material/>
 
 - Angular 22 with standalone components and strict TypeScript
 - Angular Material 22 and SCSS
-- Effect 3 for runtime schemas and domain types
+- Effect 4 for runtime schemas and domain types
 - Vitest through Angular's unit-test builder
 - ESLint with angular-eslint and Prettier
 
@@ -27,7 +27,7 @@ The app uses feature-first vertical slices. `shell` owns navigation and the top 
 
 ## Local Development
 
-Use Node 24, the current LTS release line, then install dependencies and start the development server:
+Use Node 24.15+ (or 26+) and npm 12.2.1, then install dependencies and start the development server:
 
 ```bash
 npm ci

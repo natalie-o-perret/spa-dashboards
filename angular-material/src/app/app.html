@@ -20,10 +20,10 @@
 
       <div class="workspace">
         <app-topbar
-          [darkTheme]="darkTheme()"
+          [themePreference]="themePreference()"
           [drawerOpen]="drawer.opened"
           (openNavigation)="drawer.open()"
-          (toggleTheme)="toggleTheme()"
+          (themeChange)="themePreference.set($event)"
         />
 
         <main id="main-content" class="dashboard" tabindex="-1">

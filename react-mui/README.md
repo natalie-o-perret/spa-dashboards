@@ -14,7 +14,7 @@ Meridian is a responsive portfolio operations dashboard and the React + MUI vers
 
 ## Local development
 
-Requires Node.js 24 or newer and npm 12.
+Requires Node.js 24.15+ (or 26+) and npm 12.2.1.
 
 ```sh
 npm ci
@@ -34,7 +34,7 @@ npm run preview
 - React 19 and TypeScript 6
 - Vite 8
 - MUI 9 with Emotion
-- Effect 3 for runtime schemas and domain types
+- Effect 4 for runtime schemas and domain types
 - Vitest and Testing Library
 - ESLint and Prettier
 

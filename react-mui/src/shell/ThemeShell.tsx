@@ -1,36 +1,49 @@
 import { useEffect, useState, type ReactNode } from 'react';
-import { CssBaseline, ThemeProvider, type PaletteMode } from '@mui/material';
+import {
+  CssBaseline,
+  ThemeProvider,
+  useMediaQuery,
+  type PaletteMode,
+} from '@mui/material';
 import { createMeridianTheme } from './theme';
 
 const storageKey = 'meridian-colour-mode';
 
-function initialMode(): PaletteMode {
+export type ThemeMode = PaletteMode | 'system';
+
+function initialMode(): ThemeMode {
   try {
     const savedMode = localStorage.getItem(storageKey);
-    if (savedMode === 'light' || savedMode === 'dark') return savedMode;
+    if (savedMode === 'light' || savedMode === 'dark' || savedMode === 'system')
+      return savedMode;
   } catch {
     // Storage can be disabled while the rest of the app remains usable.
   }
 
-  return window.matchMedia?.('(prefers-color-scheme: dark)').matches
-    ? 'dark'
-    : 'light';
+  return 'system';
 }
 
 interface ThemeShellProps {
   children: (props: {
-    mode: PaletteMode;
-    onToggleMode: () => void;
+    mode: ThemeMode;
+    onModeChange: (mode: ThemeMode) => void;
   }) => ReactNode;
 }
 
 export default function ThemeShell({ children }: ThemeShellProps) {
-  const [mode, setMode] = useState<PaletteMode>(initialMode);
-  const theme = createMeridianTheme(mode);
+  const [mode, setMode] = useState<ThemeMode>(initialMode);
+  const systemDark = useMediaQuery('(prefers-color-scheme: dark)', {
+    noSsr: true,
+  });
+  const resolvedMode =
+    mode === 'system' ? (systemDark ? 'dark' : 'light') : mode;
+  const theme = createMeridianTheme(resolvedMode);
 
   useEffect(() => {
-    document.documentElement.style.colorScheme = mode;
+    document.documentElement.style.colorScheme = resolvedMode;
+  }, [resolvedMode]);
 
+  useEffect(() => {
     try {
       localStorage.setItem(storageKey, mode);
     } catch {
@@ -43,8 +56,7 @@ export default function ThemeShell({ children }: ThemeShellProps) {
       <CssBaseline />
       {children({
         mode,
-        onToggleMode: () =>
-          setMode((current) => (current === 'light' ? 'dark' : 'light')),
+        onModeChange: setMode,
       })}
     </ThemeProvider>
   );

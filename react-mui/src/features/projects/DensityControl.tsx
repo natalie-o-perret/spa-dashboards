@@ -1,4 +1,4 @@
-import { ToggleButton, ToggleButtonGroup } from '@mui/material';
+import { ToggleButton, ToggleButtonGroup, Tooltip } from '@mui/material';
 import type { Density } from './projectTableData';
 
 interface DensityControlProps {
@@ -11,24 +11,26 @@ export default function DensityControl({
   onChange,
 }: DensityControlProps) {
   return (
-    <ToggleButtonGroup
-      exclusive
-      size="small"
-      value={value}
-      onChange={(_, next: Density | null) => next && onChange(next)}
-      aria-label="Table density"
-      sx={{
-        width: { xs: '100%', sm: 190 },
-        height: 40,
-        '& .MuiToggleButton-root': { flex: 1 },
-      }}
-    >
-      <ToggleButton value="comfortable" aria-label="Comfortable density">
-        Comfortable
-      </ToggleButton>
-      <ToggleButton value="compact" aria-label="Compact density">
-        Compact
-      </ToggleButton>
-    </ToggleButtonGroup>
+    <Tooltip title="Choose roomier or compact project rows">
+      <ToggleButtonGroup
+        exclusive
+        size="small"
+        value={value}
+        onChange={(_, next: Density | null) => next && onChange(next)}
+        aria-label="Table density"
+        sx={{
+          width: { xs: '100%', sm: 190 },
+          height: 40,
+          '& .MuiToggleButton-root': { flex: 1 },
+        }}
+      >
+        <ToggleButton value="comfortable" aria-label="Comfortable density">
+          Comfortable
+        </ToggleButton>
+        <ToggleButton value="compact" aria-label="Compact density">
+          Compact
+        </ToggleButton>
+      </ToggleButtonGroup>
+    </Tooltip>
   );
 }

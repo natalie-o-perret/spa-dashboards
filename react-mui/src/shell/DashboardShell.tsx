@@ -1,18 +1,19 @@
 import type { PropsWithChildren } from 'react';
-import { Box, Stack, Typography, type PaletteMode } from '@mui/material';
+import { Box, Stack, Typography } from '@mui/material';
+import type { ThemeMode } from './ThemeShell';
 import NavigationDrawers from './NavigationDrawers';
 import TopBar from './TopBar';
 import { useMobileNavigation } from './useMobileNavigation';
 
 interface DashboardShellProps extends PropsWithChildren {
-  mode: PaletteMode;
-  onToggleMode: () => void;
+  mode: ThemeMode;
+  onModeChange: (mode: ThemeMode) => void;
 }
 
 export default function DashboardShell({
   children,
   mode,
-  onToggleMode,
+  onModeChange,
 }: DashboardShellProps) {
   const navigation = useMobileNavigation();
   return (
@@ -33,7 +34,7 @@ export default function DashboardShell({
             mobileOpen={navigation.mobileOpen}
             menuButtonRef={navigation.menuButtonRef}
             onMenu={() => navigation.setMobileOpen(true)}
-            onToggleMode={onToggleMode}
+            onModeChange={onModeChange}
           />
           <Box
             component="main"

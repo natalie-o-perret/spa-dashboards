@@ -1,7 +1,7 @@
 # Meridian
 
 Meridian is a static portfolio operations dashboard and the Vue + Vuetify entry
-in a side-by-side Angular Material, React MUI, and Vue Vuetify comparison.
+in a side-by-side frontend framework comparison.
 
 Live site: <https://natalie-o-perret.github.io/spa-dashboards/vue-vuetify/>
 
@@ -10,7 +10,7 @@ Live site: <https://natalie-o-perret.github.io/spa-dashboards/vue-vuetify/>
 - Vue 3 with the Composition API and TypeScript
 - Vuetify 4
 - Vite 8
-- Effect 3 for runtime schemas and domain types
+- Effect 4 for runtime schemas and domain types
 - Vitest and Vue Test Utils
 - ESLint and Prettier
 
@@ -28,7 +28,7 @@ Project fixtures are decoded into branded domain values with Effect Schema.
 
 ## Local development
 
-Requires Node.js 20.19, or any release from 22.12 onward.
+Requires Node.js 24.15+ (or 26+) and npm 12.2.1.
 
 ```sh
 npm ci

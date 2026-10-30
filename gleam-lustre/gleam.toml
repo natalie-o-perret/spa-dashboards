@@ -1,0 +1,26 @@
+name = "meridian"
+version = "1.0.0"
+target = "javascript"
+gleam = ">= 1.19.2"
+
+[dependencies]
+gleam_stdlib = ">= 1.0.0 and < 2.0.0"
+gleam_json = ">= 3.1.0 and < 4.0.0"
+lustre = ">= 5.7.1 and < 6.0.0"
+
+[dev-dependencies]
+gleeunit = ">= 1.0.0 and < 2.0.0"
+lustre_dev_tools = ">= 2.4.0 and < 3.0.0"
+
+[tools.lustre.build]
+minify = true
+no_html = true
+
+[tools.lustre.html]
+title = "Meridian | Gleam + Lustre"
+stylesheets = [{ href = "./app.css" }]
+links = [
+  { rel = "icon", href = "./meridian.svg", type = "image/svg+xml" },
+  { rel = "preload", href = "./fonts/manrope-latin-variable.woff2", as = "font", type = "font/woff2", crossorigin = "anonymous" },
+]
+meta = [{ name = "description", content = "Meridian portfolio operations dashboard, built with Gleam and Lustre." }]

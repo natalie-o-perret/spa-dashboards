@@ -1,4 +1,8 @@
 @media (max-width: 59.9375rem) {
+  .sync-status {
+    display: none;
+  }
+
   .menu-button {
     display: inline-flex;
   }
@@ -9,13 +13,10 @@
 }
 
 @media (max-width: 37.4375rem) {
-  .topbar-title time,
+  .framework-badge,
+  .avatar,
   .sync-status {
     display: none;
-  }
-
-  .topbar-title strong {
-    margin-top: 0;
   }
 
   .topbar-actions {
