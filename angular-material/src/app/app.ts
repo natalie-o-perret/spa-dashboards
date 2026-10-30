@@ -6,6 +6,7 @@ import {
   DestroyRef,
   ViewChild,
   effect,
+  computed,
   inject,
   signal,
 } from '@angular/core';
@@ -15,7 +16,7 @@ import { AnalyticsComponent } from './features/portfolio/analytics/analytics';
 import { OverviewComponent } from './features/portfolio/overview/overview';
 import { ProjectsComponent } from './features/projects/projects';
 import { NavigationComponent } from './shell/navigation/navigation';
-import { TopbarComponent } from './shell/topbar/topbar';
+import { TopbarComponent, type ThemePreference } from './shell/topbar/topbar';
 
 const THEME_STORAGE_KEY = 'meridian-theme';
 
@@ -37,16 +38,28 @@ export class App implements AfterViewInit {
   private readonly destroyRef = inject(DestroyRef);
   private readonly document = inject(DOCUMENT);
   private readonly storage = this.getStorage();
+  private readonly systemTheme = this.document.defaultView?.matchMedia?.(
+    '(prefers-color-scheme: dark)',
+  );
+  private readonly systemDark = signal(this.systemTheme?.matches ?? false);
 
   @ViewChild('drawer') protected drawer!: MatSidenav;
-  protected readonly darkTheme = signal(this.getInitialTheme());
+  protected readonly themePreference = signal<ThemePreference>(this.getInitialTheme());
+  protected readonly darkTheme = computed(() =>
+    this.themePreference() === 'system' ? this.systemDark() : this.themePreference() === 'dark',
+  );
 
   constructor() {
+    const updateSystemTheme = (event: MediaQueryListEvent) => this.systemDark.set(event.matches);
+    this.systemTheme?.addEventListener('change', updateSystemTheme);
+    this.destroyRef.onDestroy(() =>
+      this.systemTheme?.removeEventListener('change', updateSystemTheme),
+    );
     effect(() => {
       const dark = this.darkTheme();
       this.applyTheme(dark);
       try {
-        this.storage?.setItem(THEME_STORAGE_KEY, dark ? 'dark' : 'light');
+        this.storage?.setItem(THEME_STORAGE_KEY, this.themePreference());
       } catch {
         // Browsers can disable storage while still exposing the API.
       }
@@ -62,28 +75,22 @@ export class App implements AfterViewInit {
       });
   }
 
-  protected toggleTheme(): void {
-    this.darkTheme.update((dark) => !dark);
-  }
-
   private applyTheme(dark: boolean): void {
     this.document.documentElement.classList.toggle('dark-theme', dark);
     this.document.documentElement.style.colorScheme = dark ? 'dark' : 'light';
     this.document
       .querySelector('meta[name="theme-color"]')
-      ?.setAttribute('content', dark ? '#0f141d' : '#f5f7fa');
+      ?.setAttribute('content', dark ? '#0d0e10' : '#fff5f6');
   }
 
-  private getInitialTheme(): boolean {
+  private getInitialTheme(): ThemePreference {
     try {
       const saved = this.storage?.getItem(THEME_STORAGE_KEY);
-      return saved
-        ? saved === 'dark'
-        : (this.document.defaultView?.matchMedia?.('(prefers-color-scheme: dark)').matches ??
-            false);
+      if (saved === 'light' || saved === 'dark' || saved === 'system') return saved;
     } catch {
-      return false;
+      // Storage is optional. System preference remains available without it.
     }
+    return 'system';
   }
 
   private getStorage(): Storage | null {

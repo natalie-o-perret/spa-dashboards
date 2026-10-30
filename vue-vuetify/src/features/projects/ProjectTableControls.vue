@@ -12,6 +12,7 @@ defineEmits<{ clear: [] }>()
   <div class="table-controls">
     <v-text-field
       v-model="search"
+      v-tooltip:bottom="{ text: 'Search any displayed project field', id: 'search-tooltip' }"
       data-testid="project-search"
       label="Search projects"
       prepend-inner-icon="mdi-magnify"
@@ -21,6 +22,7 @@ defineEmits<{ clear: [] }>()
     />
     <v-select
       v-model="status"
+      v-tooltip:bottom="{ text: 'Show projects with a matching status', id: 'status-tooltip' }"
       data-testid="status-filter"
       :items="statusOptions"
       label="Status"
@@ -36,11 +38,20 @@ defineEmits<{ clear: [] }>()
       mandatory
       variant="outlined"
     >
-      <v-btn value="comfortable">Comfortable</v-btn>
-      <v-btn value="compact">Compact</v-btn>
+      <v-btn
+        value="comfortable"
+        v-tooltip:bottom="{ text: 'Show roomier project rows', id: 'comfortable-tooltip' }"
+        >Comfortable</v-btn
+      >
+      <v-btn
+        value="compact"
+        v-tooltip:bottom="{ text: 'Fit more project rows on screen', id: 'compact-tooltip' }"
+        >Compact</v-btn
+      >
     </v-btn-toggle>
     <v-btn
       class="clear-filters"
+      v-tooltip:bottom="{ text: 'Reset search and status filters', id: 'clear-filters-tooltip' }"
       variant="text"
       :disabled="!search && status === 'All statuses'"
       @click="$emit('clear')"

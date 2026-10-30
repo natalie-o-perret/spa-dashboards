@@ -1,6 +1,6 @@
 # SPA Dashboards
 
-Meridian is a portfolio operations dashboard implemented three ways for a
+Meridian is a portfolio operations dashboard implemented four ways for a
 side-by-side frontend framework comparison.
 
 Live comparison: <https://natalie-o-perret.github.io/spa-dashboards/>
@@ -8,6 +8,7 @@ Live comparison: <https://natalie-o-perret.github.io/spa-dashboards/>
 - [Angular Material](./angular-material/)
 - [React and MUI](./react-mui/)
 - [Vue and Vuetify](./vue-vuetify/)
+- [Gleam and Lustre](./gleam-lustre/)
 
 Each app is self-contained. Run its commands from the corresponding directory.
 
@@ -16,6 +17,7 @@ Each app is self-contained. Run its commands from the corresponding directory.
 | Angular Material | `cd angular-material && npm ci && npm start` | `npm run check && npm run build:pages` |
 | React and MUI    | `cd react-mui && npm ci && npm run dev`      | `npm run check && npm run build:pages` |
 | Vue and Vuetify  | `cd vue-vuetify && npm ci && npm run dev`    | `npm run check && npm run build:pages` |
+| Gleam and Lustre | `cd gleam-lustre && make dev`                | `make check && make build`             |
 
-All three use static illustrative data and share the same features and content,
+All four use static illustrative data and share the same features and content,
 while keeping their framework-specific implementation and visual identity.

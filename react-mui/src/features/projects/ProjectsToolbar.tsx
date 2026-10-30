@@ -7,6 +7,7 @@ import {
   MenuItem,
   Select,
   TextField,
+  Tooltip,
 } from '@mui/material';
 import { ClearRounded, SearchRounded } from '@mui/icons-material';
 import { statuses, type StatusFilter } from './projectTableData';
@@ -32,52 +33,61 @@ export default function ProjectsToolbar({
         p: { xs: 2, sm: 2.5 },
       }}
     >
-      <TextField
-        label="Search projects"
-        size="small"
-        value={table.search}
-        onChange={(event) => {
-          table.setSearch(event.target.value);
-          table.setPage(0);
-        }}
-        slotProps={{
-          input: {
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchRounded aria-hidden="true" fontSize="small" />
-              </InputAdornment>
-            ),
-          },
-        }}
-      />
-      <FormControl size="small">
-        <InputLabel id="status-filter-label">Status</InputLabel>
-        <Select
-          labelId="status-filter-label"
-          id="status-filter"
-          value={table.status}
-          label="Status"
+      <Tooltip title="Search any displayed project field">
+        <TextField
+          label="Search projects"
+          size="small"
+          value={table.search}
           onChange={(event) => {
-            table.setStatus(event.target.value as StatusFilter);
+            table.setSearch(event.target.value);
             table.setPage(0);
           }}
-        >
-          {statuses.map((option) => (
-            <MenuItem key={option} value={option}>
-              {option}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+          slotProps={{
+            input: {
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchRounded aria-hidden="true" fontSize="small" />
+                </InputAdornment>
+              ),
+            },
+          }}
+        />
+      </Tooltip>
+      <Tooltip title="Show projects with a matching status">
+        <FormControl size="small">
+          <InputLabel id="status-filter-label">Status</InputLabel>
+          <Select
+            labelId="status-filter-label"
+            id="status-filter"
+            value={table.status}
+            label="Status"
+            onChange={(event) => {
+              table.setStatus(event.target.value as StatusFilter);
+              table.setPage(0);
+            }}
+          >
+            {statuses.map((option) => (
+              <MenuItem key={option} value={option}>
+                {option}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </Tooltip>
       <DensityControl value={table.density} onChange={table.setDensity} />
-      <Button
-        variant="text"
-        startIcon={<ClearRounded />}
-        onClick={table.clearFilters}
-        disabled={!table.search && table.status === 'All statuses'}
-      >
-        Clear filters
-      </Button>
+      <Tooltip title="Reset search and status filters">
+        <span>
+          <Button
+            fullWidth
+            variant="text"
+            startIcon={<ClearRounded />}
+            onClick={table.clearFilters}
+            disabled={!table.search && table.status === 'All statuses'}
+          >
+            Clear filters
+          </Button>
+        </span>
+      </Tooltip>
     </Box>
   );
 }

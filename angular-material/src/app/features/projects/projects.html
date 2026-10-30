@@ -7,6 +7,7 @@
     <button
       mat-flat-button
       class="export-button"
+      matTooltip="Export all matching projects as CSV"
       type="button"
       [disabled]="dataSource.filteredData.length === 0"
       (click)="exportCsv()"

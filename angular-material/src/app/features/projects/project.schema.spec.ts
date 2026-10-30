@@ -15,6 +15,10 @@ describe('ProjectsSchema', () => {
   });
 
   it.each([
+    ['zero id', { id: 0 }],
+    ['blank name', { name: '  ' }],
+    ['blank owner', { owner: '  ' }],
+    ['unknown status', { status: 'Unknown' }],
     ['progress over 100', { progress: 101 }],
     ['fractional progress', { progress: 50.5 }],
     ['impossible date', { due: '2026-02-29' }],
@@ -28,5 +32,11 @@ describe('ProjectsSchema', () => {
 
   it('rejects duplicate project ids', () => {
     expect(() => decodeProjects([firstProject, firstProject])).toThrow();
+  });
+
+  it('trims names and owners before validating them', () => {
+    const [project] = decodeProjects([{ ...firstProject, name: '  Aurora  ', owner: '  Maya  ' }]);
+    expect(project.name).toBe('Aurora');
+    expect(project.owner).toBe('Maya');
   });
 });

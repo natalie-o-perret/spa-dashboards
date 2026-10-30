@@ -37,13 +37,14 @@ header p {
 }
 .grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 1rem;
 }
 a {
   min-height: 270px;
   padding: 1.5rem;
   border: 1px solid #c9cec6;
+  border-top: 5px solid var(--accent);
   color: inherit;
   background: #f8f8f3;
   text-decoration: none;
@@ -67,6 +68,17 @@ a:focus-visible {
 .number {
   color: #747e77;
 }
+.card-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.framework-icon {
+  width: 44px;
+  height: 44px;
+  color: var(--accent);
+  fill: currentColor;
+}
 h2 {
   margin: auto 0 0.35rem;
   font-family: Georgia, serif;
@@ -77,13 +89,21 @@ h2 {
   color: #68726b;
 }
 .angular {
-  border-top: 5px solid #d81b60;
+  --accent: #b80f2e;
 }
 .react {
-  border-top: 5px solid #1976d2;
+  --accent: #006b85;
 }
 .vue {
-  border-top: 5px solid #008f68;
+  --accent: #008f68;
+}
+.gleam {
+  --accent: #b41472;
+}
+@media (min-width: 701px) and (max-width: 1000px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 @media (max-width: 700px) {
   main {

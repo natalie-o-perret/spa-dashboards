@@ -50,8 +50,30 @@ defineEmits<{
       @update:page="$emit('update:page', $event)"
       @update:sort-by="$emit('update:sortBy', $event)"
     >
+      <template
+        v-for="header in headers"
+        :key="header.key"
+        v-slot:[`header.${header.key}`]="{ column, getSortIcon }"
+      >
+        <div class="v-data-table-header__content">
+          <span>{{ column.title }}</span>
+          <v-icon
+            v-if="column.sortable"
+            class="v-data-table-header__sort-icon"
+            :icon="getSortIcon(column)"
+          />
+        </div>
+        <v-tooltip activator="parent" location="top" :text="`Sort by ${column.title}`" />
+      </template>
       <template v-slot:[`item.data-table-select`]="{ item, props }">
-        <v-checkbox-btn v-bind="props" :aria-label="`Select ${item.name}`" />
+        <v-checkbox-btn
+          v-bind="props"
+          :aria-label="`Select ${item.name}`"
+          v-tooltip:bottom="{
+            text: `Toggle selection for ${item.name}`,
+            id: `select-${item.id}-tooltip`,
+          }"
+        />
       </template>
       <template v-slot:[`item.name`]="{ item }">
         <strong class="project-name">{{ item.name }}</strong>
@@ -94,6 +116,18 @@ defineEmits<{
         </div>
       </template>
     </v-data-table>
+    <v-tooltip
+      v-for="label in ['First page', 'Previous page', 'Next page', 'Last page']"
+      :key="label"
+      :activator="`.project-table button[aria-label='${label}']`"
+      location="top"
+      :text="label"
+    />
+    <v-tooltip
+      activator=".project-table input[aria-label='Select all projects on this page']"
+      location="top"
+      text="Toggle selection for projects on this page"
+    />
   </div>
 </template>
 

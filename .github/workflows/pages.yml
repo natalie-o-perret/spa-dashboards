@@ -22,7 +22,7 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Set up Node.js
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version-file: .nvmrc
           cache: npm
@@ -31,7 +31,7 @@ jobs:
             react-mui/package-lock.json
             vue-vuetify/package-lock.json
       - name: Set up npm
-        run: npm install --global npm@12.0.2
+        run: npm install --global npm@12.2.1
       - name: Build Angular Material
         working-directory: angular-material
         run: npm ci && npm run check && npm run build:pages
@@ -41,13 +41,23 @@ jobs:
       - name: Build Vue Vuetify
         working-directory: vue-vuetify
         run: npm ci && npm run check && npm run build:pages
+      - name: Set up Gleam and Erlang
+        uses: erlef/setup-beam@54075bcc5e249e4758d363f27d099f55d843f124 # v1.24.1
+        with:
+          gleam-version: "1.19.2"
+          otp-version: "29.1.2"
+          rebar3-version: "3.28.0"
+      - name: Build Gleam Lustre
+        working-directory: gleam-lustre
+        run: make check && make build
       - name: Assemble site
         run: |
-          mkdir -p site/angular-material site/react-mui site/vue-vuetify
+          mkdir -p site/angular-material site/react-mui site/vue-vuetify site/gleam-lustre
           cp index.html styles.css site/
           cp -R angular-material/dist/meridian/browser/. site/angular-material/
           cp -R react-mui/dist/. site/react-mui/
           cp -R vue-vuetify/dist/. site/vue-vuetify/
+          cp -R gleam-lustre/dist/. site/gleam-lustre/
           touch site/.nojekyll
       - name: Configure Pages
         uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0

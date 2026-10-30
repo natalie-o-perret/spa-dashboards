@@ -33,6 +33,7 @@ function close(permanent: boolean) {
       class="drawer-close"
       icon="mdi-close"
       aria-label="Close navigation"
+      v-tooltip:bottom="{ text: 'Close navigation', id: 'close-navigation-tooltip' }"
       variant="text"
       @click="drawer = false"
     />
@@ -55,6 +56,7 @@ function close(permanent: boolean) {
           :href="item.href"
           :prepend-icon="item.icon"
           :title="item.label"
+          v-tooltip:right="{ text: `Go to ${item.label}`, id: `navigation-${item.label}-tooltip` }"
           rounded="lg"
           @click="close(permanent)"
         />

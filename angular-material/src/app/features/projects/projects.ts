@@ -4,6 +4,7 @@ import { AfterViewInit, Component, ViewChild, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { createProjectDataSource } from './project-data-source';
 import { exportProjects } from './project-export';
 import { ProjectFiltersComponent } from './project-filters';
@@ -16,6 +17,7 @@ import { Density, StatusFilter, TableFilter } from './project-table.types';
     MatButtonModule,
     MatIconModule,
     MatPaginatorModule,
+    MatTooltipModule,
     ProjectFiltersComponent,
     ProjectTableComponent,
   ],

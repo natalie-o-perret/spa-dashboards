@@ -15,7 +15,11 @@ export function themeComponents(
   return {
     MuiCssBaseline: {
       styleOverrides: {
-        html: { scrollBehavior: 'smooth' },
+        html: {
+          scrollBehavior: 'smooth',
+          '--scrollbar-thumb': `color-mix(in srgb, ${primary} 55%, ${secondaryText})`,
+          '--scrollbar-hover': primary,
+        },
         body: { overflowX: 'hidden' },
         '::selection': { backgroundColor: alpha(primary, 0.28) },
       },
@@ -52,6 +56,30 @@ export function themeComponents(
     MuiChip: {
       styleOverrides: { root: { borderRadius: 8, fontWeight: 700 } },
     },
+    MuiCheckbox: {
+      styleOverrides: {
+        root: {
+          '@media (prefers-reduced-motion: no-preference)': {
+            '& .MuiSvgIcon-root': {
+              animation: 'checkbox-off 180ms ease-out',
+            },
+            '&.Mui-checked .MuiSvgIcon-root, &.MuiCheckbox-indeterminate .MuiSvgIcon-root':
+              {
+                animation: 'checkbox-on 260ms cubic-bezier(0.2, 0.8, 0.2, 1)',
+              },
+          },
+          '@keyframes checkbox-on': {
+            from: { transform: 'scale(0.65) rotate(-12deg)' },
+            '65%': { transform: 'scale(1.12)' },
+            to: { transform: 'none' },
+          },
+          '@keyframes checkbox-off': {
+            from: { transform: 'scale(0.8)' },
+            to: { transform: 'none' },
+          },
+        },
+      },
+    },
     MuiLinearProgress: {
       styleOverrides: {
         root: {
@@ -78,10 +106,13 @@ export function themeComponents(
         root: {
           '&.Mui-selected': {
             backgroundColor: alpha(primary, dark ? 0.14 : 0.07),
+            '&:hover': {
+              backgroundColor: alpha(primary, dark ? 0.14 : 0.1),
+            },
           },
         },
       },
     },
-    MuiTooltip: { defaultProps: { arrow: true } },
+    MuiTooltip: { defaultProps: { arrow: true, describeChild: true } },
   };
 }

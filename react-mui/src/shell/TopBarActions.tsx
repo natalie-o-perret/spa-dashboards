@@ -1,4 +1,4 @@
-import type { PaletteMode } from '@mui/material';
+import type { ThemeMode } from './ThemeShell';
 import {
   Avatar,
   Box,
@@ -7,25 +7,46 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import { DarkModeRounded, GitHub, LightModeRounded } from '@mui/icons-material';
+import {
+  DarkModeRounded,
+  GitHub,
+  LightModeRounded,
+  MonitorRounded,
+} from '@mui/icons-material';
+
+const choices = [
+  {
+    value: 'light',
+    label: 'Light',
+    icon: <LightModeRounded fontSize="small" />,
+  },
+  { value: 'dark', label: 'Dark', icon: <DarkModeRounded fontSize="small" /> },
+  {
+    value: 'system',
+    label: 'System',
+    icon: <MonitorRounded fontSize="small" />,
+  },
+] as const;
 
 interface TopBarActionsProps {
-  mode: PaletteMode;
-  onToggleMode: () => void;
+  mode: ThemeMode;
+  onModeChange: (mode: ThemeMode) => void;
 }
 
 export default function TopBarActions({
   mode,
-  onToggleMode,
+  onModeChange,
 }: TopBarActionsProps) {
-  const nextMode = mode === 'light' ? 'dark' : 'light';
+  const current = choices.find((choice) => choice.value === mode)!;
+  const next = choices[(choices.indexOf(current) + 1) % choices.length]!;
+  const themeActionLabel = `Theme: ${current.label}. Switch to ${next.label.toLowerCase()} theme`;
   return (
     <>
       <Stack
         direction="row"
         spacing={0.75}
         sx={{
-          display: { xs: 'none', sm: 'flex' },
+          display: { xs: 'none', md: 'flex' },
           alignItems: 'center',
           color: 'text.secondary',
         }}
@@ -54,24 +75,30 @@ export default function TopBarActions({
           <GitHub />
         </IconButton>
       </Tooltip>
-      <Tooltip title={`Use ${nextMode} theme`}>
-        <IconButton onClick={onToggleMode} aria-label={`Use ${nextMode} theme`}>
-          {mode === 'light' ? <DarkModeRounded /> : <LightModeRounded />}
+      <Tooltip title={themeActionLabel}>
+        <IconButton
+          onClick={() => onModeChange(next.value)}
+          aria-label={themeActionLabel}
+        >
+          {current.icon}
         </IconButton>
       </Tooltip>
-      <Avatar
-        aria-label="Signed in as Maya Chen"
-        sx={{
-          width: 36,
-          height: 36,
-          bgcolor: 'primary.main',
-          color: 'primary.contrastText',
-          fontSize: '0.78rem',
-          fontWeight: 800,
-        }}
-      >
-        MC
-      </Avatar>
+      <Tooltip title="Demo workspace: Maya Chen">
+        <Avatar
+          aria-label="Signed in as Maya Chen"
+          sx={{
+            display: { xs: 'none', sm: 'flex' },
+            width: 36,
+            height: 36,
+            bgcolor: 'primary.main',
+            color: 'primary.contrastText',
+            fontSize: '0.78rem',
+            fontWeight: 800,
+          }}
+        >
+          MC
+        </Avatar>
+      </Tooltip>
     </>
   );
 }

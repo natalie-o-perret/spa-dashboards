@@ -2,36 +2,37 @@ import '@mdi/font/css/materialdesignicons.css'
 import 'vuetify/styles'
 import { createVuetify } from 'vuetify'
 
-let savedTheme: string | null = null
+let defaultTheme = 'system'
 try {
-  savedTheme = localStorage.getItem('meridian-theme')
+  const saved = localStorage.getItem('meridian-theme')
+  if (saved === 'light' || saved === 'dark' || saved === 'system') defaultTheme = saved
 } catch {
   // Storage can be disabled while the rest of the app remains usable.
 }
 
-const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches ?? false
-const defaultTheme =
-  savedTheme === 'dark'
-    ? 'meridianDark'
-    : savedTheme === 'light'
-      ? 'meridianLight'
-      : prefersDark
-        ? 'meridianDark'
-        : 'meridianLight'
-
 export default createVuetify({
   defaults: {
+    VTooltip: {
+      interactive: true,
+      eager: false,
+    },
     VBtn: {
       rounded: 'lg',
     },
     VCard: {
       elevation: 0,
     },
+    VTextField: {
+      color: 'primary',
+    },
+    VSelect: {
+      color: 'primary',
+    },
   },
   theme: {
     defaultTheme,
     themes: {
-      meridianLight: {
+      light: {
         dark: false,
         colors: {
           background: '#f5f7fa',
@@ -54,26 +55,26 @@ export default createVuetify({
           shadow: '#172033',
         },
       },
-      meridianDark: {
+      dark: {
         dark: true,
         colors: {
-          background: '#0f141d',
-          surface: '#171e2a',
+          background: '#0d0e10',
+          surface: '#18191c',
           primary: '#81c784',
-          'on-primary': '#102512',
-          secondary: '#aeb8c8',
-          'on-secondary': '#171e2a',
+          'on-primary': '#101113',
+          secondary: '#b5b8c0',
+          'on-secondary': '#18191c',
           success: '#71d49a',
           warning: '#f4bd62',
           error: '#ff8c8c',
           info: '#9ecaff',
-          'on-background': '#f2f5fa',
-          'on-surface': '#f2f5fa',
-          'surface-variant': '#1b2432',
-          'on-surface-variant': '#aeb8c8',
-          'outline-variant': '#303845',
-          subtle: '#1b2432',
-          divider: '#303845',
+          'on-background': '#f3f4f6',
+          'on-surface': '#f3f4f6',
+          'surface-variant': '#202125',
+          'on-surface-variant': '#b5b8c0',
+          'outline-variant': '#34363c',
+          subtle: '#202125',
+          divider: '#34363c',
           shadow: '#000000',
         },
       },

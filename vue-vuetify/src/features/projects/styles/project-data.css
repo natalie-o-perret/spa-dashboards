@@ -38,6 +38,38 @@
   background: rgba(var(--v-theme-primary), 0.035);
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  .project-table :deep(.v-selection-control__input > .v-icon) {
+    animation: checkbox-off 180ms ease-out;
+  }
+
+  .project-table :deep(.v-selection-control--dirty .v-selection-control__input > .v-icon),
+  .project-table :deep(.v-selection-control__input > .mdi-minus-box) {
+    animation: checkbox-on 260ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+}
+
+@keyframes checkbox-on {
+  from {
+    transform: scale(0.65) rotate(-12deg);
+  }
+  65% {
+    transform: scale(1.12);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes checkbox-off {
+  from {
+    transform: scale(0.8);
+  }
+  to {
+    transform: none;
+  }
+}
+
 .project-table :deep(.v-data-table-footer) {
   min-height: 66px;
   border-top: 1px solid rgb(var(--v-theme-divider));

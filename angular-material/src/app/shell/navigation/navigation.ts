@@ -2,6 +2,7 @@ import { Component, input, output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 const NAV_ITEMS = [
   { label: 'Overview', icon: 'dashboard', href: '#overview', active: true },
@@ -11,7 +12,7 @@ const NAV_ITEMS = [
 ] as const;
 
 @Component({
-  imports: [MatButtonModule, MatChipsModule, MatIconModule],
+  imports: [MatButtonModule, MatChipsModule, MatIconModule, MatTooltipModule],
   selector: 'app-navigation',
   styleUrls: ['./navigation.scss', './navigation-note.scss'],
   templateUrl: './navigation.html',

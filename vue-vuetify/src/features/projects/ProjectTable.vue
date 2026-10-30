@@ -16,6 +16,7 @@ const table = useProjectTable()
         </div>
         <v-btn
           prepend-icon="mdi-download-outline"
+          v-tooltip:bottom="{ text: 'Export all matching projects as CSV', id: 'export-tooltip' }"
           color="primary"
           variant="flat"
           :disabled="table.filteredProjects.value.length === 0"

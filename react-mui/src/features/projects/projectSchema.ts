@@ -27,46 +27,40 @@ function isCalendarDate(value: string) {
   return year > 0 && day > 0 && day <= (daysInMonth[month - 1] ?? 0);
 }
 
-export const ProjectId = Schema.Number.pipe(
-  Schema.int(),
-  Schema.positive(),
-  Schema.brand('ProjectId'),
-);
-export const ProjectName = Schema.Trim.pipe(
-  Schema.nonEmptyString(),
+export const ProjectId = Schema.Number.check(
+  Schema.isInt(),
+  Schema.isGreaterThan(0),
+).pipe(Schema.brand('ProjectId'));
+export const ProjectName = Schema.Trim.check(Schema.isNonEmpty()).pipe(
   Schema.brand('ProjectName'),
 );
-export const ProjectOwner = Schema.Trim.pipe(
-  Schema.nonEmptyString(),
+export const ProjectOwner = Schema.Trim.check(Schema.isNonEmpty()).pipe(
   Schema.brand('ProjectOwner'),
 );
-export const ProjectStatus = Schema.Literal(
+export const ProjectStatus = Schema.Literals([
   'On track',
   'At risk',
   'Blocked',
   'Complete',
-);
-export const ProjectPriority = Schema.Literal(
+]);
+export const ProjectPriority = Schema.Literals([
   'Low',
   'Medium',
   'High',
   'Critical',
-);
-export const Progress = Schema.Number.pipe(
-  Schema.int(),
-  Schema.between(0, 100),
-  Schema.brand('Progress'),
-);
-export const Budget = Schema.Number.pipe(
-  Schema.int(),
-  Schema.nonNegative(),
-  Schema.brand('Budget'),
-);
-export const DueDate = Schema.String.pipe(
-  Schema.pattern(dateOnlyPattern),
-  Schema.filter(isCalendarDate),
-  Schema.brand('DueDate'),
-);
+]);
+export const Progress = Schema.Number.check(
+  Schema.isInt(),
+  Schema.isBetween({ minimum: 0, maximum: 100 }),
+).pipe(Schema.brand('Progress'));
+export const Budget = Schema.Number.check(
+  Schema.isInt(),
+  Schema.isGreaterThanOrEqualTo(0),
+).pipe(Schema.brand('Budget'));
+export const DueDate = Schema.String.check(
+  Schema.isPattern(dateOnlyPattern),
+  Schema.makeFilter(isCalendarDate),
+).pipe(Schema.brand('DueDate'));
 
 export class Project extends Schema.Class<Project>('Project')({
   id: ProjectId,
@@ -79,8 +73,8 @@ export class Project extends Schema.Class<Project>('Project')({
   budget: Budget,
 }) {}
 
-export const ProjectList = Schema.Array(Project).pipe(
-  Schema.filter(
+export const ProjectList = Schema.Array(Project).check(
+  Schema.makeFilter(
     (projects) =>
       new Set(projects.map(({ id }) => id)).size === projects.length,
     { identifier: 'UniqueProjectIds' },
