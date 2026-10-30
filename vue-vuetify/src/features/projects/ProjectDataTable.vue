@@ -3,7 +3,8 @@ import type { DataTableSortItem } from 'vuetify'
 import { formatBudget, formatDate } from './format'
 import type { Project } from './projectSchema'
 import type { TableDensity } from './tableConfig'
-import { headers, itemsPerPageOptions, priorityColors, statusColors } from './tableConfig'
+import { headers, itemsPerPageOptions, priorityColors } from './tableConfig'
+import ProjectStatusBadge from './ProjectStatusBadge.vue'
 defineProps<{
   selected: number[]
   itemsPerPage: number
@@ -79,9 +80,7 @@ defineEmits<{
         <strong class="project-name">{{ item.name }}</strong>
       </template>
       <template v-slot:[`item.status`]="{ item }">
-        <v-chip :color="statusColors[item.status]" size="small" variant="tonal">
-          {{ item.status }}
-        </v-chip>
+        <ProjectStatusBadge :status="item.status" />
       </template>
       <template v-slot:[`item.priority`]="{ item }">
         <v-chip :color="priorityColors[item.priority]" size="small" variant="outlined">

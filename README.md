@@ -10,7 +10,9 @@ Live comparison: <https://natalie-o-perret.github.io/spa-dashboards/>
 - [Vue and Vuetify](./vue-vuetify/)
 - [Gleam and Lustre](./gleam-lustre/)
 
-Each app is self-contained. Run its commands from the corresponding directory.
+Run each app's commands from its directory. The Gleam app consumes
+[Meridian UI](https://github.com/natalie-o-perret/gleam-lustre-meridian-ui)
+for its reusable components and styles, pinned to a Git commit.
 
 | App              | Development                                  | Checks                                 |
 | ---------------- | -------------------------------------------- | -------------------------------------- |

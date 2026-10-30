@@ -16,7 +16,6 @@ export function themeComponents(
     MuiCssBaseline: {
       styleOverrides: {
         html: {
-          scrollBehavior: 'smooth',
           '--scrollbar-thumb': `color-mix(in srgb, ${primary} 55%, ${secondaryText})`,
           '--scrollbar-hover': primary,
         },

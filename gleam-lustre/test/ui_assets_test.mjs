@@ -84,3 +84,30 @@ test("the open mobile drawer is labelled and makes background controls inert", (
     assert.match(opened, new RegExp(`<${element}[^>]*inert`));
   }
 });
+
+test("status filter options reuse the table badges with native option values", () => {
+  const [model] = init(["system", false]);
+  const html = to_string(view(model));
+  const select = html.match(
+    /<select[^>]*aria-label="Filter by status"[^>]*>(.*?)<\/select>/s,
+  )?.[1];
+  assert.ok(select);
+  assert.match(select, /<selectedcontent><\/selectedcontent>/);
+  for (const [label, tone] of [
+    ["On track", "success"],
+    ["At risk", "warning"],
+    ["Blocked", "danger"],
+    ["Complete", "accent"],
+  ]) {
+    const option = select.match(
+      new RegExp(`<option[^>]*value="${label}"[^>]*>(.*?)</option>`, "s"),
+    )?.[1];
+    assert.ok(option);
+    assert.ok(option.includes(`badge-${tone}`));
+    assert.ok(option.includes(label));
+  }
+  assert.match(
+    select,
+    /<option[^>]*value="All statuses"[^>]*>All statuses<\/option>/,
+  );
+});

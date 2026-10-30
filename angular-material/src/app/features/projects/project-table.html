@@ -48,9 +48,7 @@
     <ng-container matColumnDef="status">
       <th mat-header-cell *matHeaderCellDef mat-sort-header matTooltip="Sort by Status">Status</th>
       <td mat-cell *matCellDef="let project">
-        <span class="table-badge status-badge" [class]="badgeClass(project.status)"
-          ><i aria-hidden="true"></i>{{ project.status }}</span
-        >
+        <app-project-status-badge [status]="project.status" />
       </td>
     </ng-container>
     <ng-container matColumnDef="priority">

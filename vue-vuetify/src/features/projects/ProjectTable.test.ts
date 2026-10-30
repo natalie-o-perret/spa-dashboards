@@ -2,8 +2,23 @@ import { mount } from '@vue/test-utils'
 import { createVuetify } from 'vuetify'
 import { describe, expect, it } from 'vitest'
 import ProjectTable from './ProjectTable.vue'
+import ProjectTableControls from './ProjectTableControls.vue'
 
 describe('ProjectTable', () => {
+  it('uses status badges in selected filter values but not for all statuses', async () => {
+    const wrapper = mount(ProjectTableControls, {
+      attachTo: document.body,
+      props: { search: '', status: 'All statuses', density: 'comfortable' },
+      global: { plugins: [createVuetify()] },
+    })
+    expect(wrapper.find('[data-testid="status-filter"] .v-chip').exists()).toBe(false)
+    await wrapper.setProps({ status: 'Blocked' })
+    expect(wrapper.get('[data-testid="status-filter"] .v-chip').text()).toBe('Blocked')
+    await wrapper.setProps({ status: 'All statuses' })
+    expect(wrapper.find('[data-testid="status-filter"] .v-chip').exists()).toBe(false)
+    wrapper.unmount()
+  })
+
   it('filters, cycles sorting, paginates, and selects only the visible page', async () => {
     const wrapper = mount(ProjectTable, {
       attachTo: document.body,

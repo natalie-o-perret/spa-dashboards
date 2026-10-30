@@ -1,8 +1,4 @@
 @media (prefers-reduced-motion: no-preference) {
-  html {
-    scroll-behavior: smooth;
-  }
-
   .metric-card {
     transition:
       border-color 160ms ease,

@@ -5,6 +5,7 @@ import lustre/attribute as a
 import lustre/element.{type Element}
 import lustre/element/html as h
 import lustre/element/svg
+import meridian_ui/card
 import ui/icon
 
 pub const trend = [
@@ -58,7 +59,7 @@ fn metric(
   detail: String,
   glyph: String,
 ) -> Element(msg) {
-  h.article([a.class("panel metric")], [
+  card.article([a.class("metric")], [
     h.div([a.class("metric-label")], [
       h.h2([], [h.text(label)]),
       h.span([a.class("metric-icon")], [icon.view(glyph)]),
@@ -74,7 +75,7 @@ fn delivery() -> Element(msg) {
       int.to_string(40 + index * 80) <> "," <> int.to_string(chart_y(point.1))
     })
     |> string.join(" ")
-  h.section([a.class("panel delivery"), a.aria_labelledby("delivery-heading")], [
+  card.section([a.class("delivery"), a.aria_labelledby("delivery-heading")], [
     h.div([a.class("panel-heading")], [
       h.div([], [
         h.p([a.class("eyebrow")], [h.text("A little better, every week")]),
@@ -172,10 +173,10 @@ pub fn chart_y(value: Int) -> Int {
 }
 
 fn capacity() -> Element(msg) {
-  h.section(
+  card.section(
     [
       a.id("team"),
-      a.class("panel capacity"),
+      a.class("capacity"),
       a.aria_labelledby("capacity-title"),
     ],
     [

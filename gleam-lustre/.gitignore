@@ -2,3 +2,4 @@
 /dist/
 /.lustre/
 /erl_crash.dump
+/assets/meridian-ui.css

@@ -18,8 +18,11 @@
       [value]="statusFilter()"
       (selectionChange)="statusChange.emit($event.value)"
     >
+      <mat-select-trigger>
+        <app-project-status-badge [status]="statusFilter()" />
+      </mat-select-trigger>
       @for (status of statuses; track status) {
-        <mat-option [value]="status">{{ status }}</mat-option>
+        <mat-option [value]="status"><app-project-status-badge [status]="status" /></mat-option>
       }
     </mat-select>
   </mat-form-field>

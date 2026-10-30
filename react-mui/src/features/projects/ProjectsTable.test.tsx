@@ -1,11 +1,38 @@
-import { render, screen, within } from '@testing-library/react';
+import { cleanup, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ThemeProvider } from '@mui/material';
-import { describe, expect, it, vi } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import App from '../../App';
 import { createMeridianTheme } from '../../shell/theme';
 
 describe('projects table', () => {
+  afterEach(cleanup);
+
+  it('uses status badges in filter choices and the selected value', async () => {
+    const user = userEvent.setup();
+    render(
+      <ThemeProvider theme={createMeridianTheme('light')}>
+        <App mode="light" onModeChange={vi.fn()} />
+      </ThemeProvider>,
+    );
+    const select = screen.getByRole('combobox', { name: 'Status' });
+    expect(select.querySelector('.MuiChip-root')).toBeNull();
+    await user.click(select);
+    const list = within(screen.getByRole('listbox'));
+    expect(
+      list
+        .getByRole('option', { name: 'All statuses' })
+        .querySelector('.MuiChip-root'),
+    ).toBeNull();
+    const blocked = list.getByRole('option', { name: 'Blocked' });
+    expect(blocked.querySelector('.MuiChip-root')).not.toBeNull();
+    await user.click(blocked);
+    expect(
+      within(select).getByText('Blocked').closest('.MuiChip-root'),
+    ).not.toBeNull();
+    expect(screen.getByText('2 projects shown')).toBeVisible();
+  });
+
   it('filters, cycles sorting, and paginates projects', async () => {
     const user = userEvent.setup();
 

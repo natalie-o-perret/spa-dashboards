@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { StatusFilter, TableDensity } from './tableConfig'
 import { statusOptions } from './tableConfig'
+import ProjectStatusBadge from './ProjectStatusBadge.vue'
 
 const search = defineModel<string>('search', { required: true })
 const status = defineModel<StatusFilter>('status', { required: true })
@@ -28,7 +29,14 @@ defineEmits<{ clear: [] }>()
       label="Status"
       hide-details
       variant="outlined"
-    />
+    >
+      <template #item="{ props, item }">
+        <v-list-item v-bind="props" role="option">
+          <template #title><ProjectStatusBadge :status="item" /></template>
+        </v-list-item>
+      </template>
+      <template #selection="{ item }"><ProjectStatusBadge :status="item" /></template>
+    </v-select>
     <v-btn-toggle
       v-model="density"
       class="density-toggle"

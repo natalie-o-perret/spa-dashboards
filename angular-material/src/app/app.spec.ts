@@ -130,6 +130,28 @@ describe('App', () => {
     );
   });
 
+  it('uses status badges in filter choices and the selected value', async () => {
+    const fixture = TestBed.createComponent(App);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    const select = fixture.nativeElement.querySelector('.status-field mat-select') as HTMLElement;
+    expect(select.querySelector('.status-badge')).toBeNull();
+    select.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    const choices = [...document.querySelectorAll('mat-option')] as HTMLElement[];
+    const all = choices.find((option) => option.textContent.includes('All statuses'));
+    const blocked = choices.find((option) => option.textContent.includes('Blocked'));
+    expect(all?.querySelector('.status-badge')).toBeNull();
+    expect(blocked?.querySelector('.status-badge')?.classList.contains('blocked')).toBe(true);
+    blocked?.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(select.querySelector('.status-badge')?.textContent).toContain('Blocked');
+    expect(fixture.nativeElement.querySelectorAll('tr.mat-mdc-row')).toHaveLength(2);
+    fixture.destroy();
+  });
+
   it('closes the temporary drawer when the desktop breakpoint matches', async () => {
     const fixture = TestBed.createComponent(App);
     fixture.detectChanges();

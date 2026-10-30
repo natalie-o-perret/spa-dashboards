@@ -12,6 +12,7 @@ import {
 import { ClearRounded, SearchRounded } from '@mui/icons-material';
 import { statuses, type StatusFilter } from './projectTableData';
 import DensityControl from './DensityControl';
+import ProjectStatusBadge from './ProjectStatusBadge';
 import type { ProjectsTableState } from './useProjectsTable';
 
 export default function ProjectsToolbar({
@@ -61,6 +62,14 @@ export default function ProjectsToolbar({
             id="status-filter"
             value={table.status}
             label="Status"
+            SelectDisplayProps={{
+              style: {
+                display: 'flex',
+                alignItems: 'center',
+                minHeight: 24,
+                paddingBlock: 8,
+              },
+            }}
             onChange={(event) => {
               table.setStatus(event.target.value as StatusFilter);
               table.setPage(0);
@@ -68,7 +77,7 @@ export default function ProjectsToolbar({
           >
             {statuses.map((option) => (
               <MenuItem key={option} value={option}>
-                {option}
+                <ProjectStatusBadge status={option} />
               </MenuItem>
             ))}
           </Select>

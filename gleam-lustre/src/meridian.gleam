@@ -5,7 +5,14 @@ import interop
 import lustre
 import lustre/effect.{type Effect}
 import lustre/element.{type Element}
+import meridian_ui
+import meridian_ui/shell as ui_shell
+import meridian_ui/theme
 import shell/view as shell
+
+pub const dashboard_id = "meridian-dashboard"
+
+pub const theme_key = "meridian-gleam-theme"
 
 pub type Model {
   Model(
@@ -28,35 +35,35 @@ pub type Msg {
 pub fn main() {
   let app = lustre.application(init, update, view)
   let assert Ok(_) =
-    lustre.start(app, "#app", #(interop.read_theme(), interop.system_dark()))
+    lustre.start(app, "#app", #(theme.read(theme_key), theme.system_dark()))
 }
 
 pub fn init(flags: #(String, Bool)) -> #(Model, Effect(Msg)) {
   #(
     Model(flags.0, flags.1, False, table.init()),
     effect.before_paint(fn(dispatch, _) {
-      interop.setup_tooltips()
-      interop.setup_navigation(fn() { dispatch(CloseMenu) })
-      interop.watch_system_theme(fn(dark) { dispatch(SystemThemeChanged(dark)) })
+      let _dispose =
+        meridian_ui.mount(
+          dashboard_id,
+          fn(dark) { dispatch(SystemThemeChanged(dark)) },
+          fn() { dispatch(CloseMenu) },
+        )
+      Nil
     }),
   )
 }
 
 pub fn is_dark(model: Model) -> Bool {
-  model.theme == "dark" || model.theme == "system" && model.system_dark
+  theme.is_dark(model.theme, model.system_dark)
 }
 
 pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
   case msg {
     CycleTheme -> {
-      let theme = case model.theme {
-        "light" -> "dark"
-        "dark" -> "system"
-        _ -> "light"
-      }
+      let preference = theme.next(model.theme)
       #(
-        Model(..model, theme: theme),
-        effect.from(fn(_) { interop.save_theme(theme) }),
+        Model(..model, theme: preference),
+        effect.from(fn(_) { theme.save(theme_key, preference) }),
       )
     }
     SystemThemeChanged(dark) -> #(
@@ -69,8 +76,8 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
         Model(..model, menu_open: open),
         effect.after_paint(fn(_, _) {
           case open {
-            True -> interop.focus_navigation()
-            False -> interop.focus_menu()
+            True -> ui_shell.focus_navigation(dashboard_id)
+            False -> ui_shell.focus_menu(dashboard_id)
           }
         }),
       )
@@ -79,7 +86,7 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
       case model.menu_open {
         True -> #(
           Model(..model, menu_open: False),
-          effect.after_paint(fn(_, _) { interop.focus_menu() }),
+          effect.after_paint(fn(_, _) { ui_shell.focus_menu(dashboard_id) }),
         )
         False -> #(model, effect.none())
       }
@@ -98,6 +105,7 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
 
 pub fn view(model: Model) -> Element(Msg) {
   shell.view(
+    dashboard_id,
     is_dark(model),
     model.theme,
     model.menu_open,

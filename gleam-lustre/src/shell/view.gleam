@@ -1,12 +1,15 @@
-import gleam/dynamic/decode
 import gleam/list
 import lustre/attribute as a
 import lustre/element.{type Element}
 import lustre/element/html as h
 import lustre/event as e
+import meridian_ui/button
+import meridian_ui/shell
+import meridian_ui/tooltip
 import ui/icon
 
 pub fn view(
+  id: String,
   dark: Bool,
   preference: String,
   menu_open: Bool,
@@ -16,70 +19,34 @@ pub fn view(
   dismiss_menu: msg,
   content: List(Element(msg)),
 ) -> Element(msg) {
-  let theme = case dark {
-    True -> "dark"
-    False -> "light"
-  }
-  let inert = case menu_open {
-    True -> [a.attribute("inert", "")]
-    False -> []
-  }
-  h.div(
-    [
-      a.data("theme", theme),
-      e.on(
-        "keydown",
-        decode.at(["key"], decode.string)
-          |> decode.then(fn(key) {
-            case key {
-              "Escape" -> decode.success(dismiss_menu)
-              _ -> decode.failure(dismiss_menu, "Escape")
-            }
-          }),
-      ),
-      a.class(case menu_open {
-        True -> "dashboard menu-open"
-        False -> "dashboard"
-      }),
-    ],
-    [
-      h.a([a.href("#main"), a.class("skip-link"), ..inert], [
-        h.text("Skip to content"),
-      ]),
-      h.header([a.class("topbar"), ..inert], [
+  shell.view(
+    id,
+    dark,
+    menu_open,
+    dismiss_menu,
+    [a.class("dashboard")],
+    shell.Content(
+      topbar: [
         h.div([a.class("topbar-start")], [
-          h.button(
-            [
-              a.class("icon-button menu-button"),
-              a.aria_label("Toggle navigation"),
-              a.data("tooltip", case menu_open {
-                True -> "Close navigation"
-                False -> "Open navigation"
-              }),
-              a.aria_expanded(menu_open),
-              a.aria_controls("primary-navigation"),
-              e.on_click(toggle_menu),
-            ],
-            [
-              h.span([a.class("menu-glyph")], [icon.view("menu")]),
-              h.span([a.class("close-glyph")], [icon.view("x")]),
-            ],
+          shell.menu_button(
+            id,
+            menu_open,
+            toggle_menu,
+            icon.view("menu"),
+            icon.view("x"),
           ),
           h.a(
             [
               a.href("../"),
               a.class("comparison-link"),
-              a.data("tooltip", "Compare all four dashboards"),
+              tooltip.hint("Compare all four dashboards"),
             ],
-            [
-              icon.view("arrow-left"),
-              h.text("All dashboards"),
-            ],
+            [icon.view("arrow-left"), h.text("All dashboards")],
           ),
           h.span(
             [
               a.class("framework-badge"),
-              a.data("tooltip", "Built with Gleam and Lustre"),
+              tooltip.hint("Built with Gleam and Lustre"),
             ],
             [
               icon.view("sparkles"),
@@ -97,115 +64,74 @@ pub fn view(
               a.target("_blank"),
               a.rel("noreferrer"),
               a.aria_label("View Gleam Lustre source on GitHub"),
-              a.data("tooltip", "View source on GitHub"),
+              tooltip.hint("View source on GitHub"),
               a.class("icon-button source-link"),
             ],
             [icon.view("github")],
           ),
           theme_toggle(preference, toggle_theme),
           h.span(
-            [
-              a.class("avatar"),
-              a.data("tooltip", "Demo workspace: Maya Chen"),
-            ],
-            [
-              h.text("MC"),
-            ],
+            [a.class("avatar"), tooltip.hint("Demo workspace: Maya Chen")],
+            [h.text("MC")],
           ),
         ]),
-      ]),
-      h.div(
-        [
-          a.class("drawer-backdrop"),
-          a.aria_hidden(True),
-          e.on_click(dismiss_menu),
-        ],
-        [],
-      ),
-      h.aside(
-        [
-          a.class("sidebar"),
-          ..case menu_open {
-            True -> [
-              a.role("dialog"),
-              a.aria_label("Navigation"),
-              a.attribute("aria-modal", "true"),
-            ]
-            False -> []
-          }
-        ],
-        [
-          h.div([a.class("sidebar-content")], [
-            h.div([a.class("sidebar-heading")], [
-              h.a(
-                [a.href("#overview"), a.class("brand"), e.on_click(close_menu)],
-                [
-                  h.img([
-                    a.src("./meridian.svg"),
-                    a.alt(""),
-                    a.width(38),
-                    a.height(38),
-                  ]),
-                  h.div([], [
-                    h.strong([], [h.text("meridian")]),
-                    h.span([], [h.text("A clearer view of the work")]),
-                  ]),
-                ],
-              ),
-              h.button(
-                [
-                  a.class("icon-button drawer-close"),
-                  a.aria_label("Close navigation"),
-                  a.data("tooltip", "Close navigation"),
-                  e.on_click(dismiss_menu),
-                ],
-                [icon.view("x")],
-              ),
+      ],
+      sidebar: [
+        h.div([a.class("sidebar-heading")], [
+          h.a([a.href("#overview"), a.class("brand"), e.on_click(close_menu)], [
+            h.img([
+              a.src("./meridian.svg"),
+              a.alt(""),
+              a.width(38),
+              a.height(38),
             ]),
-            h.p([a.class("eyebrow workspace-label")], [h.text("Workspace")]),
-            h.nav(
-              [a.id("primary-navigation"), a.aria_label("Primary navigation")],
-              list.map(
-                [
-                  #("layout-dashboard", "Overview", "#overview"),
-                  #("chart-no-axes-combined", "Analytics", "#analytics"),
-                  #("folder-kanban", "Projects", "#projects"),
-                  #("users-round", "Team", "#team"),
-                ],
-                fn(item) {
-                  h.a(
-                    [
-                      a.href(item.2),
-                      e.on_click(close_menu),
-                      a.data("tooltip", "Go to " <> item.1),
-                    ],
-                    [
-                      h.span([a.class("nav-icon")], [icon.view(item.0)]),
-                      h.span([a.class("nav-label")], [h.text(item.1)]),
-                      h.span([a.class("nav-arrow")], [
-                        icon.view("arrow-up-right"),
-                      ]),
-                    ],
-                  )
-                },
-              ),
-            ),
-            h.div([a.class("cycle-note")], [
-              h.span([a.class("eyebrow")], [h.text("Cycle 18")]),
-              h.p([], [h.text("Make room for good work.")]),
-              h.span([a.class("muted")], [
-                h.text("A shared view for a focused team."),
-              ]),
+            h.div([], [
+              h.strong([], [h.text("meridian")]),
+              h.span([], [h.text("A clearer view of the work")]),
             ]),
           ]),
-        ],
-      ),
-      h.main([a.id("main"), a.tabindex(-1), ..inert], content),
-      h.footer([a.class("site-footer"), ..inert], [
+          shell.close_button(dismiss_menu, icon.view("x")),
+        ]),
+        h.p([a.class("eyebrow workspace-label")], [h.text("Workspace")]),
+        h.nav(
+          [a.aria_label("Primary navigation")],
+          list.map(
+            [
+              #("layout-dashboard", "Overview", "#overview"),
+              #("chart-no-axes-combined", "Analytics", "#analytics"),
+              #("folder-kanban", "Projects", "#projects"),
+              #("users-round", "Team", "#team"),
+            ],
+            fn(item) {
+              h.a(
+                [
+                  a.href(item.2),
+                  e.on_click(close_menu),
+                  tooltip.hint("Go to " <> item.1),
+                ],
+                [
+                  h.span([a.class("nav-icon")], [icon.view(item.0)]),
+                  h.span([a.class("nav-label")], [h.text(item.1)]),
+                  h.span([a.class("nav-arrow")], [icon.view("arrow-up-right")]),
+                ],
+              )
+            },
+          ),
+        ),
+        h.div([a.class("cycle-note")], [
+          h.span([a.class("eyebrow")], [h.text("Cycle 18")]),
+          h.p([], [h.text("Make room for good work.")]),
+          h.span([a.class("muted")], [
+            h.text("A shared view for a focused team."),
+          ]),
+        ]),
+      ],
+      main: content,
+      footer: [
         h.text("Meridian / Portfolio operations"),
         h.span([], [h.text("Built with Gleam + Lustre")]),
-      ]),
-    ],
+      ],
+    ),
   )
 }
 
@@ -216,11 +142,11 @@ fn theme_toggle(preference: String, toggle_theme: msg) -> Element(msg) {
     _ -> #("monitor", "System", "light")
   }
   let hint = "Theme: " <> label <> ". Switch to " <> next <> " theme"
-  h.button(
+  button.icon(
     [
-      a.class("icon-button theme-toggle"),
+      a.class("theme-toggle"),
       a.aria_label(hint),
-      a.data("tooltip", hint),
+      tooltip.hint(hint),
       e.on_click(toggle_theme),
     ],
     [icon.view(glyph)],

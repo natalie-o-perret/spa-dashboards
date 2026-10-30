@@ -10,6 +10,11 @@ import lustre/element.{type Element}
 import lustre/element/html as h
 import lustre/element/keyed
 import lustre/event as e
+import meridian_ui/badge
+import meridian_ui/button
+import meridian_ui/card
+import meridian_ui/checkbox
+import meridian_ui/field
 import ui/icon
 
 pub type Msg {
@@ -20,10 +25,10 @@ pub type Msg {
 pub fn view(model: table.Model) -> Element(Msg) {
   let rows = table.rows(model)
   let page = table.page_rows(model)
-  h.section(
+  card.section(
     [
       a.id("projects"),
-      a.class("panel projects"),
+      a.class("projects"),
       a.aria_labelledby("projects-title"),
     ],
     [
@@ -32,9 +37,9 @@ pub fn view(model: table.Model) -> Element(Msg) {
           h.p([a.class("eyebrow")], [h.text("The work in motion")]),
           h.h2([a.id("projects-title")], [h.text("Projects")]),
         ]),
-        h.button(
+        button.primary(
           [
-            a.class("button export-button"),
+            a.class("export-button"),
             a.data("tooltip", "Export all matching projects as CSV"),
             e.on_click(Export),
             a.disabled(list.is_empty(rows)),
@@ -98,20 +103,15 @@ pub fn view(model: table.Model) -> Element(Msg) {
 
 fn controls(model: table.Model) -> Element(Msg) {
   h.div([a.class("table-controls")], [
-    h.label([a.class("search-field")], [
-      h.span([a.class("sr-only")], [h.text("Search projects")]),
-      icon.view("search"),
-      h.input([
-        a.type_("search"),
-        a.placeholder("Search projects, people, priorities..."),
-        a.value(model.query),
-        a.data("tooltip", "Search any displayed project field"),
-        e.on_input(fn(q) { Update(table.Search(q)) }),
-      ]),
+    field.search("Search projects", icon.view("search"), [
+      a.placeholder("Search projects, people, priorities..."),
+      a.value(model.query),
+      a.data("tooltip", "Search any displayed project field"),
+      e.on_input(fn(q) { Update(table.Search(q)) }),
     ]),
     h.label([], [
       h.span([a.class("sr-only")], [h.text("Filter by status")]),
-      h.select(
+      field.select(
         [
           a.aria_label("Filter by status"),
           a.data("tooltip", "Show projects with a matching status"),
@@ -124,17 +124,16 @@ fn controls(model: table.Model) -> Element(Msg) {
           ),
           ..list.map(data.statuses, fn(status) {
             let label = data.status_label(status)
-            h.option(
+            field.option(
               [a.value(label), a.selected(model.status == Some(status))],
-              label,
+              [status_badge(status)],
             )
           })
         ],
       ),
     ]),
-    h.button(
+    button.text(
       [
-        a.class("text-button"),
         a.data("tooltip", "Reset search and status filters"),
         e.on_click(Update(table.ClearFilters)),
         a.disabled(model.query == "" && model.status == None),
@@ -142,7 +141,7 @@ fn controls(model: table.Model) -> Element(Msg) {
       [icon.view("x"), h.text("Clear filters")],
     ),
     h.div([a.class("density"), a.role("group"), a.aria_label("Table density")], [
-      h.button(
+      button.view(
         [
           a.aria_pressed(case model.compact {
             True -> "false"
@@ -153,7 +152,7 @@ fn controls(model: table.Model) -> Element(Msg) {
         ],
         [icon.view("rows-3"), h.text("Comfortable")],
       ),
-      h.button(
+      button.view(
         [
           a.aria_pressed(case model.compact {
             True -> "true"
@@ -172,13 +171,16 @@ fn select_page(model: table.Model, page: List(Project)) -> Element(Msg) {
   let some_selected =
     list.any(page, fn(p) { list.contains(model.selected, p.id) })
   let all_selected = table.all_on_page_selected(model)
-  checkbox("Toggle selection for projects on this page", [
-    a.aria_label("Select all projects on this page"),
-    a.checked(all_selected),
-    a.property("indeterminate", json.bool(some_selected && !all_selected)),
-    a.disabled(list.is_empty(page)),
-    e.on_check(fn(_) { Update(table.TogglePage) }),
-  ])
+  checkbox.view(
+    "Select all projects on this page",
+    "Toggle selection for projects on this page",
+    [
+      a.checked(all_selected),
+      a.property("indeterminate", json.bool(some_selected && !all_selected)),
+      a.disabled(list.is_empty(page)),
+      e.on_check(fn(_) { Update(table.TogglePage) }),
+    ],
+  )
 }
 
 fn heading(key: table.Key, label: String, sort: table.Sort) -> Element(Msg) {
@@ -203,7 +205,7 @@ fn heading(key: table.Key, label: String, sort: table.Sort) -> Element(Msg) {
       ..attrs
     ],
     [
-      h.button(
+      button.view(
         [
           a.class("sort-button"),
           a.aria_label("Sort by " <> label),
@@ -224,12 +226,6 @@ fn heading(key: table.Key, label: String, sort: table.Sort) -> Element(Msg) {
 
 fn row(project: Project, selected: List(Int), index: Int) -> Element(Msg) {
   let is_selected = list.contains(selected, project.id)
-  let status_class = case project.status {
-    data.OnTrack -> "on-track"
-    data.AtRisk -> "at-risk"
-    data.Blocked -> "blocked"
-    data.Complete -> "complete"
-  }
   h.tr(
     [
       a.class(case is_selected {
@@ -240,11 +236,14 @@ fn row(project: Project, selected: List(Int), index: Int) -> Element(Msg) {
     ],
     [
       h.td([], [
-        checkbox("Toggle selection for " <> project.name, [
-          a.checked(is_selected),
-          a.aria_label("Select " <> project.name),
-          e.on_check(fn(_) { Update(table.Toggle(project.id)) }),
-        ]),
+        checkbox.view(
+          "Select " <> project.name,
+          "Toggle selection for " <> project.name,
+          [
+            a.checked(is_selected),
+            e.on_check(fn(_) { Update(table.Toggle(project.id)) }),
+          ],
+        ),
       ]),
       h.td([a.class("project-name")], [
         h.span([a.class("project-mark"), a.aria_hidden(True)], [
@@ -253,11 +252,7 @@ fn row(project: Project, selected: List(Int), index: Int) -> Element(Msg) {
         h.text(project.name),
       ]),
       h.td([], [h.text(project.owner)]),
-      h.td([], [
-        h.span([a.class("status " <> status_class)], [
-          h.text(data.status_label(project.status)),
-        ]),
-      ]),
+      h.td([], [status_badge(project.status)]),
       h.td(
         [
           a.class(case project.priority {
@@ -290,17 +285,14 @@ fn row(project: Project, selected: List(Int), index: Int) -> Element(Msg) {
   )
 }
 
-fn checkbox(hint: String, attrs: List(a.Attribute(msg))) -> Element(msg) {
-  h.label(
-    [
-      a.class("selection-checkbox"),
-      a.data("tooltip", hint),
-    ],
-    [
-      h.input([a.type_("checkbox"), a.data("tooltip", hint), ..attrs]),
-      h.span([a.class("checkbox-mark"), a.aria_hidden(True)], []),
-    ],
-  )
+fn status_badge(status: data.Status) -> Element(msg) {
+  let tone = case status {
+    data.OnTrack -> badge.Success
+    data.AtRisk -> badge.Warning
+    data.Blocked -> badge.Danger
+    data.Complete -> badge.Accent
+  }
+  badge.view(tone, [], [h.text(data.status_label(status))])
 }
 
 fn pagination(model: table.Model, count: Int) -> Element(Msg) {
@@ -321,7 +313,7 @@ fn pagination(model: table.Model, count: Int) -> Element(Msg) {
     h.div([a.class("pagination")], [
       h.label([], [
         h.text("Rows "),
-        h.select(
+        field.select(
           [
             a.aria_label("Rows per page"),
             a.data("tooltip", "Choose how many projects to show per page"),
@@ -354,7 +346,7 @@ fn pagination(model: table.Model, count: Int) -> Element(Msg) {
           <> int.to_string(count),
         ),
       ]),
-      h.button(
+      button.view(
         [
           a.aria_label("Go to previous page"),
           a.data("tooltip", "Go to previous page"),
@@ -363,7 +355,7 @@ fn pagination(model: table.Model, count: Int) -> Element(Msg) {
         ],
         [icon.view("chevron-left")],
       ),
-      h.button(
+      button.view(
         [
           a.aria_label("Go to next page"),
           a.data("tooltip", "Go to next page"),

@@ -1,7 +1,10 @@
 # Meridian
 
 The Gleam + Lustre version of Meridian. It uses the same illustrative data and
-features as the other dashboards, with native HTML controls and a violet theme.
+features as the other dashboards, with native HTML controls and a pink theme.
+Reusable controls, themes and the responsive shell come from
+[Meridian UI](https://github.com/natalie-o-perret/gleam-lustre-meridian-ui),
+pinned to a Git commit in `gleam.toml`.
 
 ## Features
 
@@ -18,15 +21,20 @@ Small JavaScript functions handle browser storage, downloads, and locale formatt
 
 ## Local development
 
-Requires Gleam 1.19.2, Erlang/OTP 29, Rebar3, Node.js 24.15+ (or 26+), and Make.
+Requires Gleam 1.19.2, Erlang/OTP 29, Rebar3, Git, Node.js 24.15+ (or 26+), and Make.
 Lustre's dev tools download their own verified Bun binary when needed.
 
 ```sh
 make dev
 ```
 
-Open <http://localhost:1234/>. Gleam downloads the locked Hex dependencies
+Open <http://localhost:1234/>. Gleam downloads the locked Hex and Git dependencies
 automatically. Source and asset changes reload the page.
+
+`make dev` and `make build` copy the library's CSS from the downloaded dependency.
+To update the library, change its pinned Git ref in `gleam.toml`, run
+`gleam deps download`, then rerun the checks and build. Library development and
+its own tests live in the separate repository.
 
 ## Checks and production build
 
@@ -35,7 +43,7 @@ make check
 make build
 ```
 
-Checks cover Gleam formatting, compilation, Gleeunit tests, and JavaScript bridge
+Checks cover Gleam formatting, compilation, Gleeunit tests and JavaScript bridge
 tests. Production output is written to `dist/`. The build copies a small HTML entry
 with relative asset URLs so it works under `/spa-dashboards/gleam-lustre/` on Pages.
 
